@@ -83,8 +83,7 @@ export default function LogIn() {
           color="primary"
           onClick={() => handleLogin()}
         >
-          {" "}
-          Se connecter{" "}
+          Se connecter
         </Button>
       </Grid>
       <Grid container direction="row" justify="center" alignItems="center">
