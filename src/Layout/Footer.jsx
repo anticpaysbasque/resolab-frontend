@@ -1,5 +1,22 @@
 import React from "react";
 
+import { Paper, Grid, Typography, Link } from "@material-ui/core";
+//import { makeStyles } from "@material-ui/core";
+import { Favorite } from "@material-ui/icons";
+import "./Footer.css";
+
 export default function Footer() {
-  return <div></div>;
+  return (
+    <Paper square={true}>
+      <Grid container className="ripple">
+        <Grid item xs={12}>
+          <Typography color="textPrimary">
+            <Link href="#" underline="none" color="inherit" className="link">
+              Made with <Favorite color="secondary" /> from Wild Code Biarritz
+            </Link>
+          </Typography>
+        </Grid>
+      </Grid>
+    </Paper>
+  );
 }
