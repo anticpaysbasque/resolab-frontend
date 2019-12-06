@@ -1,5 +1,11 @@
 import React from "react";
 
+import Card from "./Card";
+
 export default function UserPage() {
-  return <div>'Hello from User Page!'</div>;
+  return (
+    <div>
+      <Card />
+    </div>
+  );
 }
