@@ -3,7 +3,7 @@ import {
   Warning,
   PermIdentity,
   ChatBubbleOutline,
-  FavoriteIcon
+  Favorite
 } from "@material-ui/icons";
 import {
   Card,
@@ -53,7 +53,7 @@ export default function RecipeReviewCard() {
       <CardMedia className={classes.media} />
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+          <Favorite />
         </IconButton>
         <IconButton aria-label="add to favorites">
           <ChatBubbleOutline />
