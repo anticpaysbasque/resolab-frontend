@@ -12,7 +12,8 @@ export default function Footer() {
         <Grid item xs={12}>
           <Typography color="textPrimary">
             <Link href="#" underline="none" color="inherit" className="link">
-              Made with <Favorite color="secondary" /> from Wild Code Biarritz
+              Made with <Favorite color="secondary" /> by Wild Code School
+              Biarritz
             </Link>
           </Typography>
         </Grid>

@@ -25,6 +25,8 @@ export default function LogIn() {
   const [isPasswordError, setIsPasswordError] = useState(false);
 
   const handleLogin = () => {
+    // checking if input are filled
+
     if (login === "") {
       setIsLogginError(true);
     } else {
@@ -36,6 +38,7 @@ export default function LogIn() {
     } else {
       setIsPasswordError(false);
     }
+    // call API for authentification
   };
 
   return (
