@@ -14,15 +14,14 @@ const theme = createMuiTheme({
   }
 });
 
-export default function Layout({ children }) {
+function Layout({ children }) {
   return (
     <ThemeProvider theme={theme}>
       <Header />
       {children}
       <Footer />
     </ThemeProvider>
-
   );
 }
 
-export default function Layout({ children })
+export default Layout;
