@@ -1,12 +1,13 @@
 import React from "react";
 
 import PostArticle from "./PostArticle";
+import Card from "./Card";
 
 export default function UserPage() {
   return (
-    <>
-      <div>'Hello from User Page!'</div>
+    <div>
+      <Card />
       <PostArticle />
-    </>
+    </div>
   );
 }
