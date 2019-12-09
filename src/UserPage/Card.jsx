@@ -24,13 +24,13 @@ export default function RecipeReviewCard() {
   const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
 
-  useEffect(() => {
-    const fetchDatas = async () => {
-      const res = await Axios.get();
-      setDatas(res.data);
-    };
-    fetchDatas();
-  }, []);
+  // useEffect(() => {
+  //   const fetchDatas = async () => {
+  //     const res = await Axios.get();
+  //     setDatas(res.data);
+  //   };
+  //   fetchDatas();
+  // }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
