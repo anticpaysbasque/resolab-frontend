@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -52,6 +53,7 @@ export default function PostArticle() {
   };
 
   const handleSubmit = () => {
+    axios.post("", {}).then();
     alert("Submit OK");
   };
 
