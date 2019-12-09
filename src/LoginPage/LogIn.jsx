@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import { VpnKey, Person, Error } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
+import Axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   margin: {
@@ -39,6 +40,13 @@ export default function LogIn() {
       setIsPasswordError(false);
     }
     // call API for authentification
+
+    Axios.post("http://localhost:8089/api/login_check", {
+      username: login,
+      password: password
+    })
+      .then(res => console.log(res))
+      .catch(err => console.log("error", err));
   };
 
   return (
