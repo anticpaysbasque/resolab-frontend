@@ -1,11 +1,16 @@
 import React from "react";
 
+import Layout from "../Layout/Layout";
+import PostArticle from "./PostArticle";
 import Card from "./Card";
+import Sidebar from "./Sidebar";
 
 export default function UserPage() {
   return (
-    <div>
+    <Layout>
+      <PostArticle />
       <Card />
-    </div>
+      <Sidebar />
+    </Layout>
   );
 }
