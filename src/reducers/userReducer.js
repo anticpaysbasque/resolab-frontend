@@ -1,3 +1,5 @@
+import { SET_USER, REMOVE_USER } from "./actionTypes";
+
 const initialUserState = {
   id: 0,
   username: "",
@@ -8,7 +10,7 @@ const initialUserState = {
 
 const userReducer = (state = initialUserState, action) => {
   switch (action.type) {
-    case "SET_USER":
+    case SET_USER:
       return {
         ...state,
         id: action.payload.id,
@@ -17,7 +19,7 @@ const userReducer = (state = initialUserState, action) => {
         lastname: action.payload.lastname,
         roles: action.payload.roles
       };
-    case "REMOVE_USER":
+    case REMOVE_USER:
       return initialUserState;
     default:
       return state;
