@@ -1,3 +1,5 @@
+import { LOGIN, LOG_OUT } from "./actionTypes";
+
 const initialAuthState = {
   token: "",
   isAuth: false
@@ -5,9 +7,9 @@ const initialAuthState = {
 
 const authReducer = (state = initialAuthState, action) => {
   switch (action.type) {
-    case "LOGIN":
+    case LOGIN:
       return { ...state, token: action.payload.token, isAuth: true };
-    case "LOG_OUT":
+    case LOG_OUT:
       return initialAuthState;
     default:
       return state;
