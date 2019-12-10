@@ -19,7 +19,9 @@ export default function HeaderSite() {
           <img src={logo} width="50" spacing={2} justify="center" />
         </Grid>
         <Grid item xs={10} flex-direction="flex-start">
-          <Typography>Résolab</Typography>
+          <Typography>
+            <h1>Résolab</h1>
+          </Typography>
         </Grid>
       </Grid>
     </>
