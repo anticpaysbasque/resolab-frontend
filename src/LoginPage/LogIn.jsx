@@ -13,6 +13,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Axios from "axios";
 import { connect } from "react-redux";
 
+import apiCallAuth from "../apiCallAuth";
+
 const useStyles = makeStyles(theme => ({
   margin: {
     margin: theme.spacing(4)
@@ -52,7 +54,26 @@ function LogIn({ dispatch }) {
         setToken(token);
         dispatch({
           type: "LOGIN",
-          payload: { token: res.data.token }
+          payload: { token }
+        });
+        sessionStorage.setItem("token", token);
+      })
+      .then(() => {
+        apiCallAuth.get("/users").then(res => {
+          const userList = res.data["hydra:member"];
+          console.log(userList);
+          const userData = userList.filter(user => user.username === login);
+          console.log(userData[0]);
+          dispatch({
+            type: "SET_USER",
+            payload: {
+              id: userData[0].id,
+              username: userData[0].username,
+              firstname: userData[0].firstname,
+              lastname: userData[0].lastname,
+              roles: userData[0].roles
+            }
+          });
         });
       })
       .catch(err => console.log("error", err));
