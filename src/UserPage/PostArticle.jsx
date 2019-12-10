@@ -53,8 +53,20 @@ export default function PostArticle() {
   };
 
   const handleSubmit = () => {
-    axios.post("", {}).then();
-    alert("Submit OK");
+    axios
+      .post("http://localhost:8089/api/posts", {
+        description: { description },
+        photo: { image },
+        likes: 0,
+        user: "string",
+        comment: "string"
+      })
+      .then(res => {
+        console.log(res);
+        alert("Submit OK");
+      })
+      .catch(err => console.log(err));
+    alert("Oups, une erreur est survenue");
   };
 
   return (
