@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import axios from "axios";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,6 +9,8 @@ import Fade from "@material-ui/core/Fade";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+
+import apiCallAuth from "../apiCallAuth";
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -29,6 +32,8 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
+
+const mapStateToProps = state => ({});
 
 export default function PostArticle() {
   const classes = useStyles();
@@ -53,13 +58,12 @@ export default function PostArticle() {
   };
 
   const handleSubmit = () => {
-    axios
-      .post("http://localhost:8089/api/posts", {
+    apiCallAuth
+      .post("/posts", {
         description: { description },
         photo: { image },
         likes: 0,
-        user: "string",
-        comment: "string"
+        user: "string"
       })
       .then(res => {
         console.log(res);

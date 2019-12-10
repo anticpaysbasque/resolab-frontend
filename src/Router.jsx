@@ -22,7 +22,7 @@ export default function Router() {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={LoginPage} />
-        <AuthRoute path="/user" component={UserPage} />
+        <AuthRoute isAuth={true} path="/user" component={UserPage} />
         <Route path="/moderator" component={ModeratorPage} />
         <Route path="/settings" component={SettingsPage} />
       </Switch>
