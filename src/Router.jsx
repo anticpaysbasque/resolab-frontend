@@ -7,7 +7,7 @@ import UserPage from "./UserPage/UserPage";
 import ModeratorPage from "./ModeratorPage/ModeratorPage";
 import SettingsPage from "./SettingsPage/SettingsPage";
 
-function AuthRoute({ isAuth, component: Component, ...rest }) {
+function AuthRouteUser({ isAuth, component: Component, ...rest }) {
   return (
     <Route
       {...rest}
@@ -23,7 +23,7 @@ function Router() {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={LoginPage} />
-        <AuthRoute isAuth={true} path="/user" component={UserPage} />
+        <AuthRouteUser isAuth={true} path="/user" component={UserPage} />
         <Route path="/moderator" component={ModeratorPage} />
         <Route path="/settings" component={SettingsPage} />
       </Switch>

@@ -11,6 +11,7 @@ import { VpnKey, Person } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import Axios from "axios";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import apiCallAuth from "../apiCallAuth";
 import { LOGIN, SET_USER } from "../reducers/actionTypes";
@@ -32,6 +33,8 @@ function LogIn({ dispatch }) {
   const [token, setToken] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+
+  let history = useHistory();
 
   const handleLogin = () => {
     // checking if input are filled
@@ -83,7 +86,10 @@ function LogIn({ dispatch }) {
           });
         })
         .catch(err => console.log("error", err))
-        .finally(() => setIsLoading(false));
+        .finally(() => {
+          setIsLoading(false);
+          history.push("/user");
+        });
     }
   };
 
