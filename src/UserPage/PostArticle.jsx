@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -33,13 +32,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  id: state.userReducer.id
+});
 
-export default function PostArticle() {
+function PostArticle({ id }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [image, setImage] = useState(null);
-  const [description, setDescription] = useState(null);
+  const [image, setImage] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleOpen = () => {
     setOpen(true);
@@ -63,7 +64,7 @@ export default function PostArticle() {
         description: { description },
         photo: { image },
         likes: 0,
-        user: "string"
+        user: `/api/users/${id}`
       })
       .then(res => {
         console.log(res);
@@ -154,3 +155,5 @@ export default function PostArticle() {
     </div>
   );
 }
+
+export default connect(mapStateToProps)(PostArticle);
