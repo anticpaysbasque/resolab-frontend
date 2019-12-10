@@ -58,20 +58,22 @@ function PostArticle({ id }) {
     setDescription(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = e => {
+    console.log(description, image);
+    e.preventDefault();
     apiCallAuth
       .post("/posts", {
-        description: { description },
-        photo: { image },
+        description: description,
+        photo: image,
         likes: 0,
         user: `/api/users/${id}`
       })
       .then(res => {
         console.log(res);
-        alert("Submit OK");
+        alert("Ta publication a bien été postée");
       })
-      .catch(err => console.log(err));
-    alert("Oups, une erreur est survenue");
+      .catch(err => console.log(err))
+      .finally(() => handleClose());
   };
 
   return (
