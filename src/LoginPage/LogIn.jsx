@@ -11,6 +11,7 @@ import {
 import { VpnKey, Person, Error } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import Axios from "axios";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   margin: {
@@ -18,12 +19,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function LogIn() {
+function LogIn({ dispatch }) {
   const classes = useStyles();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [isLogginError, setIsLogginError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
+  const [token, setToken] = useState("");
 
   const handleLogin = () => {
     // checking if input are filled
@@ -45,7 +47,14 @@ export default function LogIn() {
       username: login,
       password: password
     })
-      .then(res => console.log(res))
+      .then(res => {
+        const token = res.data.token;
+        setToken(token);
+        dispatch({
+          type: "LOGIN",
+          payload: { token: res.data.token }
+        });
+      })
       .catch(err => console.log("error", err));
   };
 
@@ -135,3 +144,5 @@ export default function LogIn() {
     </>
   );
 }
+
+export default connect()(LogIn);
