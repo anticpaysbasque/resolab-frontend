@@ -1,23 +1,37 @@
 import React from "react";
-
-import { Paper, Grid, Typography, Link } from "@material-ui/core";
-//import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
 import { Favorite } from "@material-ui/icons";
-import "./Footer.css";
 
-export default function Footer() {
+const useStyles = makeStyles(theme => ({
+  footer: {
+    backgroundColor: "#eee" /*theme.palette.background.paper,*/,
+    marginTop: theme.spacing(10),
+    padding: theme.spacing(8, 0)
+  }
+}));
+
+const Footer = () => {
+  const classes = useStyles();
+
   return (
-    <Paper square={true}>
-      <Grid container className="ripple">
-        <Grid item xs={12}>
-          <Typography color="textPrimary">
-            <Link href="#" underline="none" color="inherit" className="link">
-              Made with <Favorite color="secondary" /> by Wild Code School
-              Biarritz
-            </Link>
-          </Typography>
-        </Grid>
-      </Grid>
-    </Paper>
+    <footer className={classes.footer}>
+      <Container maxWidth="lg">
+        <Typography
+          variant="h6"
+          align="center"
+          color="textSecondary"
+          component="p"
+        >
+          <Link href="#">
+            Made with <Favorite color="Secondary" /> from Wild Code School
+            Biarritz
+          </Link>
+        </Typography>
+      </Container>
+    </footer>
   );
-}
+};
+export default Footer;
