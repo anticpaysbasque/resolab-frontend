@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function LogIn({ storeToken, setUser, roles }) {
+function LogIn({ storeToken, setUser, roles, isAuth }) {
   const classes = useStyles();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -40,21 +40,23 @@ function LogIn({ storeToken, setUser, roles }) {
   let history = useHistory();
 
   useEffect(() => {
-    switch (roles[0]) {
-      case "ROLE_STUDENT":
-        history.push("/user");
-        break;
-      case "ROLE_MODERATOR":
-        history.push("/moderator");
-        break;
-      case "ROLE_ADMIN":
-        history.push("/moderator");
-        break;
-      case "ROLE_SUPER_ADMIN":
-        history.push("/moderator");
-        break;
-      default:
-        break;
+    if (isAuth) {
+      switch (roles[0]) {
+        case "ROLE_STUDENT":
+          history.push("/user");
+          break;
+        case "ROLE_MODERATOR":
+          history.push("/moderator");
+          break;
+        case "ROLE_ADMIN":
+          history.push("/moderator");
+          break;
+        case "ROLE_SUPER_ADMIN":
+          history.push("/moderator");
+          break;
+        default:
+          break;
+      }
     }
   }, [roles]);
 
@@ -170,6 +172,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
+    isAuth: state.authReducer.isAuth,
     roles: state.userReducer.roles
   };
 };
