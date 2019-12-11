@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormControl,
   Input,
@@ -17,6 +17,7 @@ import apiCallAuth from "../apiCallAuth";
 import { LOGIN, SET_USER } from "../reducers/actionTypes";
 import VoidField from "./VoidField";
 import Loader from "./Loader";
+import DisplayError from "./DisplayError";
 
 import { storeToken, setUser } from "../reducers/actions";
 
@@ -26,19 +27,36 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function LogIn({ storeToken, setUser }) {
+function LogIn({ storeToken, setUser, roles }) {
   const classes = useStyles();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [isLogginError, setIsLogginError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
-  const [token, setToken] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [userRole, setUserRole] = useState("");
 
   let history = useHistory();
-  let roleTempVar = "";
+
+  useEffect(() => {
+    switch (roles[0]) {
+      case "ROLE_STUDENT":
+        history.push("/user");
+        break;
+      case "ROLE_MODERATOR":
+        history.push("/moderator");
+        break;
+      case "ROLE_ADMIN":
+        history.push("/moderator");
+        break;
+      case "ROLE_SUPER_ADMIN":
+        history.push("/moderator");
+        break;
+      default:
+        break;
+    }
+  }, [roles]);
 
   const handleLogin = async () => {
     if (login.length > 0 || password.length > 0) {
@@ -55,29 +73,17 @@ function LogIn({ storeToken, setUser }) {
         const getRes = await apiCallAuth.get("/users");
         const userList = getRes.data["hydra:member"];
         const userData = userList.filter(user => user.username === login);
+        setUserRole(userData[0].roles[0]);
         setUser(userData[0]);
+        setIsLoading(false);
       } catch (err) {
         console.log(err);
-      } finally {
         setIsLoading(false);
-        switch (userRole) {
-          case "ROLE_STUDENT":
-            console.log("student is ", userRole);
-            break;
-          case "ROLE_MODERATOR":
-            console.log("moderator is ", userRole);
-            break;
-          case "ROLE_ADMIN":
-            console.log("admin is ", userRole);
-            break;
-          case "ROLE_SUPER_ADMIN":
-            console.log("super admin is ", userRole);
-            break;
-          default:
-            break;
-        }
+        setIsError(true);
       }
     } else {
+      setIsError(true);
+      setIsLoading(false);
     }
   };
 
@@ -148,6 +154,7 @@ function LogIn({ storeToken, setUser }) {
           fieldName="mot de passe"
           className={classes.margin}
         />
+        <DisplayError isError={isError} />
       </Grid>
       <Loader isLoading={isLoading} />
     </>
@@ -161,4 +168,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(LogIn);
+const mapStateToProps = state => {
+  return {
+    roles: state.userReducer.roles
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
