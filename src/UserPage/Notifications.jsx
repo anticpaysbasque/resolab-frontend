@@ -10,7 +10,7 @@ import axios from "axios";
 
 const useStyles = makeStyles({
   card: {
-    width: "1"
+    minWidth: 350
   }
 });
 
@@ -45,6 +45,7 @@ export default function Notifications() {
         {commentaires.map(commentaire => {
           //return tous le nombre de commentaires pour chaque publication de la personne
         })}
+        Jules Bonard a commenté la publication de Basile
       </CardContent>
     </Card>
   );
