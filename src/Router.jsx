@@ -18,17 +18,46 @@ function AuthRouteUser({ isAuth, component: Component, ...rest }) {
   );
 }
 
-function Router() {
+function AuthRouteModerator({ isAuth, role, component: Component, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={props => {
+        return isAuth & (role === "ROLE_MODERATOR") ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/" />
+        );
+      }}
+    />
+  );
+}
+
+function Router({ isAuth, roles }) {
+  const userRole = roles[0];
+
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={LoginPage} />
-        <AuthRouteUser isAuth={true} path="/user" component={UserPage} />
-        <Route path="/moderator" component={ModeratorPage} />
+        <AuthRouteUser isAuth={isAuth} path="/user" component={UserPage} />
+        <AuthRouteModerator
+          path="/moderator"
+          isAuth={isAuth}
+          role={userRole}
+          component={ModeratorPage}
+        />
         <Route path="/settings" component={SettingsPage} />
       </Switch>
     </BrowserRouter>
   );
 }
 
-export default connect()(Router);
+const mapStateToProps = state => {
+  return {
+    isAuth: state.authReducer.isAuth,
+    roles: state.userReducer.roles
+  };
+};
+
+export default connect(mapStateToProps)(Router);
