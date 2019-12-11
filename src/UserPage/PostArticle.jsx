@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { connect } from "react-redux";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -8,6 +8,8 @@ import Fade from "@material-ui/core/Fade";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+
+import apiCallAuth from "../apiCallAuth";
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -30,11 +32,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function PostArticle() {
+const mapStateToProps = state => ({
+  id: state.userReducer.id
+});
+
+function PostArticle({ id }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [image, setImage] = useState(null);
-  const [description, setDescription] = useState(null);
+  const [image, setImage] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleOpen = () => {
     setOpen(true);
@@ -52,9 +58,22 @@ export default function PostArticle() {
     setDescription(e.target.value);
   };
 
-  const handleSubmit = () => {
-    axios.post("", {}).then();
-    alert("Submit OK");
+  const handleSubmit = e => {
+    console.log(description, image);
+    e.preventDefault();
+    apiCallAuth
+      .post("/posts", {
+        description: description,
+        photo: image,
+        likes: 0,
+        user: `/api/users/${id}`
+      })
+      .then(res => {
+        console.log(res);
+        alert("Ta publication a bien été postée");
+      })
+      .catch(err => console.log(err))
+      .finally(() => handleClose());
   };
 
   return (
@@ -138,3 +157,5 @@ export default function PostArticle() {
     </div>
   );
 }
+
+export default connect(mapStateToProps)(PostArticle);
