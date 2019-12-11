@@ -14,23 +14,22 @@ import {
   CardActions,
   Collapse,
   Avatar,
-  IconButton,
-  TextField,
-  InputAdornment
+  IconButton
 } from "@material-ui/core";
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
-import Axios from "axios";
 
 import CommentInput from "./CommentInput";
-
+import SnackBar from "./SnackBar";
 import { useStyles } from "./useStyles";
+import apiCallAuth from "../apiCallAuth";
 
-export default function RecipeReviewCard() {
+export default function RecipeReviewCard({ postSuccess }) {
   const [datas, setDatas] = useState(null);
   const [expanded, setExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [inputCommentPost, setInputComment] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
   const classes = useStyles();
 
   // useEffect(() => {
@@ -43,6 +42,18 @@ export default function RecipeReviewCard() {
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handlePostComment = () => {
+    apiCallAuth
+      .post("/comments", {
+        commentUser: inputValue
+      })
+      .then(res => {
+        postSuccess();
+        handleInputComment(!inputCommentPost);
+      })
+      .catch(err => console.log(err));
   };
 
   const handleClick = () => {
@@ -90,7 +101,7 @@ export default function RecipeReviewCard() {
         <CommentInput
           value={inputValue}
           onChange={handleInputChange}
-          inputComment={handleInputComment}
+          inputComment={handlePostComment}
         />
       ) : (
         false
