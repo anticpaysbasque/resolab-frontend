@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import {
   Warning,
   PermIdentity,
-  ChatBubbleOutline,
-  Favorite
+  ChatBubbleOutline
+  //  FavoriteBorder
 } from "@material-ui/icons";
 import {
   Card,
@@ -15,6 +15,7 @@ import {
   Avatar,
   IconButton
 } from "@material-ui/core";
+import { FavoriteBorder, Favorite } from "@material-ui/icons";
 import Axios from "axios";
 
 import { useStyles } from "./useStyles";
@@ -22,18 +23,23 @@ import { useStyles } from "./useStyles";
 export default function RecipeReviewCard() {
   const [datas, setDatas] = useState(null);
   const [expanded, setExpanded] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
   const classes = useStyles();
 
-  useEffect(() => {
-    const fetchDatas = async () => {
-      const res = await Axios.get();
-      setDatas(res.data);
-    };
-    fetchDatas();
-  }, []);
+  // useEffect(() => {
+  //   const fetchDatas = async () => {
+  //     const res = await Axios.get();
+  //     setDatas(res.data);
+  //   };
+  //   fetchDatas();
+  // }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handleClick = () => {
+    setIsLiked(!isLiked);
   };
 
   return (
@@ -53,7 +59,11 @@ export default function RecipeReviewCard() {
       <CardMedia className={classes.media} />
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <Favorite />
+          {isLiked ? (
+            <Favorite color="secondary" onClick={handleClick} />
+          ) : (
+            <FavoriteBorder color="disabled" onClick={handleClick} />
+          )}
         </IconButton>
         <IconButton aria-label="add to favorites">
           <ChatBubbleOutline />

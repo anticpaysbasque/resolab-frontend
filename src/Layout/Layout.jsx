@@ -19,7 +19,7 @@ function Layout({ children }) {
     <ThemeProvider theme={theme}>
       <Header />
       {children}
-      {/* <Footer /> */}
+      <Footer />
     </ThemeProvider>
   );
 }
