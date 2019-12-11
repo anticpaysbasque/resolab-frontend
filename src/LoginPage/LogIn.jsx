@@ -18,13 +18,15 @@ import { LOGIN, SET_USER } from "../reducers/actionTypes";
 import VoidField from "./VoidField";
 import Loader from "./Loader";
 
+import { storeToken, setUser } from "../reducers/actions";
+
 const useStyles = makeStyles(theme => ({
   margin: {
     margin: theme.spacing(4)
   }
 }));
 
-function LogIn({ dispatch }) {
+function LogIn({ storeToken, setUser }) {
   const classes = useStyles();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -33,63 +35,49 @@ function LogIn({ dispatch }) {
   const [token, setToken] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [userRole, setUserRole] = useState("");
 
   let history = useHistory();
+  let roleTempVar = "";
 
-  const handleLogin = () => {
-    // checking if input are filled
-
-    if (login === "") {
-      setIsLogginError(true);
+  const handleLogin = async () => {
+    if (login.length > 0 || password.length > 0) {
+      try {
+        setIsLoading(true);
+        const postRes = await Axios.post(
+          "http://localhost:8089/api/login_check",
+          {
+            username: login,
+            password: password
+          }
+        );
+        storeToken(postRes.data.token);
+        const getRes = await apiCallAuth.get("/users");
+        const userList = getRes.data["hydra:member"];
+        const userData = userList.filter(user => user.username === login);
+        setUser(userData[0]);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+        switch (userRole) {
+          case "ROLE_STUDENT":
+            console.log("student is ", userRole);
+            break;
+          case "ROLE_MODERATOR":
+            console.log("moderator is ", userRole);
+            break;
+          case "ROLE_ADMIN":
+            console.log("admin is ", userRole);
+            break;
+          case "ROLE_SUPER_ADMIN":
+            console.log("super admin is ", userRole);
+            break;
+          default:
+            break;
+        }
+      }
     } else {
-      setIsLogginError(false);
-    }
-
-    if (password === "") {
-      setIsPasswordError(true);
-    } else {
-      setIsPasswordError(false);
-    }
-    // call API for authentification
-    if (!isLogginError & !isPasswordError) {
-      setIsLoading(true);
-      Axios.post("http://localhost:8089/api/login_check", {
-        username: login,
-        password: password
-      })
-        .then(res => {
-          const token = res.data.token;
-          setToken(token);
-          dispatch({
-            type: LOGIN,
-            payload: { token }
-          });
-          sessionStorage.setItem("token", token);
-        })
-        // retrieve user data
-        .then(() => {
-          apiCallAuth.get("/users").then(res => {
-            const userList = res.data["hydra:member"];
-            console.log(userList);
-            const userData = userList.filter(user => user.username === login);
-            console.log(userData[0]);
-            dispatch({
-              type: SET_USER,
-              payload: {
-                id: userData[0].id,
-                username: userData[0].username,
-                firstname: userData[0].firstname,
-                lastname: userData[0].lastname,
-                roles: userData[0].roles
-              }
-            });
-          });
-        })
-        .catch(err => console.log("error", err))
-        .finally(() => {
-          setIsLoading(false);
-          history.push("/user");
-        });
     }
   };
 
@@ -166,4 +154,11 @@ function LogIn({ dispatch }) {
   );
 }
 
-export default connect()(LogIn);
+const mapDispatchToProps = dispatch => {
+  return {
+    storeToken: token => dispatch(storeToken(token)),
+    setUser: user => dispatch(setUser(user))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(LogIn);
