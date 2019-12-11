@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Layout from "../Layout/Layout";
 import PostArticle from "./PostArticle";
 import Card from "./Card";
+
 import Sidebar from "./Sidebar";
 
 export default function UserPage() {

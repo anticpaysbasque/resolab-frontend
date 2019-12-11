@@ -5,6 +5,7 @@ import {
   ChatBubbleOutline
   //  FavoriteBorder
 } from "@material-ui/icons";
+import SendIcon from "@material-ui/icons/Send";
 import {
   Card,
   CardHeader,
@@ -13,10 +14,14 @@ import {
   CardActions,
   Collapse,
   Avatar,
-  IconButton
+  IconButton,
+  TextField,
+  InputAdornment
 } from "@material-ui/core";
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
 import Axios from "axios";
+
+import CommentInput from "./CommentInput";
 
 import { useStyles } from "./useStyles";
 
@@ -24,6 +29,8 @@ export default function RecipeReviewCard() {
   const [datas, setDatas] = useState(null);
   const [expanded, setExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [inputCommentPost, setInputComment] = useState(false);
+  const [inputValue, setInputValue] = useState("");
   const classes = useStyles();
 
   // useEffect(() => {
@@ -40,6 +47,13 @@ export default function RecipeReviewCard() {
 
   const handleClick = () => {
     setIsLiked(!isLiked);
+  };
+  const handleInputComment = () => {
+    setInputComment(!inputCommentPost);
+  };
+
+  const handleInputChange = e => {
+    setInputValue(e.target.value);
   };
 
   return (
@@ -66,12 +80,21 @@ export default function RecipeReviewCard() {
           )}
         </IconButton>
         <IconButton aria-label="add to favorites">
-          <ChatBubbleOutline />
+          <ChatBubbleOutline onClick={handleInputComment} />
         </IconButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent></CardContent>
       </Collapse>
+      {inputCommentPost ? (
+        <CommentInput
+          value={inputValue}
+          onChange={handleInputChange}
+          inputComment={handleInputComment}
+        />
+      ) : (
+        false
+      )}
     </Card>
   );
 }
