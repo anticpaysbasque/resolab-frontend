@@ -23,7 +23,7 @@ import SnackBar from "./SnackBar";
 import { useStyles } from "./useStyles";
 import apiCallAuth from "../apiCallAuth";
 
-export default function RecipeReviewCard({ postSuccess }) {
+export default function RecipeReviewCard({ handleSnackBar }) {
   const [datas, setDatas] = useState(null);
   const [expanded, setExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
@@ -50,7 +50,7 @@ export default function RecipeReviewCard({ postSuccess }) {
         commentUser: inputValue
       })
       .then(res => {
-        postSuccess();
+        handleSnackBar();
         handleInputComment(!inputCommentPost);
       })
       .catch(err => console.log(err));

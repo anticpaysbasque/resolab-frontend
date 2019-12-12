@@ -76,38 +76,25 @@ const useStyles2 = makeStyles(theme => ({
   }
 }));
 
-export default function CustomizedSnackbars() {
+export default function CustomizedSnackbars({ open, setOpen }) {
   const classes = useStyles2();
-  const [open, setOpen] = React.useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
 
   return (
     <div>
-      <Button
-        variant="outlined"
-        className={classes.margin}
-        onClick={handleClick}
-      >
-        Open success snackbar
-      </Button>
       <Snackbar
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "left"
         }}
         open={open}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={handleClose}
       >
         <MySnackbarContentWrapper
