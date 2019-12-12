@@ -72,7 +72,9 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
           }
         );
         storeToken(postRes.data.token);
-        const getRes = await apiCallAuth.get("/users");
+        const getRes = await Axios.get("http://localhost:8089/api/users", {
+          headers: { Authorization: "Bearer " + postRes.data.token }
+        });
         const userList = getRes.data["hydra:member"];
         const userData = userList.filter(user => user.username === login);
         setUserRole(userData[0].roles[0]);
