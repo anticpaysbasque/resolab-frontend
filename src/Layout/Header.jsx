@@ -6,8 +6,12 @@ import Typography from "@material-ui/core/Typography";
 
 import HeaderSite from "./HeaderSite";
 import HeaderIcons from "./HeaderIcons";
+import { connect } from "react-redux";
+import Axios from "axios";
 
-export default function Header() {
+import apiCallAuth from "../apiCallAuth";
+
+function Header() {
   const [isLogged, setIsLogged] = useState(true);
 
   return (
@@ -30,3 +34,5 @@ export default function Header() {
     </>
   );
 }
+
+export default connect()(Header);
