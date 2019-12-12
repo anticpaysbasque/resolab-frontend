@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function LogIn({ storeToken, setUser, roles }) {
+function LogIn({ storeToken, setUser, roles, isAuth }) {
   const classes = useStyles();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -40,21 +40,23 @@ function LogIn({ storeToken, setUser, roles }) {
   let history = useHistory();
 
   useEffect(() => {
-    switch (roles[0]) {
-      case "ROLE_STUDENT":
-        history.push("/user");
-        break;
-      case "ROLE_MODERATOR":
-        history.push("/moderator");
-        break;
-      case "ROLE_ADMIN":
-        history.push("/moderator");
-        break;
-      case "ROLE_SUPER_ADMIN":
-        history.push("/moderator");
-        break;
-      default:
-        break;
+    if (isAuth) {
+      switch (roles[0]) {
+        case "ROLE_STUDENT":
+          history.push("/user");
+          break;
+        case "ROLE_MODERATOR":
+          history.push("/moderator");
+          break;
+        case "ROLE_ADMIN":
+          history.push("/moderator");
+          break;
+        case "ROLE_SUPER_ADMIN":
+          history.push("/moderator");
+          break;
+        default:
+          break;
+      }
     }
   }, [roles]);
 
@@ -70,7 +72,9 @@ function LogIn({ storeToken, setUser, roles }) {
           }
         );
         storeToken(postRes.data.token);
-        const getRes = await apiCallAuth.get("/users");
+        const getRes = await Axios.get("http://localhost:8089/api/users", {
+          headers: { Authorization: "Bearer " + postRes.data.token }
+        });
         const userList = getRes.data["hydra:member"];
         const userData = userList.filter(user => user.username === login);
         setUserRole(userData[0].roles[0]);
@@ -170,6 +174,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
+    isAuth: state.authReducer.isAuth,
     roles: state.userReducer.roles
   };
 };

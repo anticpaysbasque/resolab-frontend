@@ -1,4 +1,4 @@
-import { SET_USER, REMOVE_USER } from "./actionTypes";
+import { SET_USER, LOG_OUT } from "./actionTypes";
 
 const initialUserState = {
   id: 0,
@@ -19,7 +19,7 @@ const userReducer = (state = initialUserState, action) => {
         lastname: action.payload.lastname,
         roles: action.payload.roles
       };
-    case REMOVE_USER:
+    case LOG_OUT:
       return initialUserState;
     default:
       return state;
