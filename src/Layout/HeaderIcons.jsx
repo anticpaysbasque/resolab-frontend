@@ -23,8 +23,9 @@ function HeaderIcons({ logOut }) {
         align-items="baseline"
       >
         <Settings color="default" />
-
-        <ExitToApp color="default" onClick={handleLogout} />
+        <div className="undulation">
+          <ExitToApp color="default" onClick={handleLogout} />
+        </div>
       </Grid>
     </>
   );
