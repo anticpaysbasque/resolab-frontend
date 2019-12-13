@@ -5,8 +5,7 @@ import Notifications from "./Notifications";
 export default function Sidebar() {
   return (
     <div>
-      {" "}
-      <Notifications />{" "}
+      <Notifications />
     </div>
   );
 }
