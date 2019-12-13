@@ -1,23 +1,47 @@
 import React from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Link from "@material-ui/core/Link";
+import Favorite from "@material-ui/icons/Favorite";
 
-import { Paper, Grid, Typography, Link } from "@material-ui/core";
-//import { makeStyles } from "@material-ui/core";
-import { Favorite } from "@material-ui/icons";
-import "./Footer.css";
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh"
+  },
 
-export default function Footer() {
+  footer: {
+    padding: theme.spacing(6, 3),
+    marginTop: "auto",
+    backgroundColor:
+      theme.palette.type === "dark"
+        ? theme.palette.grey[800]
+        : theme.palette.grey[200]
+  }
+}));
+
+export default function StickyFooter() {
+  const classes = useStyles();
+
   return (
-    <Paper square={true}>
-      <Grid container className="ripple">
-        <Grid item xs={12}>
-          <Typography color="textPrimary">
-            <Link href="#" underline="none" color="inherit" className="link">
-              Made with <Favorite color="secondary" /> by Wild Code School
+    <div className={classes.root}>
+      <CssBaseline />
+      <footer className={classes.footer}>
+        <Container maxWidth="sm">
+          <Typography variant="body1">
+            <Link
+              color="inherit"
+              href="https://www.wildcodeschool.com/fr-FR/campus/biarritz"
+            >
+              Made with <Favorite color="Secondary" /> by wild Code School
               Biarritz
             </Link>
           </Typography>
-        </Grid>
-      </Grid>
-    </Paper>
+        </Container>
+      </footer>
+    </div>
   );
 }
