@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Box } from "@material-ui/core";
 
 import { useStyles } from "./useStyles";
 import apiCallAuth from "../apiCallAuth";
@@ -6,8 +7,6 @@ import Post from "./Post";
 
 function Publications({ handleSnackBar }) {
   const [publications, setPublications] = useState([]);
-  const [isLiked, setIsLiked] = useState(false);
-  const [count, setCount] = useState(0);
 
   const classes = useStyles();
 
@@ -19,22 +18,18 @@ function Publications({ handleSnackBar }) {
     fetchDatas();
   });
 
-  const handleClick = () => {
-    setIsLiked(!isLiked);
-  };
-
   return (
     <>
-      {publications.map(publication => (
-        <Post
-          key={publication.id}
-          description={publication.description}
-          photo={publication.photo}
-          classes={classes}
-          isLiked={isLiked}
-          handleClick={handleClick}
-          handleSnackBar={handleSnackBar}
-        />
+      {publications.reverse().map(publication => (
+        <Box m={2}>
+          <Post
+            key={publication.id}
+            description={publication.description}
+            photo={publication.photo}
+            classes={classes}
+            handleSnackBar={handleSnackBar}
+          />
+        </Box>
       ))}
     </>
   );

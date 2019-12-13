@@ -22,16 +22,11 @@ import { FavoriteBorder, Favorite } from "@material-ui/icons";
 import apiCallAuth from "../apiCallAuth";
 import CommentInput from "./CommentInput";
 
-export default function Post({
-  description,
-  photo,
-  classes,
-  isLiked,
-  handleClick,
-  handleSnackBar
-}) {
+export default function Post({ description, photo, classes, handleSnackBar }) {
   const [inputCommentPost, setInputComment] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [isLiked, setIsLiked] = useState(false);
+  const [count, setCount] = useState(0);
 
   const handlePostComment = () => {
     handleSnackBar();
@@ -51,6 +46,9 @@ export default function Post({
   };
   const handleInputChange = e => {
     setInputValue(e.target.value);
+  };
+  const handleClick = () => {
+    setIsLiked(!isLiked);
   };
 
   return (
