@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Warning,
   PermIdentity,
@@ -13,35 +13,18 @@ import {
   CardActions,
   Collapse,
   Avatar,
-  IconButton
+  IconButton,
+  Typography
 } from "@material-ui/core";
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
-import Axios from "axios";
 
-import { useStyles } from "./useStyles";
-
-export default function RecipeReviewCard() {
-  const [datas, setDatas] = useState(null);
-  const [expanded, setExpanded] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
-  const classes = useStyles();
-
-  // useEffect(() => {
-  //   const fetchDatas = async () => {
-  //     const res = await Axios.get();
-  //     setDatas(res.data);
-  //   };
-  //   fetchDatas();
-  // }, []);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
-  const handleClick = () => {
-    setIsLiked(!isLiked);
-  };
-
+export default function Post({
+  description,
+  photo,
+  classes,
+  isLiked,
+  handleClick
+}) {
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -56,7 +39,10 @@ export default function RecipeReviewCard() {
           </IconButton>
         }
       />
-      <CardMedia className={classes.media} />
+      <CardMedia className={classes.media} image={photo} />
+      <CardContent>
+        <Typography>{description}</Typography>
+      </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           {isLiked ? (
@@ -69,7 +55,7 @@ export default function RecipeReviewCard() {
           <ChatBubbleOutline />
         </IconButton>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse timeout="auto" unmountOnExit>
         <CardContent></CardContent>
       </Collapse>
     </Card>
