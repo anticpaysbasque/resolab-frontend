@@ -39,7 +39,10 @@ export default function Post({
           </IconButton>
         }
       />
-      <CardMedia className={classes.media} image={photo} />
+      <CardMedia
+        className={classes.media}
+        image="https://placekitten.com/200/200"
+      />
       <CardContent>
         <Typography>{description}</Typography>
       </CardContent>

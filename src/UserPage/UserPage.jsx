@@ -10,7 +10,7 @@ export default function UserPage() {
   return (
     <Layout>
       <Grid container spacing={3}>
-        <Grid container item xs={2} justify="center" alignItems="center">
+        <Grid container item xs={2}>
           <PostArticle />
         </Grid>
         <Grid container item xs={6} justify="center">
