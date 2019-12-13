@@ -11,9 +11,7 @@ import Axios from "axios";
 
 import apiCallAuth from "../apiCallAuth";
 
-function Header() {
-  const [isLogged, setIsLogged] = useState(true);
-
+function Header({ isAuth }) {
   return (
     <>
       <AppBar position="static" color="primary">
@@ -27,7 +25,7 @@ function Header() {
             <HeaderSite />
           </Grid>
           <Grid item xs={6} sm={2}>
-            {isLogged && <HeaderIcons />}
+            {isAuth && <HeaderIcons />}
           </Grid>
         </Grid>
       </AppBar>
@@ -35,4 +33,10 @@ function Header() {
   );
 }
 
-export default connect()(Header);
+const mapStateToProps = state => {
+  return {
+    isAuth: state.authReducer.isAuth
+  };
+};
+
+export default connect(mapStateToProps)(Header);

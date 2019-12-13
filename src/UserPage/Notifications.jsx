@@ -35,8 +35,8 @@ export default function Notifications() {
       <CardHeader
         title={
           <Box display="flex">
-            <NotificationsIcon style={{ padding: 10 }} />
-            <Typography style={{ padding: 10 }}>Notifications</Typography>
+            <NotificationsIcon />
+            <Typography>Notifications</Typography>
           </Box>
         }
       ></CardHeader>
