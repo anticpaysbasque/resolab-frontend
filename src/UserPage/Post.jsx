@@ -5,6 +5,7 @@ import {
   ChatBubbleOutline
   //  FavoriteBorder
 } from "@material-ui/icons";
+import SendIcon from "@material-ui/icons/Send";
 import {
   Card,
   CardHeader,
@@ -55,12 +56,21 @@ export default function Post({
           )}
         </IconButton>
         <IconButton aria-label="add to favorites">
-          <ChatBubbleOutline />
+          <ChatBubbleOutline onClick={handleInputComment} />
         </IconButton>
       </CardActions>
       <Collapse timeout="auto" unmountOnExit>
         <CardContent></CardContent>
       </Collapse>
+      {inputCommentPost ? (
+        <CommentInput
+          value={inputValue}
+          onChange={handleInputChange}
+          inputComment={handlePostComment}
+        />
+      ) : (
+        false
+      )}
     </Card>
   );
 }

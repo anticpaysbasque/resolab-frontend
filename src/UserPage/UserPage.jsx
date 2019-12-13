@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 
 import Layout from "../Layout/Layout";
@@ -20,6 +20,7 @@ export default function UserPage() {
           <Sidebar />
         </Grid>
       </Grid>
+      <SnackBar open={snackBarNotification} setOpen={setSnackBarNotification} />
     </Layout>
   );
 }
