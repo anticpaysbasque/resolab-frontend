@@ -10,7 +10,7 @@ function Publications() {
   const [publications, setPublications] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
   const [count, setCount] = useState(0);
-  const [snackBarNotification, setSnackBarNotification] = useState(false);
+
   const classes = useStyles();
 
   useEffect(() => {
@@ -23,10 +23,6 @@ function Publications() {
 
   const handleClick = () => {
     setIsLiked(!isLiked);
-  };
-
-  const handleSnackBar = () => {
-    setSnackBarNotification(true);
   };
 
   return (

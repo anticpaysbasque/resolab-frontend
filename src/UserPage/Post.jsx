@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Warning,
   PermIdentity,
@@ -19,13 +19,39 @@ import {
 } from "@material-ui/core";
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
 
+import apiCallAuth from "../apiCallAuth";
+import CommentInput from "./CommentInput";
+
 export default function Post({
   description,
   photo,
   classes,
   isLiked,
-  handleClick
+  handleClick,
+  handleSnackBar
 }) {
+  const [inputCommentPost, setInputComment] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+
+  const handlePostComment = () => {
+    handleSnackBar();
+    // apiCallAuth
+    //   .post("/comments", {
+    //     commentUser: inputValue
+    //   })
+    //   .then(res => {
+    //     handleInputComment(!inputCommentPost);
+    //   })
+    //   .catch(err => console.log(err));
+  };
+
+  const handleInputComment = () => {
+    setInputComment(!inputCommentPost);
+  };
+  const handleInputChange = e => {
+    setInputValue(e.target.value);
+  };
+
   return (
     <Card className={classes.card}>
       <CardHeader
