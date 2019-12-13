@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Warning,
   PermIdentity,
@@ -14,57 +14,41 @@ import {
   CardActions,
   Collapse,
   Avatar,
-  IconButton
+  IconButton,
+  Typography
 } from "@material-ui/core";
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
 
-import CommentInput from "./CommentInput";
-import SnackBar from "./SnackBar";
-import { useStyles } from "./useStyles";
 import apiCallAuth from "../apiCallAuth";
+import CommentInput from "./CommentInput";
 
-export default function RecipeReviewCard({ handleSnackBar }) {
-  const [datas, setDatas] = useState(null);
-  const [expanded, setExpanded] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+export default function Post({ description, photo, classes, handleSnackBar }) {
   const [inputCommentPost, setInputComment] = useState(false);
   const [inputValue, setInputValue] = useState("");
-
-  const classes = useStyles();
-
-  // useEffect(() => {
-  //   const fetchDatas = async () => {
-  //     const res = await Axios.get();
-  //     setDatas(res.data);
-  //   };
-  //   fetchDatas();
-  // }, []);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const [isLiked, setIsLiked] = useState(false);
+  const [count, setCount] = useState(0);
 
   const handlePostComment = () => {
-    apiCallAuth
-      .post("/comments", {
-        commentUser: inputValue
-      })
-      .then(res => {
-        handleSnackBar();
-        handleInputComment(!inputCommentPost);
-      })
-      .catch(err => console.log(err));
+    handleSnackBar();
+    handleInputComment(!inputCommentPost);
+    // apiCallAuth
+    //   .post("/comments", {
+    //     commentUser: inputValue
+    //   })
+    //   .then(res => {
+    //     handleInputComment(!inputCommentPost);
+    //   })
+    //   .catch(err => console.log(err));
   };
 
-  const handleClick = () => {
-    setIsLiked(!isLiked);
-  };
   const handleInputComment = () => {
     setInputComment(!inputCommentPost);
   };
-
   const handleInputChange = e => {
     setInputValue(e.target.value);
+  };
+  const handleClick = () => {
+    setIsLiked(!isLiked);
   };
 
   return (
@@ -81,7 +65,13 @@ export default function RecipeReviewCard({ handleSnackBar }) {
           </IconButton>
         }
       />
-      <CardMedia className={classes.media} />
+      <CardMedia
+        className={classes.media}
+        image="https://placekitten.com/200/200"
+      />
+      <CardContent>
+        <Typography>{description}</Typography>
+      </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           {isLiked ? (
@@ -94,7 +84,7 @@ export default function RecipeReviewCard({ handleSnackBar }) {
           <ChatBubbleOutline onClick={handleInputComment} />
         </IconButton>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse timeout="auto" unmountOnExit>
         <CardContent></CardContent>
       </Collapse>
       {inputCommentPost ? (
