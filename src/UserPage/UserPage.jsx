@@ -17,7 +17,7 @@ export default function UserPage() {
   return (
     <Layout>
       <Grid container spacing={3}>
-        <Grid container item xs={2}>
+        <Grid container item xs={2} justify="center">
           <PostArticle />
         </Grid>
         <Grid container item xs={6} justify="center">
@@ -27,7 +27,11 @@ export default function UserPage() {
           <Sidebar />
         </Grid>
       </Grid>
-      <SnackBar open={snackBarNotification} setOpen={setSnackBarNotification} />
+      <SnackBar
+        open={snackBarNotification}
+        setOpen={setSnackBarNotification}
+        handleSnackBar={handleSnackBar}
+      />
     </Layout>
   );
 }
