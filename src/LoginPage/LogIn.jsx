@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormControl,
   Input,
@@ -17,6 +17,9 @@ import apiCallAuth from "../apiCallAuth";
 import { LOGIN, SET_USER } from "../reducers/actionTypes";
 import VoidField from "./VoidField";
 import Loader from "./Loader";
+import DisplayError from "./DisplayError";
+
+import { storeToken, setUser } from "../reducers/actions";
 
 const useStyles = makeStyles(theme => ({
   margin: {
@@ -24,72 +27,67 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function LogIn({ dispatch }) {
+function LogIn({ storeToken, setUser, roles, isAuth }) {
   const classes = useStyles();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [isLogginError, setIsLogginError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
-  const [token, setToken] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [userRole, setUserRole] = useState("");
 
   let history = useHistory();
 
-  const handleLogin = () => {
-    // checking if input are filled
-
-    if (login === "") {
-      setIsLogginError(true);
-    } else {
-      setIsLogginError(false);
-    }
-
-    if (password === "") {
-      setIsPasswordError(true);
-    } else {
-      setIsPasswordError(false);
-    }
-    // call API for authentification
-    if (!isLogginError & !isPasswordError) {
-      setIsLoading(true);
-      Axios.post("http://localhost:8089/api/login_check", {
-        username: login,
-        password: password
-      })
-        .then(res => {
-          const token = res.data.token;
-          setToken(token);
-          dispatch({
-            type: LOGIN,
-            payload: { token }
-          });
-          sessionStorage.setItem("token", token);
-        })
-        // retrieve user data
-        .then(() => {
-          apiCallAuth.get("/users").then(res => {
-            const userList = res.data["hydra:member"];
-            console.log(userList);
-            const userData = userList.filter(user => user.username === login);
-            console.log(userData[0]);
-            dispatch({
-              type: SET_USER,
-              payload: {
-                id: userData[0].id,
-                username: userData[0].username,
-                firstname: userData[0].firstname,
-                lastname: userData[0].lastname,
-                roles: userData[0].roles
-              }
-            });
-          });
-        })
-        .catch(err => console.log("error", err))
-        .finally(() => {
-          setIsLoading(false);
+  useEffect(() => {
+    if (isAuth) {
+      switch (roles[0]) {
+        case "ROLE_STUDENT":
           history.push("/user");
+          break;
+        case "ROLE_MODERATOR":
+          history.push("/moderator");
+          break;
+        case "ROLE_ADMIN":
+          history.push("/moderator");
+          break;
+        case "ROLE_SUPER_ADMIN":
+          history.push("/moderator");
+          break;
+        default:
+          break;
+      }
+    }
+  }, [roles]);
+
+  const handleLogin = async () => {
+    if (login.length > 0 || password.length > 0) {
+      try {
+        setIsLoading(true);
+        const postRes = await Axios.post(
+          "http://localhost:8089/api/login_check",
+          {
+            username: login,
+            password: password
+          }
+        );
+        storeToken(postRes.data.token);
+        const getRes = await Axios.get("http://localhost:8089/api/users", {
+          headers: { Authorization: "Bearer " + postRes.data.token }
         });
+        const userList = getRes.data["hydra:member"];
+        const userData = userList.filter(user => user.username === login);
+        setUserRole(userData[0].roles[0]);
+        setUser(userData[0]);
+        setIsLoading(false);
+      } catch (err) {
+        console.log(err);
+        setIsLoading(false);
+        setIsError(true);
+      }
+    } else {
+      setIsError(true);
+      setIsLoading(false);
     }
   };
 
@@ -160,10 +158,25 @@ function LogIn({ dispatch }) {
           fieldName="mot de passe"
           className={classes.margin}
         />
+        <DisplayError isError={isError} />
       </Grid>
       <Loader isLoading={isLoading} />
     </>
   );
 }
 
-export default connect()(LogIn);
+const mapDispatchToProps = dispatch => {
+  return {
+    storeToken: token => dispatch(storeToken(token)),
+    setUser: user => dispatch(setUser(user))
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    isAuth: state.authReducer.isAuth,
+    roles: state.userReducer.roles
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
