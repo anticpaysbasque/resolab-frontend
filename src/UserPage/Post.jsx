@@ -27,25 +27,28 @@ import CommentInput from "./CommentInput";
 function Post({ description, photo, classes, handleSnackBar, postId, userId }) {
   const [inputCommentPost, setInputComment] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [isInputEmpty, setIsInputEmpty] = useState(false);
 
   const [isLiked, setIsLiked] = useState(false);
   const [count, setCount] = useState(0);
 
   const handlePostComment = () => {
-    handleInputComment();
-
-    apiCallAuth
-      .post("/comments", {
-        content: inputValue,
-        date: new Date().toISOString(),
-        post: `/api/posts/${postId}`,
-        user: `api/users/${userId}`
-      })
-      .then(res => {
-        handleInputComment(!inputCommentPost);
-        return handleSnackBar();
-      })
-      .catch(err => console.log(err));
+    if (inputValue === "") {
+      setIsInputEmpty(true);
+    } else {
+      apiCallAuth
+        .post("/comments", {
+          content: inputValue,
+          date: new Date().toISOString(),
+          post: `/api/posts/${postId}`,
+          user: `api/users/${userId}`
+        })
+        .then(res => {
+          handleInputComment();
+          return handleSnackBar();
+        })
+        .catch(err => console.log(err));
+    }
   };
 
   const handleInputComment = () => {
@@ -96,6 +99,8 @@ function Post({ description, photo, classes, handleSnackBar, postId, userId }) {
       </Collapse>
       {inputCommentPost ? (
         <CommentInput
+          isError={isInputEmpty}
+          helperText={isInputEmpty ? "Entre un commentaire" : null}
           value={inputValue}
           onChange={handleInputChange}
           inputComment={handlePostComment}
