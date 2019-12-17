@@ -28,6 +28,7 @@ function Publications({ handleSnackBar }) {
             photo={publication.photo}
             classes={classes}
             handleSnackBar={handleSnackBar}
+            postId={publication.id}
           />
         </Box>
       ))}
