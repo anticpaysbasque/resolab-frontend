@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Warning,
   PermIdentity,
@@ -27,6 +27,7 @@ export default function Post({ description, photo, classes, handleSnackBar }) {
   const [inputValue, setInputValue] = useState("");
   const [isLiked, setIsLiked] = useState(false);
   const [count, setCount] = useState(0);
+  const [timeOut, setTimeOut] = useState();
 
   const handlePostComment = () => {
     handleSnackBar();
@@ -84,7 +85,7 @@ export default function Post({ description, photo, classes, handleSnackBar }) {
           <ChatBubbleOutline onClick={handleInputComment} />
         </IconButton>
       </CardActions>
-      <Collapse timeout="auto" unmountOnExit>
+      <Collapse Timeout="auto" unmountOnExit>
         <CardContent></CardContent>
       </Collapse>
       {inputCommentPost ? (
