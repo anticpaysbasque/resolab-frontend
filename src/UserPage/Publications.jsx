@@ -13,7 +13,7 @@ function Publications({ handleSnackBar }) {
   useEffect(() => {
     const fetchDatas = async () => {
       const res = await apiCallAuth.get("/posts");
-      setPublications(res.data["hydra:member"]);
+      setPublications(res.data);
     };
     fetchDatas();
   });
