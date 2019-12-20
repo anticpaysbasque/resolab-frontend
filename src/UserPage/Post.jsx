@@ -26,7 +26,7 @@ export default function Post({ description, photo, classes, handleSnackBar }) {
   const [inputCommentPost, setInputComment] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isLiked, setIsLiked] = useState(false);
-  const [count, setCount] = useState(0);
+  const [alert, setAlert] = useState(false);
 
   const handlePostComment = () => {
     handleSnackBar();
@@ -50,6 +50,9 @@ export default function Post({ description, photo, classes, handleSnackBar }) {
   const handleClick = () => {
     setIsLiked(!isLiked);
   };
+  const handleClickAlert = () => {
+    setAlert(!alert);
+  };
 
   return (
     <Card className={classes.card}>
@@ -61,10 +64,16 @@ export default function Post({ description, photo, classes, handleSnackBar }) {
         }
         action={
           <IconButton aria-label="settings">
+            {alert ? (
+              <Warning color="danger" onClick={handleClickAlert} />
+            ) : (
+              <alert color="disabled" onClick={handleClickAlert} />
+            )}
             <Warning />
           </IconButton>
         }
       />
+
       <CardMedia
         className={classes.media}
         image="https://placekitten.com/200/200"
