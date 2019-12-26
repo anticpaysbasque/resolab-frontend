@@ -65,11 +65,10 @@ export default function Post({ description, photo, classes, handleSnackBar }) {
         action={
           <IconButton aria-label="settings">
             {alert ? (
-              <Warning color="danger" onClick={handleClickAlert} />
+              <Warning color="secondary" onClick={handleClickAlert} />
             ) : (
-              <alert color="disabled" onClick={handleClickAlert} />
+              <Warning color="disabled" onClick={handleClickAlert} />
             )}
-            <Warning />
           </IconButton>
         }
       />
