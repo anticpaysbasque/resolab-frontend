@@ -100,9 +100,6 @@ function Post({
           <ChatBubbleOutline onClick={handleInputComment} />
         </IconButton>
       </CardActions>
-      {/* <Collapse Timeout="auto" unmountOnExit>
-                <CardContent></CardContent>
-            </Collapse> */}
       {inputCommentPost ? (
         <>
           <CardContent>
