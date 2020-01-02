@@ -80,10 +80,12 @@ function Post({
         Authorization: "Bearer " + sessionStorage.getItem("token"),
         Accept: "application/json"
       }
-    }).then(res => {
-      setPostOwnerInfo(res.data);
-    });
-  }, []);
+    })
+      .then(res => {
+        setPostOwnerInfo(res.data);
+      })
+      .catch(err => console.log(err));
+  }, [ownerId]);
 
   return (
     <Card className={classes.card}>
