@@ -8,6 +8,8 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
 
+import "../Layout/Scroll.css";
+
 const useStyles = makeStyles({
   card: {
     minWidth: 350
@@ -31,22 +33,24 @@ export default function Notifications() {
   };
 
   return (
-    <Card className={classes.card}>
-      <CardHeader
-        title={
-          <Box display="flex">
-            <NotificationsIcon />
-            <Typography>Notifications</Typography>
-          </Box>
-        }
-      ></CardHeader>
+    <div className="scroll-notifications">
+      <Card className={classes.card}>
+        <CardHeader
+          title={
+            <Box display="flex">
+              <NotificationsIcon />
+              <Typography>Notifications</Typography>
+            </Box>
+          }
+        ></CardHeader>
 
-      <CardContent>
-        {commentaires.map(commentaire => {
-          //return tous le nombre de commentaires pour chaque publication de la personne
-        })}
-        Jules Bonard a commenté la publication de Basile
-      </CardContent>
-    </Card>
+        <CardContent>
+          {commentaires.map(commentaire => {
+            //return tous le nombre de commentaires pour chaque publication de la personne
+          })}
+          Jules Bonard a commenté la publication de Basile
+        </CardContent>
+      </Card>
+    </div>
   );
 }

@@ -80,50 +80,52 @@ function Post({ description, photo, classes, handleSnackBar, userId }) {
 
   return (
     <Card className={classes.card}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            <PermIdentity />
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <Warning />
-          </IconButton>
-        }
-      />
-      <CardMedia
-        className={classes.media}
-        image="https://placekitten.com/200/200"
-      />
-      <CardContent>
-        <Typography>{description}</Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          {isLiked ? (
-            // TODO: Handle the dislike Feature
-            <Favorite color="secondary" />
-          ) : (
-            <FavoriteBorder color="disabled" onClick={addLike} />
-          )}
-        </IconButton>
-        <IconButton aria-label="add to favorites">
-          <ChatBubbleOutline onClick={handleInputComment} />
-        </IconButton>
-      </CardActions>
-      <Collapse timeout="auto" unmountOnExit>
-        <CardContent></CardContent>
-      </Collapse>
-      {inputCommentPost ? (
-        <CommentInput
-          value={inputValue}
-          onChange={handleInputChange}
-          inputComment={handlePostComment}
+      <div className="scroll-post">
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              <PermIdentity />
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+              <Warning />
+            </IconButton>
+          }
         />
-      ) : (
-        false
-      )}
+        <CardMedia
+          className={classes.media}
+          image="https://placekitten.com/200/200"
+        />
+        <CardContent>
+          <Typography>{description}</Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton aria-label="add to favorites">
+            {isLiked ? (
+              // TODO: Handle the dislike Feature
+              <Favorite color="secondary" />
+            ) : (
+              <FavoriteBorder color="disabled" onClick={addLike} />
+            )}
+          </IconButton>
+          <IconButton aria-label="add to favorites">
+            <ChatBubbleOutline onClick={handleInputComment} />
+          </IconButton>
+        </CardActions>
+        <Collapse timeout="auto" unmountOnExit>
+          <CardContent></CardContent>
+        </Collapse>
+        {inputCommentPost ? (
+          <CommentInput
+            value={inputValue}
+            onChange={handleInputChange}
+            inputComment={handlePostComment}
+          />
+        ) : (
+          false
+        )}
+      </div>
     </Card>
   );
 }

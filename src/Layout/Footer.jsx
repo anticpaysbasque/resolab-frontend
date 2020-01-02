@@ -36,8 +36,8 @@ export default function StickyFooter() {
               color="inherit"
               href="https://www.wildcodeschool.com/fr-FR/campus/biarritz"
             >
-              Made with <Favorite color="Secondary" /> by wild Code School
-              Biarritz
+              Made with <Favorite color="Secondary" fontSize="small" /> by Wild
+              Code School Biarritz
             </Link>
           </Typography>
         </Container>
