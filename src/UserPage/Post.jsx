@@ -23,6 +23,7 @@ import { connect } from "react-redux";
 
 import apiCallAuth from "../apiCallAuth";
 import CommentInput from "./CommentInput";
+import DisplayComments from "./DisplayComments";
 
 function Post({
   description,
@@ -102,11 +103,8 @@ function Post({
       </CardActions>
       {inputCommentPost ? (
         <>
-          <CardContent>
-            {comments.map(comment => (
-              <Typography>{comment}</Typography>
-            ))}
-          </CardContent>
+          <DisplayComments comments={comments} />
+
           <CommentInput
             isError={isInputEmpty}
             helperText={isInputEmpty ? "Entre un commentaire" : null}
