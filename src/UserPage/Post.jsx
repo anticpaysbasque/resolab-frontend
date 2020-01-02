@@ -32,7 +32,8 @@ function Post({
   handleSnackBar,
   postId,
   userId,
-  comments
+  comments,
+  ownerId
 }) {
   const [inputCommentPost, setInputComment] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -41,6 +42,8 @@ function Post({
   const [isLiked, setIsLiked] = useState(false);
   const [count, setCount] = useState(0);
   const [timeOut, setTimeOut] = useState();
+
+  const [postOwnerInfo, setPostOwnerInfo] = useState({});
 
   const handlePostComment = () => {
     if (inputValue === "") {
@@ -71,6 +74,19 @@ function Post({
     setIsLiked(!isLiked);
   };
 
+  useEffect(() => {
+    Axios.get(`http://localhost:8089${ownerId}`, {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        Accept: "application/json"
+      }
+    })
+      .then(res => {
+        setPostOwnerInfo(res.data);
+      })
+      .catch(err => console.log(err));
+  }, [ownerId]);
+
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -79,6 +95,7 @@ function Post({
             <PermIdentity />
           </Avatar>
         }
+        title={postOwnerInfo.firstname + " " + postOwnerInfo.lastname}
         action={
           <IconButton aria-label="settings">
             <Warning />
