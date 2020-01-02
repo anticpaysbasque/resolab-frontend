@@ -23,8 +23,18 @@ import { connect } from "react-redux";
 
 import apiCallAuth from "../apiCallAuth";
 import CommentInput from "./CommentInput";
+import Axios from "axios";
 
-function Post({ description, photo, classes, handleSnackBar, postId, userId }) {
+function Post({
+  description,
+  photo,
+  classes,
+  handleSnackBar,
+  postId,
+  userId,
+  comments,
+  ownerId
+}) {
   const [inputCommentPost, setInputComment] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isInputEmpty, setIsInputEmpty] = useState(false);
@@ -32,6 +42,8 @@ function Post({ description, photo, classes, handleSnackBar, postId, userId }) {
   const [isLiked, setIsLiked] = useState(false);
   const [count, setCount] = useState(0);
   const [timeOut, setTimeOut] = useState();
+
+  const [postOwnerInfo, setPostOwnerInfo] = useState({});
 
   const handlePostComment = () => {
     if (inputValue === "") {
@@ -42,7 +54,7 @@ function Post({ description, photo, classes, handleSnackBar, postId, userId }) {
           content: inputValue,
           date: new Date().toISOString(),
           post: `/api/posts/${postId}`,
-          user: `api/users/${userId}`
+          user: `/api/users/${userId}`
         })
         .then(res => {
           handleInputComment();
@@ -62,6 +74,17 @@ function Post({ description, photo, classes, handleSnackBar, postId, userId }) {
     setIsLiked(!isLiked);
   };
 
+  useEffect(() => {
+    Axios.get(`http://localhost:8089${ownerId}`, {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        Accept: "application/json"
+      }
+    }).then(res => {
+      setPostOwnerInfo(res.data);
+    });
+  }, []);
+
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -70,16 +93,14 @@ function Post({ description, photo, classes, handleSnackBar, postId, userId }) {
             <PermIdentity />
           </Avatar>
         }
+        title={postOwnerInfo.firstname + " " + postOwnerInfo.lastname}
         action={
           <IconButton aria-label="settings">
             <Warning />
           </IconButton>
         }
       />
-      <CardMedia
-        className={classes.media}
-        image="https://placekitten.com/200/200"
-      />
+      <CardMedia className={classes.media} image={photo} />
       <CardContent>
         <Typography>{description}</Typography>
       </CardContent>
@@ -95,6 +116,9 @@ function Post({ description, photo, classes, handleSnackBar, postId, userId }) {
           <ChatBubbleOutline onClick={handleInputComment} />
         </IconButton>
       </CardActions>
+      <CardContent>
+        {/* -------- TODO : insert mapping of the comments from props comment -------------- */}
+      </CardContent>
       <Collapse Timeout="auto" unmountOnExit>
         <CardContent></CardContent>
       </Collapse>

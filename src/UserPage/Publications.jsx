@@ -12,7 +12,9 @@ function Publications({ handleSnackBar }) {
 
   useEffect(() => {
     const fetchDatas = async () => {
-      const res = await apiCallAuth.get("/posts");
+      const res = await apiCallAuth.get("/posts?page=1");
+      console.log(res.data);
+
       setPublications(res.data);
     };
     fetchDatas();
@@ -29,6 +31,8 @@ function Publications({ handleSnackBar }) {
             classes={classes}
             handleSnackBar={handleSnackBar}
             postId={publication.id}
+            comments={publication.comments}
+            ownerId={publication.user}
           />
         </Box>
       ))}
