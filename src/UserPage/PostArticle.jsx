@@ -62,7 +62,7 @@ function PostArticle({ id }) {
     console.log(description, image);
     e.preventDefault();
     apiCallAuth
-      .post("/posts", {
+      .post("/api/posts", {
         description: description,
         photo: image,
         likes: 0,

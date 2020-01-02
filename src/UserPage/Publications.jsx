@@ -12,7 +12,7 @@ function Publications({ handleSnackBar }) {
 
   useEffect(() => {
     const fetchDatas = async () => {
-      const res = await apiCallAuth.get("/posts");
+      const res = await apiCallAuth.get("/api/posts");
       setPublications(res.data);
     };
     fetchDatas();
@@ -29,6 +29,7 @@ function Publications({ handleSnackBar }) {
             classes={classes}
             handleSnackBar={handleSnackBar}
             postId={publication.id}
+            comments={publication.comments}
           />
         </Box>
       ))}

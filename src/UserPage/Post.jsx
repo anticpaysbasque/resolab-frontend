@@ -24,7 +24,15 @@ import { connect } from "react-redux";
 import apiCallAuth from "../apiCallAuth";
 import CommentInput from "./CommentInput";
 
-function Post({ description, photo, classes, handleSnackBar, postId, userId }) {
+function Post({
+  description,
+  photo,
+  classes,
+  handleSnackBar,
+  postId,
+  userId,
+  comments
+}) {
   const [inputCommentPost, setInputComment] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isInputEmpty, setIsInputEmpty] = useState(false);
@@ -38,10 +46,10 @@ function Post({ description, photo, classes, handleSnackBar, postId, userId }) {
       setIsInputEmpty(true);
     } else {
       apiCallAuth
-        .post("/comments", {
+        .post("/api/comments", {
           content: inputValue,
-          date: new Date().toISOString(),
-          post: `/api/posts/${postId}`,
+          // date: new Date().toISOString(),
+          post: `api/posts/${postId}`,
           user: `api/users/${userId}`
         })
         .then(res => {
@@ -76,10 +84,7 @@ function Post({ description, photo, classes, handleSnackBar, postId, userId }) {
           </IconButton>
         }
       />
-      <CardMedia
-        className={classes.media}
-        image="https://placekitten.com/200/200"
-      />
+      <CardMedia className={classes.media} image={photo} />
       <CardContent>
         <Typography>{description}</Typography>
       </CardContent>
@@ -95,18 +100,25 @@ function Post({ description, photo, classes, handleSnackBar, postId, userId }) {
           <ChatBubbleOutline onClick={handleInputComment} />
         </IconButton>
       </CardActions>
-      <Collapse Timeout="auto" unmountOnExit>
-        <CardContent></CardContent>
-      </Collapse>
+      {/* <Collapse Timeout="auto" unmountOnExit>
+                <CardContent></CardContent>
+            </Collapse> */}
       {inputCommentPost ? (
-        <CommentInput
-          isError={isInputEmpty}
-          helperText={isInputEmpty ? "Entre un commentaire" : null}
-          value={inputValue}
-          onChange={handleInputChange}
-          inputComment={handlePostComment}
-          id={postId}
-        />
+        <>
+          <CardContent>
+            {comments.map(comment => (
+              <Typography>{comment}</Typography>
+            ))}
+          </CardContent>
+          <CommentInput
+            isError={isInputEmpty}
+            helperText={isInputEmpty ? "Entre un commentaire" : null}
+            value={inputValue}
+            onChange={handleInputChange}
+            inputComment={handlePostComment}
+            id={postId}
+          />
+        </>
       ) : (
         false
       )}
