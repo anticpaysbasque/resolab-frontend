@@ -13,9 +13,11 @@ function Publications({ handleSnackBar }) {
   useEffect(() => {
     const fetchDatas = async () => {
       const res = await apiCallAuth.get("/posts?page=1");
-      console.log(res.data);
-
       setPublications(res.data);
+      setTimeout(() => {
+        fetchDatas();
+        console.log("refetch");
+      }, 30000);
     };
     fetchDatas();
   }, []);
