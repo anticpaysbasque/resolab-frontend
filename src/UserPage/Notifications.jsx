@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import { Notifications, AccountCircle } from "@material-ui/icons/";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
+import { CssBaseline } from "@material-ui/core";
 
 import "../Layout/Scroll.css";
 
@@ -16,7 +18,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Notifications() {
+export default function Notification() {
   const classes = useStyles();
 
   const [commentaires, setCommentaires] = useState([]);
@@ -38,7 +40,7 @@ export default function Notifications() {
         <CardHeader
           title={
             <Box display="flex">
-              <NotificationsIcon />
+              <Notifications />
               <Typography>Notifications</Typography>
             </Box>
           }
@@ -47,7 +49,8 @@ export default function Notifications() {
         <CardContent>
           {commentaires.map(commentaire => {
             //return tous le nombre de commentaires pour chaque publication de la personne
-          })}
+          })}{" "}
+          <AccountCircle color="primary" alignItems="center" />
           Jules Bonard a commenté la publication de Basile
         </CardContent>
       </Card>

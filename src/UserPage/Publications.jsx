@@ -14,13 +14,16 @@ function Publications({ handleSnackBar }) {
     const fetchDatas = async () => {
       const res = await apiCallAuth.get("/posts");
       setPublications(res.data);
+      setTimeout(() => {
+        fetchDatas();
+      }, 10000);
     };
     fetchDatas();
-  });
+  }, []);
 
   return (
     <>
-      {publications.reverse().map(publication => (
+      {publications.map(publication => (
         <Box m={2}>
           <Post
             key={publication.id}
@@ -28,6 +31,9 @@ function Publications({ handleSnackBar }) {
             photo={publication.photo}
             classes={classes}
             handleSnackBar={handleSnackBar}
+            postId={publication.id}
+            comments={publication.comments}
+            owner={publication.user}
           />
         </Box>
       ))}

@@ -17,58 +17,51 @@ import {
   IconButton,
   Typography
 } from "@material-ui/core";
+
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
+import { connect } from "react-redux";
 
 import apiCallAuth from "../apiCallAuth";
 import CommentInput from "./CommentInput";
-import { connect } from "react-redux";
+import Axios from "axios";
 
-function Post({ description, photo, classes, handleSnackBar, userId }) {
+function Post({
+  description,
+  photo,
+  classes,
+  handleSnackBar,
+  postId,
+  userId,
+  comments,
+  owner
+}) {
   const [inputCommentPost, setInputComment] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [isInputEmpty, setIsInputEmpty] = useState(false);
+
   const [isLiked, setIsLiked] = useState(false);
   const [count, setCount] = useState(0);
-  const [likes, setLikes] = useState([]);
+  const [timeOut, setTimeOut] = useState();
 
-  useEffect(() => {
-    const fetchLikes = async () => {
-      try {
-        const res = await apiCallAuth.get("/likes?post.id=");
-
-        for (let i = 0; i < res.data.length; i++) {
-          // Find if the current authenticated user already liked the post
-          const current = res.data[i];
-          const spreadedId = current.user.split("/")[3];
-          if (userId === spreadedId) setIsLiked(true);
-        }
-        setLikes(res.data);
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-    fetchLikes();
-  }, []);
-
-  const addLike = async () => {
-    try {
-      // Post a like with Axios
-      setIsLiked(true);
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
+  const [postOwnerInfo, setPostOwnerInfo] = useState({});
 
   const handlePostComment = () => {
-    handleSnackBar();
-    handleInputComment(!inputCommentPost);
-    // apiCallAuth
-    //   .post("/comments", {
-    //     commentUser: inputValue
-    //   })
-    //   .then(res => {
-    //     handleInputComment(!inputCommentPost);
-    //   })
-    //   .catch(err => console.log(err));
+    if (inputValue === "") {
+      setIsInputEmpty(true);
+    } else {
+      apiCallAuth
+        .post("/comments", {
+          content: inputValue,
+          date: new Date().toISOString(),
+          post: `/api/posts/${postId}`,
+          user: `/api/users/${userId}`
+        })
+        .then(res => {
+          handleInputComment();
+          return handleSnackBar();
+        })
+        .catch(err => console.log(err));
+    }
   };
 
   const handleInputComment = () => {
@@ -78,6 +71,22 @@ function Post({ description, photo, classes, handleSnackBar, userId }) {
     setInputValue(e.target.value);
   };
 
+  const handleClick = () => {
+    setIsLiked(!isLiked);
+  };
+
+  // useEffect(() => {
+  //     Axios.get(`http://localhost:8089${ownerId}`, {
+  //         headers: {
+  //             Authorization: "Bearer " + sessionStorage.getItem("token"),
+  //             Accept: "application/json"
+  //         }
+  //     })
+  //         .then(res => {
+  //             setPostOwnerInfo(res.data);
+  //         })
+  //         .catch(err => console.log(err));
+  // }, [ownerId]);
   return (
     <Card className={classes.card}>
       <div className="scroll-post">
@@ -87,40 +96,43 @@ function Post({ description, photo, classes, handleSnackBar, userId }) {
               <PermIdentity />
             </Avatar>
           }
+          title={owner.username}
           action={
             <IconButton aria-label="settings">
               <Warning />
             </IconButton>
           }
         />
-        <CardMedia
-          className={classes.media}
-          image="https://placekitten.com/200/200"
-        />
+        <CardMedia className={classes.media} image={photo} />
         <CardContent>
           <Typography>{description}</Typography>
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites">
             {isLiked ? (
-              // TODO: Handle the dislike Feature
-              <Favorite color="secondary" />
+              <Favorite color="secondary" onClick={handleClick} />
             ) : (
-              <FavoriteBorder color="disabled" onClick={addLike} />
+              <FavoriteBorder color="disabled" onClick={handleClick} />
             )}
           </IconButton>
           <IconButton aria-label="add to favorites">
             <ChatBubbleOutline onClick={handleInputComment} />
           </IconButton>
         </CardActions>
-        <Collapse timeout="auto" unmountOnExit>
+        <CardContent>
+          {/* -------- TODO : insert mapping of the comments from props comment -------------- */}
+        </CardContent>
+        <Collapse Timeout="auto" unmountOnExit>
           <CardContent></CardContent>
         </Collapse>
         {inputCommentPost ? (
           <CommentInput
+            isError={isInputEmpty}
+            helperText={isInputEmpty ? "Entre un commentaire" : null}
             value={inputValue}
             onChange={handleInputChange}
             inputComment={handlePostComment}
+            id={postId}
           />
         ) : (
           false

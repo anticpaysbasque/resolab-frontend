@@ -74,7 +74,8 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
         storeToken(postRes.data.token);
         const getRes = await Axios.get("http://localhost:8089/api/users", {
           headers: {
-            Authorization: "Bearer " + postRes.data.token
+            Authorization: "Bearer " + postRes.data.token,
+            Accept: "application/json"
           }
         });
         const userList = getRes.data;
