@@ -12,7 +12,7 @@ function Publications({ handleSnackBar }) {
 
   useEffect(() => {
     const fetchDatas = async () => {
-      const res = await apiCallAuth.get("/api/posts?page=2");
+      const res = await apiCallAuth.get("/posts");
       setPublications(res.data);
       setTimeout(() => {
         fetchDatas();
@@ -23,7 +23,7 @@ function Publications({ handleSnackBar }) {
 
   return (
     <>
-      {publications.reverse().map(publication => (
+      {publications.map(publication => (
         <Box m={2}>
           <Post
             key={publication.id}
@@ -33,7 +33,7 @@ function Publications({ handleSnackBar }) {
             handleSnackBar={handleSnackBar}
             postId={publication.id}
             comments={publication.comments}
-            ownerId={publication.user}
+            owner={publication.user}
           />
         </Box>
       ))}
