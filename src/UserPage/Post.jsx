@@ -40,10 +40,13 @@ function Post({
   const [isInputEmpty, setIsInputEmpty] = useState(false);
 
   const [isLiked, setIsLiked] = useState(false);
+
+  const [alert, setAlert] = useState(false);
   const [count, setCount] = useState(0);
   const [timeOut, setTimeOut] = useState();
 
   const [postOwnerInfo, setPostOwnerInfo] = useState({});
+
 
   const handlePostComment = () => {
     if (inputValue === "") {
@@ -73,6 +76,9 @@ function Post({
   const handleClick = () => {
     setIsLiked(!isLiked);
   };
+  const handleClickAlert = () => {
+    setAlert(!alert);
+  };
 
   // useEffect(() => {
   //     Axios.get(`http://localhost:8089${ownerId}`, {
@@ -98,11 +104,23 @@ function Post({
         title={owner.username}
         action={
           <IconButton aria-label="settings">
-            <Warning />
+            {alert ? (
+              <Warning color="secondary" onClick={handleClickAlert} />
+            ) : (
+              <Warning color="disabled" onClick={handleClickAlert} />
+            )}
           </IconButton>
         }
       />
+
+
+      <CardMedia
+        className={classes.media}
+        image="https://placekitten.com/200/200"
+      />
+
       <CardMedia className={classes.media} image={photo} />
+
       <CardContent>
         <Typography>{description}</Typography>
       </CardContent>
