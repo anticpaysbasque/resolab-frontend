@@ -1,20 +1,22 @@
 .scroll-container {
   position: fixed;
   margin: none;
+  z-index: 10;
 } /* container for the header */
 
 .scroll-add-content {
   position: fixed;
-  margin-top: 350px;
-  margin-left: 3rem;
+  top: 350px;
+  justify-content: flex-start;
 } /* used for the content-adding component, had to use big values for margin to center the button on the userpage */
 
 .scroll-notifications {
   position: fixed;
-  margin-top: 250px;
+  top: 250px;
+  justify-content: flex-start;
 }
 
 .scroll-post {
   scroll-behavior: smooth;
-  overflow: hidden;
+  top: 250px;
 }

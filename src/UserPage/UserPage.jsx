@@ -23,7 +23,7 @@ export default function UserPage() {
         <Grid container item xs={6} justify="center">
           <Publications handleSnackBar={handleSnackBar} />
         </Grid>
-        <Grid container item xs={4} justify="center">
+        <Grid container item xs={3} justify="center">
           <Sidebar />
         </Grid>
       </Grid>
