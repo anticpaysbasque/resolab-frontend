@@ -24,6 +24,7 @@ import { connect } from "react-redux";
 import apiCallAuth from "../apiCallAuth";
 import CommentInput from "./CommentInput";
 import DisplayComments from "./DisplayComments";
+import Axios from "axios";
 
 function Post({
   description,

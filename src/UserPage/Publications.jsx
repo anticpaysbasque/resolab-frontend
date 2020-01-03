@@ -12,7 +12,7 @@ function Publications({ handleSnackBar }) {
 
   useEffect(() => {
     const fetchDatas = async () => {
-      const res = await apiCallAuth.get("/posts?page=2");
+      const res = await apiCallAuth.get("/api/posts?page=2");
       setPublications(res.data);
       setTimeout(() => {
         fetchDatas();
