@@ -70,6 +70,7 @@ function Post({
   const handleInputChange = e => {
     setInputValue(e.target.value);
   };
+
   const handleClick = () => {
     setIsLiked(!isLiked);
   };
@@ -86,56 +87,57 @@ function Post({
   //         })
   //         .catch(err => console.log(err));
   // }, [ownerId]);
-
   return (
     <Card className={classes.card}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            <PermIdentity />
-          </Avatar>
-        }
-        title={owner.username}
-        action={
-          <IconButton aria-label="settings">
-            <Warning />
-          </IconButton>
-        }
-      />
-      <CardMedia className={classes.media} image={photo} />
-      <CardContent>
-        <Typography>{description}</Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          {isLiked ? (
-            <Favorite color="secondary" onClick={handleClick} />
-          ) : (
-            <FavoriteBorder color="disabled" onClick={handleClick} />
-          )}
-        </IconButton>
-        <IconButton aria-label="add to favorites">
-          <ChatBubbleOutline onClick={handleInputComment} />
-        </IconButton>
-      </CardActions>
-      <CardContent>
-        {/* -------- TODO : insert mapping of the comments from props comment -------------- */}
-      </CardContent>
-      <Collapse Timeout="auto" unmountOnExit>
-        <CardContent></CardContent>
-      </Collapse>
-      {inputCommentPost ? (
-        <CommentInput
-          isError={isInputEmpty}
-          helperText={isInputEmpty ? "Entre un commentaire" : null}
-          value={inputValue}
-          onChange={handleInputChange}
-          inputComment={handlePostComment}
-          id={postId}
+      <div className="scroll-post">
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              <PermIdentity />
+            </Avatar>
+          }
+          title={owner.username}
+          action={
+            <IconButton aria-label="settings">
+              <Warning />
+            </IconButton>
+          }
         />
-      ) : (
-        false
-      )}
+        <CardMedia className={classes.media} image={photo} />
+        <CardContent>
+          <Typography>{description}</Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton aria-label="add to favorites">
+            {isLiked ? (
+              <Favorite color="secondary" onClick={handleClick} />
+            ) : (
+              <FavoriteBorder color="disabled" onClick={handleClick} />
+            )}
+          </IconButton>
+          <IconButton aria-label="add to favorites">
+            <ChatBubbleOutline onClick={handleInputComment} />
+          </IconButton>
+        </CardActions>
+        <CardContent>
+          {/* -------- TODO : insert mapping of the comments from props comment -------------- */}
+        </CardContent>
+        <Collapse Timeout="auto" unmountOnExit>
+          <CardContent></CardContent>
+        </Collapse>
+        {inputCommentPost ? (
+          <CommentInput
+            isError={isInputEmpty}
+            helperText={isInputEmpty ? "Entre un commentaire" : null}
+            value={inputValue}
+            onChange={handleInputChange}
+            inputComment={handlePostComment}
+            id={postId}
+          />
+        ) : (
+          false
+        )}
+      </div>
     </Card>
   );
 }

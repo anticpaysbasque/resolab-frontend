@@ -10,6 +10,7 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 
 import apiCallAuth from "../apiCallAuth";
+import "../Layout/Scroll.css";
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -77,7 +78,7 @@ function PostArticle({ id }) {
   };
 
   return (
-    <div>
+    <div className="scroll-add-content">
       <Box
         display="flex"
         flexDirection="column"
