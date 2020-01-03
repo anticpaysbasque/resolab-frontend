@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Warning,
   PermIdentity,
@@ -17,28 +17,54 @@ import {
   IconButton,
   Typography
 } from "@material-ui/core";
+
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
+import { connect } from "react-redux";
 
 import apiCallAuth from "../apiCallAuth";
 import CommentInput from "./CommentInput";
+import Axios from "axios";
 
-export default function Post({ description, photo, classes, handleSnackBar }) {
+function Post({
+  description,
+  photo,
+  classes,
+  handleSnackBar,
+  postId,
+  userId,
+  comments,
+  owner
+}) {
   const [inputCommentPost, setInputComment] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [isInputEmpty, setIsInputEmpty] = useState(false);
+
   const [isLiked, setIsLiked] = useState(false);
+
   const [alert, setAlert] = useState(false);
+  const [count, setCount] = useState(0);
+  const [timeOut, setTimeOut] = useState();
+
+  const [postOwnerInfo, setPostOwnerInfo] = useState({});
+
 
   const handlePostComment = () => {
-    handleSnackBar();
-    handleInputComment(!inputCommentPost);
-    // apiCallAuth
-    //   .post("/comments", {
-    //     commentUser: inputValue
-    //   })
-    //   .then(res => {
-    //     handleInputComment(!inputCommentPost);
-    //   })
-    //   .catch(err => console.log(err));
+    if (inputValue === "") {
+      setIsInputEmpty(true);
+    } else {
+      apiCallAuth
+        .post("/comments", {
+          content: inputValue,
+          date: new Date().toISOString(),
+          post: `/api/posts/${postId}`,
+          user: `/api/users/${userId}`
+        })
+        .then(res => {
+          handleInputComment();
+          return handleSnackBar();
+        })
+        .catch(err => console.log(err));
+    }
   };
 
   const handleInputComment = () => {
@@ -54,6 +80,19 @@ export default function Post({ description, photo, classes, handleSnackBar }) {
     setAlert(!alert);
   };
 
+  // useEffect(() => {
+  //     Axios.get(`http://localhost:8089${ownerId}`, {
+  //         headers: {
+  //             Authorization: "Bearer " + sessionStorage.getItem("token"),
+  //             Accept: "application/json"
+  //         }
+  //     })
+  //         .then(res => {
+  //             setPostOwnerInfo(res.data);
+  //         })
+  //         .catch(err => console.log(err));
+  // }, [ownerId]);
+
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -62,6 +101,7 @@ export default function Post({ description, photo, classes, handleSnackBar }) {
             <PermIdentity />
           </Avatar>
         }
+        title={owner.username}
         action={
           <IconButton aria-label="settings">
             {alert ? (
@@ -73,10 +113,14 @@ export default function Post({ description, photo, classes, handleSnackBar }) {
         }
       />
 
+
       <CardMedia
         className={classes.media}
         image="https://placekitten.com/200/200"
       />
+
+      <CardMedia className={classes.media} image={photo} />
+
       <CardContent>
         <Typography>{description}</Typography>
       </CardContent>
@@ -92,14 +136,20 @@ export default function Post({ description, photo, classes, handleSnackBar }) {
           <ChatBubbleOutline onClick={handleInputComment} />
         </IconButton>
       </CardActions>
-      <Collapse timeout="auto" unmountOnExit>
+      <CardContent>
+        {/* -------- TODO : insert mapping of the comments from props comment -------------- */}
+      </CardContent>
+      <Collapse Timeout="auto" unmountOnExit>
         <CardContent></CardContent>
       </Collapse>
       {inputCommentPost ? (
         <CommentInput
+          isError={isInputEmpty}
+          helperText={isInputEmpty ? "Entre un commentaire" : null}
           value={inputValue}
           onChange={handleInputChange}
           inputComment={handlePostComment}
+          id={postId}
         />
       ) : (
         false
@@ -107,3 +157,11 @@ export default function Post({ description, photo, classes, handleSnackBar }) {
     </Card>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    userId: state.userReducer.id
+  };
+};
+
+export default connect(mapStateToProps)(Post);
