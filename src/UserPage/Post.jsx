@@ -51,11 +51,11 @@ function Post({
       setIsInputEmpty(true);
     } else {
       apiCallAuth
-        .post("/api/comments", {
+        .post("/comments", {
           content: inputValue,
           // date: new Date().toISOString(),
-          post: `api/posts/${postId}`,
-          user: `api/users/${userId}`
+          post: `/posts/${postId}`,
+          user: `/users/${userId}`
         })
         .then(res => {
           handleInputComment();
