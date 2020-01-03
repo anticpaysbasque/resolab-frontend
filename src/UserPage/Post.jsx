@@ -53,12 +53,13 @@ function Post({
       apiCallAuth
         .post("/comments", {
           content: inputValue,
-          // date: new Date().toISOString(),
-          post: `/posts/${postId}`,
-          user: `/users/${userId}`
+          date: new Date().toISOString(),
+          post: `/api/posts/${postId}`,
+          user: `/api/users/${userId}`
         })
         .then(res => {
           handleInputComment();
+          setInputValue("");
           return handleSnackBar();
         })
         .catch(err => console.log(err));
