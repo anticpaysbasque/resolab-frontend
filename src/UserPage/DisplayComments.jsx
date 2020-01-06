@@ -17,9 +17,12 @@ function DisplayComments({ comments }) {
 
   return (
     <CardContent>
-      {comments.map(comment => (
-        <Typography>{comment.content}</Typography>
-      ))}
+      {comments
+        .slice(0)
+        .reverse()
+        .map(comment => (
+          <Typography>{comment.content}</Typography>
+        ))}
     </CardContent>
 
     // <CardContent>
