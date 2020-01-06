@@ -84,9 +84,25 @@ function Post({
     setInputValue(e.target.value);
   };
 
-  const handleClick = () => {
-    setIsLiked(!isLiked);
-    setLikesCount(likesCount + 1);
+  const handleLike = () => {
+    // Si c'est déjà liké, on supprime le like dans l'API, puis isLiked -> false, count -1
+
+    // Si c'est pas liké, on crée le like dans l'API, puis isLiked -> true, count +1
+    if (!isLiked) {
+      apiCallAuth
+        .post("/likes", {
+          user: `api/users/${userId}`,
+          post: `api/posts/${postId}`
+        })
+        .then(res => {
+          setIsLiked(true);
+          setLikesCount(likesCount + 1);
+        })
+        .catch(err => {
+          console.log(err.message);
+          throw err;
+        });
+    }
   };
   const handleClickAlert = () => {
     setAlert(!alert);
@@ -127,9 +143,9 @@ function Post({
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites">
             {isLiked ? (
-              <Favorite color="secondary" onClick={handleClick} />
+              <Favorite color="secondary" onClick={handleLike} />
             ) : (
-              <FavoriteBorder color="disabled" onClick={handleClick} />
+              <FavoriteBorder color="disabled" onClick={handleLike} />
             )}
           </IconButton>
           {likesCount}
