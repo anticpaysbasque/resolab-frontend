@@ -47,7 +47,6 @@ function Post({
 
   const [postOwnerInfo, setPostOwnerInfo] = useState({});
 
-
   const handlePostComment = () => {
     if (inputValue === "") {
       setIsInputEmpty(true);
@@ -61,7 +60,7 @@ function Post({
         })
         .then(res => {
           handleInputComment();
-          return handleSnackBar();
+          return handleSnackBar("Ton commentaire a bien été posté");
         })
         .catch(err => console.log(err));
     }
@@ -108,7 +107,6 @@ function Post({
               <Warning />
             </IconButton>
           }
-
         />
         <CardMedia className={classes.media} image={photo} />
         <CardContent>

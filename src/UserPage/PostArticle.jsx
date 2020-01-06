@@ -37,7 +37,7 @@ const mapStateToProps = state => ({
   id: state.userReducer.id
 });
 
-function PostArticle({ id }) {
+function PostArticle({ id, handleSnackBar }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState("");
@@ -71,7 +71,7 @@ function PostArticle({ id }) {
       })
       .then(res => {
         console.log(res);
-        alert("Ta publication a bien été postée");
+        return handleSnackBar("Ton message a bien été posté");
       })
       .catch(err => console.log(err))
       .finally(() => handleClose());
