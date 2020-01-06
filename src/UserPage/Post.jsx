@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  Warning,
-  PermIdentity,
-  ChatBubbleOutline,
-  LinkedCameraSharp
-  //  FavoriteBorder
-} from "@material-ui/icons";
-import Send from "@material-ui/icons/Send";
+import { Warning, PermIdentity, ChatBubbleOutline } from "@material-ui/icons";
+
 import {
   Card,
   CardHeader,
@@ -47,14 +41,12 @@ function Post({
   const [likesCount, setLikesCount] = useState(stateLikes.length);
 
   useEffect(() => {
-    // likes.map(like => {
-    //     if (like.user.id === userId) {
-    //         setIsLiked(true);
-    //     }
-    // });
-
     stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
   }, []);
+
+  useEffect(() => {
+    setLikesCount(stateLikes.length);
+  }, [stateLikes]);
 
   const handlePostComment = () => {
     if (inputValue === "") {
@@ -90,26 +82,16 @@ function Post({
       }
     };
     if (isLiked) {
-      const pireExempleDuMonde = stateLikes.find(like => {
-        if (typeof like.user === "string") {
-          return like.user.split("/")[3] === userId;
-        } else {
-          return userId === like.user.id;
-        }
-      });
-      if (pireExempleDuMonde) {
+      const foundLike = stateLikes.find(like => userId === like.user.id);
+      if (foundLike) {
         axios
-          .delete(
-            `http://localhost:8089/api/likes/${pireExempleDuMonde.id}`,
-            config
-          )
+          .delete(`http://localhost:8089/api/likes/${foundLike.id}`, config)
           .then(() =>
-            axios.get(`http://localhost:8089/api/posts/${postId}/likes`, config)
+            axios.get(`http://localhost:8089/api/posts/${postId}`, config)
           )
           .then(res => {
-            setStateLikes(res.data);
+            setStateLikes(res.data.likes);
             setIsLiked(false);
-            setLikesCount(res.data.length);
           })
           .catch(err => {
             console.log(err.message);
@@ -132,12 +114,11 @@ function Post({
           config
         )
         .then(() =>
-          axios.get(`http://localhost:8089/api/posts/${postId}/likes`, config)
+          axios.get(`http://localhost:8089/api/posts/${postId}`, config)
         )
         .then(res => {
-          setStateLikes(res.data);
+          setStateLikes(res.data.likes);
           setIsLiked(true);
-          setLikesCount(likesCount + 1);
         })
         .catch(err => {
           console.log(err.message);
@@ -149,19 +130,6 @@ function Post({
   const handleClickAlert = () => {
     setAlert(!alert);
   };
-
-  // useEffect(() => {
-  //     Axios.get(`http://localhost:8089${ownerId}`, {
-  //         headers: {
-  //             Authorization: "Bearer " + sessionStorage.getItem("token"),
-  //             Accept: "application/json"
-  //         }
-  //     })
-  //         .then(res => {
-  //             setPostOwnerInfo(res.data);
-  //         })
-  //         .catch(err => console.log(err));
-  // }, [ownerId]);
   return (
     <Card className={classes.card}>
       <div className="scroll-post">
