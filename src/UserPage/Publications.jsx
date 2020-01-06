@@ -34,6 +34,7 @@ function Publications({ handleSnackBar }) {
             postId={publication.id}
             comments={publication.comments}
             owner={publication.user}
+            likes={publication.likes}
           />
         </Box>
       ))}

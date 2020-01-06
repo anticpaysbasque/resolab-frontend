@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import {
   Warning,
   PermIdentity,
-  ChatBubbleOutline
+  ChatBubbleOutline,
+  LinkedCameraSharp
   //  FavoriteBorder
 } from "@material-ui/icons";
-import SendIcon from "@material-ui/icons/Send";
+import Send from "@material-ui/icons/Send";
 import {
   Card,
   CardHeader,
@@ -33,20 +34,29 @@ function Post({
   postId,
   userId,
   comments,
+  likes,
   owner
 }) {
   const [inputCommentPost, setInputComment] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isInputEmpty, setIsInputEmpty] = useState(false);
+  const [likesCount, setLikesCount] = useState(likes.length);
 
   const [isLiked, setIsLiked] = useState(false);
 
   const [alert, setAlert] = useState(false);
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
   const [timeOut, setTimeOut] = useState();
 
   const [postOwnerInfo, setPostOwnerInfo] = useState({});
 
+  useEffect(() => {
+    likes.map(like => {
+      if (like.user.id === userId) {
+        setIsLiked(true);
+      }
+    });
+  }, []);
 
   const handlePostComment = () => {
     if (inputValue === "") {
@@ -76,6 +86,7 @@ function Post({
 
   const handleClick = () => {
     setIsLiked(!isLiked);
+    setLikesCount(likesCount + 1);
   };
   const handleClickAlert = () => {
     setAlert(!alert);
@@ -108,7 +119,6 @@ function Post({
               <Warning />
             </IconButton>
           }
-
         />
         <CardMedia className={classes.media} image={photo} />
         <CardContent>
@@ -122,6 +132,7 @@ function Post({
               <FavoriteBorder color="disabled" onClick={handleClick} />
             )}
           </IconButton>
+          {likesCount}
           <IconButton aria-label="add to favorites">
             <ChatBubbleOutline onClick={handleInputComment} />
           </IconButton>
