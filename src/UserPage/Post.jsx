@@ -23,6 +23,7 @@ import { connect } from "react-redux";
 
 import apiCallAuth from "../apiCallAuth";
 import CommentInput from "./CommentInput";
+import DisplayComments from "./DisplayComments";
 import Axios from "axios";
 
 function Post({
@@ -47,7 +48,6 @@ function Post({
 
   const [postOwnerInfo, setPostOwnerInfo] = useState({});
 
-
   const handlePostComment = () => {
     if (inputValue === "") {
       setIsInputEmpty(true);
@@ -61,6 +61,7 @@ function Post({
         })
         .then(res => {
           handleInputComment();
+          setInputValue("");
           return handleSnackBar();
         })
         .catch(err => console.log(err));
@@ -108,7 +109,6 @@ function Post({
               <Warning />
             </IconButton>
           }
-
         />
         <CardMedia className={classes.media} image={photo} />
         <CardContent>
@@ -126,21 +126,18 @@ function Post({
             <ChatBubbleOutline onClick={handleInputComment} />
           </IconButton>
         </CardActions>
-        <CardContent>
-          {/* -------- TODO : insert mapping of the comments from props comment -------------- */}
-        </CardContent>
-        <Collapse Timeout="auto" unmountOnExit>
-          <CardContent></CardContent>
-        </Collapse>
         {inputCommentPost ? (
-          <CommentInput
-            isError={isInputEmpty}
-            helperText={isInputEmpty ? "Entre un commentaire" : null}
-            value={inputValue}
-            onChange={handleInputChange}
-            inputComment={handlePostComment}
-            id={postId}
-          />
+          <>
+            <DisplayComments comments={comments} />
+            <CommentInput
+              isError={isInputEmpty}
+              helperText={isInputEmpty ? "Entre un commentaire" : null}
+              value={inputValue}
+              onChange={handleInputChange}
+              inputComment={handlePostComment}
+              id={postId}
+            />
+          </>
         ) : (
           false
         )}
