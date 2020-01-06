@@ -40,10 +40,13 @@ function Post({
   const [isInputEmpty, setIsInputEmpty] = useState(false);
 
   const [isLiked, setIsLiked] = useState(false);
+
+  const [alert, setAlert] = useState(false);
   const [count, setCount] = useState(0);
   const [timeOut, setTimeOut] = useState();
 
   const [postOwnerInfo, setPostOwnerInfo] = useState({});
+
 
   const handlePostComment = () => {
     if (inputValue === "") {
@@ -74,6 +77,9 @@ function Post({
   const handleClick = () => {
     setIsLiked(!isLiked);
   };
+  const handleClickAlert = () => {
+    setAlert(!alert);
+  };
 
   // useEffect(() => {
   //     Axios.get(`http://localhost:8089${ownerId}`, {
@@ -102,6 +108,7 @@ function Post({
               <Warning />
             </IconButton>
           }
+
         />
         <CardMedia className={classes.media} image={photo} />
         <CardContent>
