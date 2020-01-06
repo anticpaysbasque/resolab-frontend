@@ -41,6 +41,8 @@ function Post({
   const [isInputEmpty, setIsInputEmpty] = useState(false);
 
   const [isLiked, setIsLiked] = useState(false);
+
+  const [alert, setAlert] = useState(false);
   const [count, setCount] = useState(0);
   const [timeOut, setTimeOut] = useState();
 
@@ -72,8 +74,12 @@ function Post({
   const handleInputChange = e => {
     setInputValue(e.target.value);
   };
+
   const handleClick = () => {
     setIsLiked(!isLiked);
+  };
+  const handleClickAlert = () => {
+    setAlert(!alert);
   };
 
   // useEffect(() => {
@@ -88,54 +94,54 @@ function Post({
   //         })
   //         .catch(err => console.log(err));
   // }, [ownerId]);
-
   return (
     <Card className={classes.card}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            <PermIdentity />
-          </Avatar>
-        }
-        title={owner.username}
-        action={
-          <IconButton aria-label="settings">
-            <Warning />
+      <div className="scroll-post">
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              <PermIdentity />
+            </Avatar>
+          }
+          title={owner.username}
+          action={
+            <IconButton aria-label="settings">
+              <Warning />
+            </IconButton>
+          }
+        />
+        <CardMedia className={classes.media} image={photo} />
+        <CardContent>
+          <Typography>{description}</Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton aria-label="add to favorites">
+            {isLiked ? (
+              <Favorite color="secondary" onClick={handleClick} />
+            ) : (
+              <FavoriteBorder color="disabled" onClick={handleClick} />
+            )}
           </IconButton>
-        }
-      />
-      <CardMedia className={classes.media} image={photo} />
-      <CardContent>
-        <Typography>{description}</Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          {isLiked ? (
-            <Favorite color="secondary" onClick={handleClick} />
-          ) : (
-            <FavoriteBorder color="disabled" onClick={handleClick} />
-          )}
-        </IconButton>
-        <IconButton aria-label="add to favorites">
-          <ChatBubbleOutline onClick={handleInputComment} />
-        </IconButton>
-      </CardActions>
-      {inputCommentPost ? (
-        <>
-          <DisplayComments comments={comments} />
-
-          <CommentInput
-            isError={isInputEmpty}
-            helperText={isInputEmpty ? "Entre un commentaire" : null}
-            value={inputValue}
-            onChange={handleInputChange}
-            inputComment={handlePostComment}
-            id={postId}
-          />
-        </>
-      ) : (
-        false
-      )}
+          <IconButton aria-label="add to favorites">
+            <ChatBubbleOutline onClick={handleInputComment} />
+          </IconButton>
+        </CardActions>
+        {inputCommentPost ? (
+          <>
+            <DisplayComments comments={comments} />
+            <CommentInput
+              isError={isInputEmpty}
+              helperText={isInputEmpty ? "Entre un commentaire" : null}
+              value={inputValue}
+              onChange={handleInputChange}
+              inputComment={handlePostComment}
+              id={postId}
+            />
+          </>
+        ) : (
+          false
+        )}
+      </div>
     </Card>
   );
 }

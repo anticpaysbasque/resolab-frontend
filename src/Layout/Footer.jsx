@@ -6,6 +6,8 @@ import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import Favorite from "@material-ui/icons/Favorite";
 
+import "./Footer.css";
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -14,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   footer: {
-    padding: theme.spacing(6, 3),
+    height: "3rem",
     marginTop: "auto",
     backgroundColor:
       theme.palette.type === "dark"
@@ -31,13 +33,15 @@ export default function StickyFooter() {
       <CssBaseline />
       <footer className={classes.footer}>
         <Container maxWidth="sm">
-          <Typography variant="body1">
+          <Typography variant="body1" className="footer">
             <Link
               color="inherit"
               href="https://www.wildcodeschool.com/fr-FR/campus/biarritz"
             >
-              Made with <Favorite color="Secondary" /> by wild Code School
-              Biarritz
+              <p>
+                Made with <Favorite color="Secondary" fontSize="small" /> by
+                Wild Code School Biarritz
+              </p>
             </Link>
           </Typography>
         </Container>
