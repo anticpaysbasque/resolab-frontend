@@ -107,10 +107,8 @@ function Post({
         }
       />
 
-      <CardMedia
-        className={classes.media}
-        image="https://placekitten.com/200/200"
-      />
+      <CardMedia className={classes.media} image={photo} />
+
       <CardContent>
         <Typography>{description}</Typography>
       </CardContent>
