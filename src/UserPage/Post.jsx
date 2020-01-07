@@ -63,6 +63,7 @@ function Post({
         })
         .then(res => {
           handleInputComment();
+          setInputValue("");
           return handleSnackBar("Ton commentaire a bien été posté");
         })
         .catch(err => console.log(err));
