@@ -76,7 +76,7 @@ const useStyles2 = makeStyles(theme => ({
   }
 }));
 
-export default function CustomizedSnackbars({ open, setOpen }) {
+export default function CustomizedSnackbars({ open, setOpen, message }) {
   const classes = useStyles2();
 
   const handleClose = (event, reason) => {
@@ -100,7 +100,7 @@ export default function CustomizedSnackbars({ open, setOpen }) {
         <MySnackbarContentWrapper
           onClose={handleClose}
           variant="success"
-          message="Post envoyé!"
+          message={message}
         />
       </Snackbar>
     </div>
