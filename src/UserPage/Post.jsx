@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 
 import apiCallAuth from "../apiCallAuth";
 import CommentInput from "./CommentInput";
+import DisplayComments from "./DisplayComments";
 
 import axios from "axios";
 
@@ -45,7 +46,6 @@ function Post({
     stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
   }, []);
 
-
   useEffect(() => {
     setLikesCount(stateLikes.length);
   }, [stateLikes]);
@@ -63,8 +63,7 @@ function Post({
         })
         .then(res => {
           handleInputComment();
-          setInputValue("");
-          return handleSnackBar();
+          return handleSnackBar("Ton commentaire a bien été posté");
         })
         .catch(err => console.log(err));
     }

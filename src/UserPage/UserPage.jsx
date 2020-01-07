@@ -10,9 +10,11 @@ import SnackBar from "./SnackBar";
 export default function UserPage() {
   const [snackBarNotification, setSnackBarNotification] = useState(false);
   const [isErro, setIsErro] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
-  const handleSnackBar = () => {
+  const handleSnackBar = message => {
     setSnackBarNotification(true);
+    setSnackbarMessage(message);
   };
 
   const handleIsErro = () => {
@@ -23,7 +25,7 @@ export default function UserPage() {
     <Layout>
       <Grid container spacing={3}>
         <Grid container item xs={2} justify="center">
-          <PostArticle />
+          <PostArticle handleSnackBar={handleSnackBar} />
         </Grid>
         <Grid container item xs={6} justify="center">
           <Publications handleSnackBar={handleSnackBar} />
@@ -37,6 +39,7 @@ export default function UserPage() {
         open={snackBarNotification}
         setOpen={setSnackBarNotification}
         handleSnackBar={handleSnackBar}
+        message={snackbarMessage}
       />
     </Layout>
   );
