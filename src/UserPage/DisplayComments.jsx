@@ -60,12 +60,9 @@ function DisplayComments({ comments }) {
           {displayComments ? (
             <>
               <List className={classes.root}>
-                {comments
-                  .slice(0)
-                  .reverse()
-                  .map(comment => (
-                    <Comment comment={comment} />
-                  ))}
+                {comments.slice(0).map(comment => (
+                  <Comment comment={comment} />
+                ))}
               </List>
               <CardContent>
                 <Typography>
