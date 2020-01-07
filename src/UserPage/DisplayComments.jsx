@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Comment from "./Comment";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -29,14 +29,33 @@ const useStyles = makeStyles(theme => ({
 
 function DisplayComments({ comments }) {
   const [displayComments, setDisplayComments] = useState(false);
+  const [arrComments, setComments] = useState([]);
   const classes = useStyles();
+
+  const handleDisplayComments = () => {
+    setDisplayComments(true);
+    setComments(comments);
+  };
+
+  const handleReduceComments = () => {
+    setDisplayComments(false);
+    let array = [];
+    array.push(comments[0]);
+    setComments(array);
+  };
+
+  useEffect(() => {
+    let array = [];
+    array.push(comments[0]);
+    setComments(array);
+  }, []);
 
   return (
     <>
       {displayComments ? (
         <>
           <List className={classes.root}>
-            {comments
+            {arrComments
               .slice(0)
               .reverse()
               .map(comment => (
@@ -45,10 +64,7 @@ function DisplayComments({ comments }) {
           </List>
           <CardContent>
             <Typography>
-              <Link
-                component="button"
-                onClick={() => setDisplayComments(false)}
-              >
+              <Link component="button" onClick={handleReduceComments}>
                 Réduire
               </Link>
             </Typography>
@@ -57,13 +73,14 @@ function DisplayComments({ comments }) {
       ) : (
         <>
           <List className={classes.root}>
-            {comments.filter((comment => comment[0]) => (
-              <Comment comment={comment} />
+            {console.log(arrComments)}
+            {arrComments.map(eachComment => (
+              <Comment comment={eachComment} />
             ))}
           </List>
           <CardContent>
             <Typography>
-              <Link component="button" onClick={() => setDisplayComments(true)}>
+              <Link component="button" onClick={handleDisplayComments}>
                 Voir tous les commentaires
               </Link>
             </Typography>
