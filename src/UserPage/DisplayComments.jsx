@@ -78,7 +78,6 @@ function DisplayComments({ comments }) {
           ) : (
             <>
               <List className={classes.root}>
-                {console.log(arrComments)}
                 {arrComments.map(eachComment => (
                   <Comment comment={eachComment} />
                 ))}
