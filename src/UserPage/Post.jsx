@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  Warning,
-  PermIdentity,
-  ChatBubbleOutline
-  //  FavoriteBorder
-} from "@material-ui/icons";
-import SendIcon from "@material-ui/icons/Send";
+import { Warning, PermIdentity, ChatBubbleOutline } from "@material-ui/icons";
+
 import {
   Card,
   CardHeader,
@@ -23,7 +18,9 @@ import { connect } from "react-redux";
 
 import apiCallAuth from "../apiCallAuth";
 import CommentInput from "./CommentInput";
-import Axios from "axios";
+import DisplayComments from "./DisplayComments";
+
+import axios from "axios";
 
 function Post({
   description,
@@ -33,19 +30,25 @@ function Post({
   postId,
   userId,
   comments,
-  owner
+  likes,
+  owner,
+  token
 }) {
   const [inputCommentPost, setInputComment] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isInputEmpty, setIsInputEmpty] = useState(false);
-
   const [isLiked, setIsLiked] = useState(false);
-
   const [alert, setAlert] = useState(false);
-  const [count, setCount] = useState(0);
-  const [timeOut, setTimeOut] = useState();
+  const [stateLikes, setStateLikes] = useState(likes);
+  const [likesCount, setLikesCount] = useState(stateLikes.length);
 
-  const [postOwnerInfo, setPostOwnerInfo] = useState({});
+  useEffect(() => {
+    stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
+  }, []);
+
+  useEffect(() => {
+    setLikesCount(stateLikes.length);
+  }, [stateLikes]);
 
   const handlePostComment = () => {
     if (inputValue === "") {
@@ -73,25 +76,62 @@ function Post({
     setInputValue(e.target.value);
   };
 
-  const handleClick = () => {
-    setIsLiked(!isLiked);
+  const handleLike = () => {
+    // Si c'est déjà liké, on supprime le like dans l'API, puis isLiked -> false, count -1
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    };
+    if (isLiked) {
+      const foundLike = stateLikes.find(like => userId === like.user.id);
+      if (foundLike) {
+        axios
+          .delete(`http://localhost:8089/api/likes/${foundLike.id}`, config)
+          .then(() =>
+            axios.get(`http://localhost:8089/api/posts/${postId}`, config)
+          )
+          .then(res => {
+            setStateLikes(res.data.likes);
+            setIsLiked(false);
+          })
+          .catch(err => {
+            console.log(err.message);
+            throw err;
+          });
+      } else {
+        alert("Undefined !");
+      }
+    }
+
+    // Si c'est pas liké, on crée le like dans l'API, puis isLiked -> true, count +1
+    if (!isLiked) {
+      axios
+        .post(
+          "http://localhost:8089/api/likes",
+          {
+            user: `api/users/${userId}`,
+            post: `api/posts/${postId}`
+          },
+          config
+        )
+        .then(() =>
+          axios.get(`http://localhost:8089/api/posts/${postId}`, config)
+        )
+        .then(res => {
+          setStateLikes(res.data.likes);
+          setIsLiked(true);
+        })
+        .catch(err => {
+          console.log(err.message);
+          throw err;
+        });
+    }
   };
+
   const handleClickAlert = () => {
     setAlert(!alert);
   };
-
-  // useEffect(() => {
-  //     Axios.get(`http://localhost:8089${ownerId}`, {
-  //         headers: {
-  //             Authorization: "Bearer " + sessionStorage.getItem("token"),
-  //             Accept: "application/json"
-  //         }
-  //     })
-  //         .then(res => {
-  //             setPostOwnerInfo(res.data);
-  //         })
-  //         .catch(err => console.log(err));
-  // }, [ownerId]);
   return (
     <Card className={classes.card}>
       <div className="scroll-post">
@@ -115,30 +155,28 @@ function Post({
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites">
             {isLiked ? (
-              <Favorite color="secondary" onClick={handleClick} />
+              <Favorite color="secondary" onClick={handleLike} />
             ) : (
-              <FavoriteBorder color="disabled" onClick={handleClick} />
+              <FavoriteBorder color="disabled" onClick={handleLike} />
             )}
           </IconButton>
+          {likesCount}
           <IconButton aria-label="add to favorites">
             <ChatBubbleOutline onClick={handleInputComment} />
           </IconButton>
         </CardActions>
-        <CardContent>
-          {/* -------- TODO : insert mapping of the comments from props comment -------------- */}
-        </CardContent>
-        <Collapse Timeout="auto" unmountOnExit>
-          <CardContent></CardContent>
-        </Collapse>
         {inputCommentPost ? (
-          <CommentInput
-            isError={isInputEmpty}
-            helperText={isInputEmpty ? "Entre un commentaire" : null}
-            value={inputValue}
-            onChange={handleInputChange}
-            inputComment={handlePostComment}
-            id={postId}
-          />
+          <>
+            <DisplayComments comments={comments} />
+            <CommentInput
+              isError={isInputEmpty}
+              helperText={isInputEmpty ? "Entre un commentaire" : null}
+              value={inputValue}
+              onChange={handleInputChange}
+              inputComment={handlePostComment}
+              id={postId}
+            />
+          </>
         ) : (
           false
         )}
@@ -149,7 +187,8 @@ function Post({
 
 const mapStateToProps = state => {
   return {
-    userId: state.userReducer.id
+    userId: state.userReducer.id,
+    token: state.authReducer.token
   };
 };
 
