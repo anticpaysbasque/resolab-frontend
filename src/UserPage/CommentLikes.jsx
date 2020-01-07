@@ -32,11 +32,14 @@ function CommentLikes({ commentId, userId }) {
       .then(res => {
         const data = res.data;
         setLikes(data);
-        setLikesCount(data.length);
-        data.some(like => like.user.id === userId) && setIsLiked(true);
       })
       .catch(err => console.log("error fetching likes", err));
-  }, [isLiked]);
+  }, []);
+
+  useEffect(() => {
+    likes.some(like => like.user.id === userId) && setIsLiked(true);
+    setLikesCount(likes.length);
+  }, [likes]);
 
   const handleLike = () => {
     if (isLiked) {
@@ -44,8 +47,14 @@ function CommentLikes({ commentId, userId }) {
       apiCallAuth
         .delete(`/likes/${userLike.id}`)
         .then(res => {
-          setLikesCount(likesCount - 1);
-          setIsLiked(false);
+          apiCallAuth
+            .get(`/likes?comment.id=${commentId}`)
+            .then(res => {
+              const data = res.data;
+              setLikes(data);
+              setIsLiked(false);
+            })
+            .catch(err => console.log("error", err));
         })
         .catch(err => console.log("error", err));
     } else {
@@ -55,8 +64,13 @@ function CommentLikes({ commentId, userId }) {
           comment: `api/comments/${commentId}`
         })
         .then(res => {
-          setIsLiked(true);
-          setLikesCount(likesCount + 1);
+          apiCallAuth
+            .get(`/likes?comment.id=${commentId}`)
+            .then(res => {
+              const data = res.data;
+              setLikes(data);
+            })
+            .catch(err => console.log("error", err));
         })
         .catch(err => console.log("error", err));
     }
