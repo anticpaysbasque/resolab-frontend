@@ -10,6 +10,7 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 
 import apiCallAuth from "../apiCallAuth";
+import "../Layout/Scroll.css";
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -36,7 +37,7 @@ const mapStateToProps = state => ({
   id: state.userReducer.id
 });
 
-function PostArticle({ id }) {
+function PostArticle({ id, handleSnackBar }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState("");
@@ -70,14 +71,14 @@ function PostArticle({ id }) {
       })
       .then(res => {
         console.log(res);
-        alert("Ta publication a bien été postée");
+        return handleSnackBar("Ton message a bien été posté");
       })
       .catch(err => console.log(err))
       .finally(() => handleClose());
   };
 
   return (
-    <div>
+    <div className="scroll-add-content">
       <Box
         display="flex"
         flexDirection="column"
