@@ -23,6 +23,7 @@ function Comment({ comment }) {
 
   return (
     <>
+      {console.log(comment)}
       <ListItem alignItems="flex-start">
         <ListItemText
           primary={comment.user.username}

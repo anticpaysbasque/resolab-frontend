@@ -34,57 +34,64 @@ function DisplayComments({ comments }) {
 
   const handleDisplayComments = () => {
     setDisplayComments(true);
-    setComments(comments);
+    const commentsArr = comments.reverse();
+    setComments(commentsArr);
   };
 
   const handleReduceComments = () => {
     setDisplayComments(false);
+    const commentsArr = comments.reverse();
     let array = [];
-    array.push(comments[0]);
+    array.push(commentsArr[0]);
     setComments(array);
   };
 
   useEffect(() => {
+    const commentsArr = comments.reverse();
     let array = [];
-    array.push(comments[0]);
+    array.push(commentsArr[0]);
     setComments(array);
   }, []);
 
   return (
     <>
-      {displayComments ? (
+      {comments.length > 0 && (
         <>
-          <List className={classes.root}>
-            {arrComments
-              .slice(0)
-              .reverse()
-              .map(comment => (
-                <Comment comment={comment} />
-              ))}
-          </List>
-          <CardContent>
-            <Typography>
-              <Link component="button" onClick={handleReduceComments}>
-                Réduire
-              </Link>
-            </Typography>
-          </CardContent>
-        </>
-      ) : (
-        <>
-          <List className={classes.root}>
-            {console.log(arrComments)}
-            {arrComments.map(eachComment => (
-              <Comment comment={eachComment} />
-            ))}
-          </List>
-          <CardContent>
-            <Typography>
-              <Link component="button" onClick={handleDisplayComments}>
-                Voir tous les commentaires
-              </Link>
-            </Typography>
-          </CardContent>
+          {displayComments ? (
+            <>
+              <List className={classes.root}>
+                {comments
+                  .slice(0)
+                  .reverse()
+                  .map(comment => (
+                    <Comment comment={comment} />
+                  ))}
+              </List>
+              <CardContent>
+                <Typography>
+                  <Link component="button" onClick={handleReduceComments}>
+                    Réduire
+                  </Link>
+                </Typography>
+              </CardContent>
+            </>
+          ) : (
+            <>
+              <List className={classes.root}>
+                {console.log(arrComments)}
+                {arrComments.map(eachComment => (
+                  <Comment comment={eachComment} />
+                ))}
+              </List>
+              <CardContent>
+                <Typography>
+                  <Link component="button" onClick={handleDisplayComments}>
+                    Voir tous les commentaires
+                  </Link>
+                </Typography>
+              </CardContent>
+            </>
+          )}
         </>
       )}
     </>
