@@ -145,7 +145,11 @@ function Post({
           title={owner.username}
           action={
             <IconButton aria-label="settings">
-              <Warning />
+              {alert ? (
+                <Warning color="secondary" onClick={handleClickAlert} />
+              ) : (
+                <Warning color="disabled" onClick={handleClickAlert} />
+              )}
             </IconButton>
           }
         />
