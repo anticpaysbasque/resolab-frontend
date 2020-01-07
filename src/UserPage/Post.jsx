@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 
 import apiCallAuth from "../apiCallAuth";
 import CommentInput from "./CommentInput";
+
 import axios from "axios";
 
 function Post({
@@ -44,6 +45,7 @@ function Post({
     stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
   }, []);
 
+
   useEffect(() => {
     setLikesCount(stateLikes.length);
   }, [stateLikes]);
@@ -61,6 +63,7 @@ function Post({
         })
         .then(res => {
           handleInputComment();
+          setInputValue("");
           return handleSnackBar();
         })
         .catch(err => console.log(err));
@@ -163,21 +166,18 @@ function Post({
             <ChatBubbleOutline onClick={handleInputComment} />
           </IconButton>
         </CardActions>
-        <CardContent>
-          {/* -------- TODO : insert mapping of the comments from props comment -------------- */}
-        </CardContent>
-        <Collapse Timeout="auto" unmountOnExit>
-          <CardContent></CardContent>
-        </Collapse>
         {inputCommentPost ? (
-          <CommentInput
-            isError={isInputEmpty}
-            helperText={isInputEmpty ? "Entre un commentaire" : null}
-            value={inputValue}
-            onChange={handleInputChange}
-            inputComment={handlePostComment}
-            id={postId}
-          />
+          <>
+            <DisplayComments comments={comments} />
+            <CommentInput
+              isError={isInputEmpty}
+              helperText={isInputEmpty ? "Entre un commentaire" : null}
+              value={inputValue}
+              onChange={handleInputChange}
+              inputComment={handlePostComment}
+              id={postId}
+            />
+          </>
         ) : (
           false
         )}
