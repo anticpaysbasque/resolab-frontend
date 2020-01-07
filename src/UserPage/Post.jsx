@@ -63,6 +63,7 @@ function Post({
         })
         .then(res => {
           handleInputComment();
+          setInputValue("");
           return handleSnackBar("Ton commentaire a bien été posté");
         })
         .catch(err => console.log(err));
@@ -167,7 +168,6 @@ function Post({
         </CardActions>
         {inputCommentPost ? (
           <>
-            <DisplayComments comments={comments} />
             <CommentInput
               isError={isInputEmpty}
               helperText={isInputEmpty ? "Entre un commentaire" : null}
@@ -180,6 +180,7 @@ function Post({
         ) : (
           false
         )}
+        <DisplayComments comments={comments} />
       </div>
     </Card>
   );
