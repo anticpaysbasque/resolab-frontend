@@ -2,9 +2,17 @@ import React from "react";
 import SendIcon from "@material-ui/icons/Send";
 import { TextField, InputAdornment } from "@material-ui/core";
 
-const CommentInput = ({ value, onChange, inputComment }) => {
+const CommentInput = ({
+  value,
+  onChange,
+  inputComment,
+  isError,
+  helperText
+}) => {
   return (
     <TextField
+      error={isError}
+      helperText={helperText}
       value={value}
       onChange={onChange}
       id="input-with-icon-textfield"

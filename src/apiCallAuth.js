@@ -3,7 +3,10 @@ import { connect } from "react-redux";
 
 const AxiosInstance = axios.create({
   baseURL: `http://localhost:8089/api`,
-  headers: { Authorization: "Bearer " + sessionStorage.getItem("token") }
+  headers: {
+    Authorization: "Bearer " + sessionStorage.getItem("token"),
+    Accept: "application/json"
+  }
 });
 
 export default connect()(AxiosInstance);
