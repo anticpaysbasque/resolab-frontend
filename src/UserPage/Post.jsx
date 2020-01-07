@@ -169,6 +169,7 @@ function Post({
           <IconButton aria-label="add to favorites">
             <ChatBubbleOutline onClick={handleInputComment} />
           </IconButton>
+          {comments.length}
         </CardActions>
         {inputCommentPost ? (
           <>
