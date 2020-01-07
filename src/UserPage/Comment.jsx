@@ -9,9 +9,7 @@ import {
   CardActions,
   IconButton
 } from "@material-ui/core";
-import { FavoriteBorder, Favorite } from "@material-ui/icons";
 
-import apiCallAuth from "../apiCallAuth";
 import CommentLikes from "./CommentLikes";
 
 const useStyles = makeStyles(theme => ({
@@ -22,8 +20,6 @@ const useStyles = makeStyles(theme => ({
 
 function Comment({ comment }) {
   const classes = useStyles();
-  const [isLiked, setIsLiked] = useState(false);
-  const [likes, setLikes] = useState([]);
 
   return (
     <>

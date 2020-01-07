@@ -36,13 +36,34 @@ function CommentLikes({ commentId, userId }) {
         data.some(like => like.user.id === userId) && setIsLiked(true);
       })
       .catch(err => console.log("error fetching likes", err));
-  }, []);
+  }, [isLiked]);
 
-  const handleLike = () => {};
-
+  const handleLike = () => {
+    if (isLiked) {
+      const userLike = likes.find(like => like.user.id === userId);
+      apiCallAuth
+        .delete(`/likes/${userLike.id}`)
+        .then(res => {
+          setLikesCount(likesCount - 1);
+          setIsLiked(false);
+        })
+        .catch(err => console.log("error", err));
+    } else {
+      apiCallAuth
+        .post("/likes", {
+          user: `api/users/${userId}`,
+          comment: `api/comments/${commentId}`
+        })
+        .then(res => {
+          setIsLiked(true);
+          setLikesCount(likesCount + 1);
+        })
+        .catch(err => console.log("error", err));
+    }
+  };
   return (
     <>
-      <IconButton aria-label="add to favorites">
+      <IconButton aria-label="j'aime le commentaire" onClick={handleLike}>
         {isLiked ? (
           <Favorite color="secondary" />
         ) : (
