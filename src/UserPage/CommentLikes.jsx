@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  ListItem,
-  ListItemText,
-  Divider,
-  Typography,
-  CardActions,
-  IconButton
-} from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
 import { connect } from "react-redux";
 
@@ -21,10 +14,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function CommentLikes({ commentId, userId }) {
-  const classes = useStyles();
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState([]);
   const [likesCount, setLikesCount] = useState(0);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   useEffect(() => {
     apiCallAuth
@@ -54,6 +47,7 @@ function CommentLikes({ commentId, userId }) {
               setLikes(data);
               setIsLiked(false);
             })
+            .finally(setIsButtonDisabled(false))
             .catch(err => console.log("error", err));
         })
         .catch(err => console.log("error", err));
@@ -70,14 +64,23 @@ function CommentLikes({ commentId, userId }) {
               const data = res.data;
               setLikes(data);
             })
+            .finally(setIsButtonDisabled(false))
             .catch(err => console.log("error", err));
         })
+
         .catch(err => console.log("error", err));
     }
   };
   return (
     <>
-      <IconButton aria-label="j'aime le commentaire" onClick={handleLike}>
+      <IconButton
+        aria-label="j'aime le commentaire"
+        onClick={() => {
+          handleLike();
+          setIsButtonDisabled(true);
+        }}
+        disabled={isButtonDisabled}
+      >
         {isLiked ? (
           <Favorite color="secondary" />
         ) : (
