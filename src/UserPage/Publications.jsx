@@ -14,9 +14,9 @@ function Publications({ handleSnackBar }) {
     const fetchDatas = async () => {
       const res = await apiCallAuth.get("/posts");
       setPublications(res.data);
-      setTimeout(() => {
-        fetchDatas();
-      }, 10000);
+      //setTimeout(() => {
+      //fetchDatas();
+      //}, 10000);
     };
     fetchDatas();
   }, []);
@@ -34,6 +34,7 @@ function Publications({ handleSnackBar }) {
             postId={publication.id}
             comments={publication.comments}
             owner={publication.user}
+            likes={publication.likes}
           />
         </Box>
       ))}
