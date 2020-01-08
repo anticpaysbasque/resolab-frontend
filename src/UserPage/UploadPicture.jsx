@@ -6,7 +6,7 @@ export default function UploadImage() {
 
   const handleChange = e => {
     setImage({
-      previeew: URL.createObjectURL(e.target.files[0]),
+      preview: URL.createObjectURL(e.target.files[0]),
       raw: e.target.files[0]
     });
   };
