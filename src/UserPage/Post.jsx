@@ -62,7 +62,7 @@ function Post({
           user: `/api/users/${userId}`
         })
         .then(res => {
-          handleDisplayComments();
+          // handleDisplayComments();
           setInputValue("");
           return handleSnackBar("Ton commentaire a bien été posté");
         })
