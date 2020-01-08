@@ -19,5 +19,17 @@ export const useStyles = makeStyles(theme => ({
   },
   expandOpen: {
     transform: "rotate(180deg)"
+  },
+  username: {
+    fontWeight: 1000
+  },
+  root: {
+    width: "100%",
+    backgroundColor: theme.palette.background.paper,
+    overflow: "auto",
+    maxHeight: 300
+  },
+  inline: {
+    display: "inline"
   }
 }));

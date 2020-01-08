@@ -1,37 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Comment from "./Comment";
 
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  Divider,
-  Typography,
-  CardActions,
-  IconButton,
-  CardContent,
-  Link
-} from "@material-ui/core";
-import { FavoriteBorder, Favorite } from "@material-ui/icons";
+import { List, Typography, CardContent } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: "100%",
-    backgroundColor: theme.palette.background.paper,
-    overflow: "auto",
-    maxHeight: 300
-  },
-  inline: {
-    display: "inline"
-  }
-}));
-
-function DisplayComments({ comments }) {
-  const classes = useStyles();
-
+function DisplayComments({ comments, classes }) {
   return (
     <>
       {comments.length > 0 ? (
@@ -41,7 +13,7 @@ function DisplayComments({ comments }) {
               .slice(0)
               .reverse()
               .map(comment => (
-                <Comment comment={comment} />
+                <Comment comment={comment} classes={classes} />
               ))}
           </List>
         </>
