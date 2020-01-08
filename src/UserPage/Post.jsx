@@ -41,6 +41,7 @@ function Post({
   const [alert, setAlert] = useState(false);
   const [stateLikes, setStateLikes] = useState(likes);
   const [likesCount, setLikesCount] = useState(stateLikes.length);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   useEffect(() => {
     stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
@@ -78,6 +79,7 @@ function Post({
   };
 
   const handleLike = () => {
+    setIsButtonDisabled(true);
     // Si c'est déjà liké, on supprime le like dans l'API, puis isLiked -> false, count -1
     const config = {
       headers: {
@@ -95,6 +97,9 @@ function Post({
           .then(res => {
             setStateLikes(res.data.likes);
             setIsLiked(false);
+          })
+          .finally(() => {
+            setIsButtonDisabled(false);
           })
           .catch(err => {
             console.log(err.message);
@@ -122,6 +127,9 @@ function Post({
         .then(res => {
           setStateLikes(res.data.likes);
           setIsLiked(true);
+        })
+        .finally(() => {
+          setIsButtonDisabled(false);
         })
         .catch(err => {
           console.log(err.message);
@@ -158,7 +166,10 @@ function Post({
           <Typography>{description}</Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
+          <IconButton
+            aria-label="j'aime cette publication"
+            disabled={isButtonDisabled}
+          >
             {isLiked ? (
               <Favorite color="secondary" onClick={handleLike} />
             ) : (
