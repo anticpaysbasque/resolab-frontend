@@ -39,7 +39,7 @@ const mapStateToProps = state => ({
   id: state.userReducer.id
 });
 
-function PostArticle({ id, handleSnackBar }) {
+function PostArticle({ id, token, handleSnackBar }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState("");
@@ -54,7 +54,7 @@ function PostArticle({ id, handleSnackBar }) {
   };
 
   const handleChangeImage = e => {
-    setImage(e.target.value);
+    setImage(e.target.files[0]);
   };
 
   const handleChangeDescription = e => {
@@ -64,16 +64,24 @@ function PostArticle({ id, handleSnackBar }) {
   const handleSubmit = e => {
     console.log(description, image);
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("file", image);
+
     apiCallAuth
-      .post("/posts", {
-        description: description,
-        photo: image,
-        likes: 0,
-        user: `/api/users/${id}`
+      .post("/media_objects", formData)
+      .then(res => {
+        console.log(res);
+        return apiCallAuth.post("/posts", {
+          description: description,
+          photo: "http://localhost:8089" + res.data.contentUrl,
+          likes: 0,
+          user: `/api/users/${id}`
+        });
       })
       .then(res => {
         console.log(res);
-        return handleSnackBar("Ton message a bien été posté");
+        return handleSnackBar("Ta publication a bien été postée");
       })
       .catch(err => console.log(err))
       .finally(() => handleClose());
@@ -120,7 +128,6 @@ function PostArticle({ id, handleSnackBar }) {
               autoComplete="off"
               onSubmit={handleSubmit}
             >
-              <UploadImage />
               <TextField
                 id="outlined-full-width"
                 label="Ajouter une photo"
@@ -130,7 +137,6 @@ function PostArticle({ id, handleSnackBar }) {
                 margin="normal"
                 InputLabelProps={{ shrink: true }}
                 variant="outlined"
-                value={image}
                 onChange={handleChangeImage}
               />
               <TextField

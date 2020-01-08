@@ -1,26 +1,29 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 
-export default function UploadImage() {
-  const [image, setImage] = useState({ preview: "", raw: "" });
+function UploadImage({ token }) {
+  const [image, setImage] = useState(null);
 
   const handleChange = e => {
-    setImage({
-      preview: URL.createObjectURL(e.target.files[0]),
-      raw: e.target.files[0]
-    });
+    setImage(e.target.files[0]);
   };
 
   const handleUpload = async e => {
     e.preventDefault();
-    const formData = new formData();
-    formData.append("image", image.raw);
-    const config = { headers: { "content-type": "multipart/form-data" } };
+    const formData = new FormData();
+    formData.append("file", image);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${token}`
+      }
+    };
 
     try {
       await axios.post(
-        "http://localhost:3000/upload",
-        { image: image.raw },
+        "http://localhost:8089/api/media_objects",
+        formData,
         config
       );
     } catch (error) {
@@ -30,26 +33,26 @@ export default function UploadImage() {
 
   return (
     <>
-      <label htmlFor="upload-button">
-        {image.preview ? (
-          <img src={image.preview} width="720" height="720" alt="preview" />
-        ) : (
-          <>
-            <span className="fa-stack fa-2x mt-3 mb-2">
-              <i className="fas fa-circle fa-stack-2x"></i>
-              <i className="fas fa-store fa-stack-1x fa-inverse"></i>
-            </span>
-            <h5 className="text-center"> Upload your photo</h5>{" "}
-          </>
-        )}
-      </label>
-      <input
-        type="file"
-        id="upload-button"
-        style={{ display: "none" }}
-        onChange={handleChange}
-      />
+      {/* <label htmlFor="upload-button">
+                image.preview()
+                {
+                    <img
+                        src={image.preview}
+                        width="300"
+                        height="300"
+                        alt="preview"
+                    />
+                }
+                )
+            </label> */}
+      <input type="file" id="upload-button" onChange={handleChange} />
       <button onClick={handleUpload}>Upload</button>
     </>
   );
 }
+
+const mapStateToProps = state => {
+  return { token: state.authReducer.token };
+};
+
+export default connect(mapStateToProps)(UploadImage);

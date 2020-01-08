@@ -34,13 +34,14 @@ function Post({
   owner,
   token
 }) {
-  const [inputCommentPost, setInputComment] = useState(false);
+  const [displayCommentsPost, setDisplayComments] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isInputEmpty, setIsInputEmpty] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [alert, setAlert] = useState(false);
   const [stateLikes, setStateLikes] = useState(likes);
   const [likesCount, setLikesCount] = useState(stateLikes.length);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   useEffect(() => {
     stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
@@ -62,7 +63,6 @@ function Post({
           user: `/api/users/${userId}`
         })
         .then(res => {
-          handleInputComment();
           setInputValue("");
           return handleSnackBar("Ton commentaire a bien été posté");
         })
@@ -70,14 +70,15 @@ function Post({
     }
   };
 
-  const handleInputComment = () => {
-    setInputComment(!inputCommentPost);
+  const handleDisplayComments = () => {
+    setDisplayComments(!displayCommentsPost);
   };
   const handleInputChange = e => {
     setInputValue(e.target.value);
   };
 
   const handleLike = () => {
+    setIsButtonDisabled(true);
     // Si c'est déjà liké, on supprime le like dans l'API, puis isLiked -> false, count -1
     const config = {
       headers: {
@@ -95,6 +96,9 @@ function Post({
           .then(res => {
             setStateLikes(res.data.likes);
             setIsLiked(false);
+          })
+          .finally(() => {
+            setIsButtonDisabled(false);
           })
           .catch(err => {
             console.log(err.message);
@@ -122,6 +126,9 @@ function Post({
         .then(res => {
           setStateLikes(res.data.likes);
           setIsLiked(true);
+        })
+        .finally(() => {
+          setIsButtonDisabled(false);
         })
         .catch(err => {
           console.log(err.message);
@@ -158,7 +165,10 @@ function Post({
           <Typography>{description}</Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
+          <IconButton
+            aria-label="j'aime cette publication"
+            disabled={isButtonDisabled}
+          >
             {isLiked ? (
               <Favorite color="secondary" onClick={handleLike} />
             ) : (
@@ -167,25 +177,23 @@ function Post({
           </IconButton>
           {likesCount}
           <IconButton aria-label="add to favorites">
-            <ChatBubbleOutline onClick={handleInputComment} />
+            <ChatBubbleOutline onClick={handleDisplayComments} />
           </IconButton>
           {comments.length}
         </CardActions>
-        {inputCommentPost ? (
+        {displayCommentsPost && (
           <>
-            <CommentInput
-              isError={isInputEmpty}
-              helperText={isInputEmpty ? "Entre un commentaire" : null}
-              value={inputValue}
-              onChange={handleInputChange}
-              inputComment={handlePostComment}
-              id={postId}
-            />
+            <DisplayComments comments={comments} />
           </>
-        ) : (
-          false
         )}
-        <DisplayComments comments={comments} />
+        <CommentInput
+          isError={isInputEmpty}
+          helperText={isInputEmpty ? "Entre un commentaire" : null}
+          value={inputValue}
+          onChange={handleInputChange}
+          inputComment={handlePostComment}
+          id={postId}
+        />
       </div>
     </Card>
   );
