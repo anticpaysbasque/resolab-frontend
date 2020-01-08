@@ -23,7 +23,18 @@ export const useStyles = makeStyles(theme => ({
   storie: {
     width: 100,
     height: 100,
-    borderRadius: "50%",
-    borderColor: "gray"
+    borderRadius: "50%"
+  },
+  username: {
+    fontWeight: 1000
+  },
+  root: {
+    width: "100%",
+    backgroundColor: theme.palette.background.paper,
+    overflow: "auto",
+    maxHeight: 300
+  },
+  inline: {
+    display: "inline"
   }
 }));
