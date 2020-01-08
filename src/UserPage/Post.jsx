@@ -42,9 +42,9 @@ function Post({
   const [stateLikes, setStateLikes] = useState(likes);
   const [likesCount, setLikesCount] = useState(stateLikes.length);
 
-  // useEffect(() => {
-  //   stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
-  // }, []);
+  useEffect(() => {
+    stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
+  }, []);
 
   useEffect(() => {
     setLikesCount(stateLikes.length);
