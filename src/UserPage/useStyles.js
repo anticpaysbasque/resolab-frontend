@@ -19,5 +19,11 @@ export const useStyles = makeStyles(theme => ({
   },
   expandOpen: {
     transform: "rotate(180deg)"
+  },
+  storie: {
+    width: 100,
+    height: 100,
+    borderRadius: "50%",
+    borderColor: "gray"
   }
 }));
