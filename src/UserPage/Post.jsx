@@ -7,7 +7,6 @@ import {
   CardMedia,
   CardContent,
   CardActions,
-  Collapse,
   Avatar,
   IconButton,
   Typography

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-// import { makeStyles } from "@material-ui/core/styles";
 import {
   ListItem,
   ListItemText,
@@ -12,15 +11,7 @@ import {
 
 import CommentLikes from "./CommentLikes";
 
-// const useStyles = makeStyles(theme => ({
-//   inline: {
-//     display: "inline"
-//   }
-// }));
-
 function Comment({ comment, classes }) {
-  // const classes = useStyles();
-
   return (
     <>
       <ListItem alignItems="flex-start">

@@ -1,20 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Comment from "./Comment";
 
-// import { makeStyles } from "@material-ui/core/styles";
-import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  Divider,
-  Typography,
-  CardActions,
-  IconButton,
-  CardContent,
-  Link
-} from "@material-ui/core";
+import { List, Typography, CardContent } from "@material-ui/core";
 
 function DisplayComments({ comments, classes }) {
   return (
