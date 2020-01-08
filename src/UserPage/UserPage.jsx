@@ -8,8 +8,10 @@ import Sidebar from "./Sidebar";
 import SnackBar from "./SnackBar";
 import DisplayStories from "./DisplayStories";
 import PostStorie from "./PostStorie";
+import { useStyles } from "./useStyles";
 
 export default function UserPage() {
+  const classes = useStyles();
   const [snackBarNotification, setSnackBarNotification] = useState(false);
   const [isErro, setIsErro] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -28,14 +30,13 @@ export default function UserPage() {
       <Box mt={15}>
         <Grid container spacing={3} direction="row" alignItems="center">
           <Grid container item xs={2} justify="center">
-            <PostStorie />
+            <PostStorie classes={classes} />
           </Grid>
           <Grid container item xs={9} justify="center">
-            <DisplayStories />
+            <DisplayStories classes={classes} />
           </Grid>
         </Grid>
       </Box>
-      {/* <Box mt={30}> */}
       <Grid container spacing={3}>
         <Grid container item xs={2} justify="center">
           <PostArticle handleSnackBar={handleSnackBar} />
@@ -47,7 +48,6 @@ export default function UserPage() {
           <Sidebar />
         </Grid>
       </Grid>
-      {/* </Box> */}
 
       <SnackBar
         open={snackBarNotification}

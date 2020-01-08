@@ -1,39 +1,41 @@
 import React, { useState, useEffect } from "react";
 
-import { Box, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import Storie from "./Storie";
-import { useStyles } from "./useStyles";
+import apiCallAuth from "../apiCallAuth";
 
-function DisplayStories() {
-  const classes = useStyles();
+function DisplayStories({ classes }) {
+  const [stories, setStories] = useState([]);
 
-  // useEffect(() => {
-  //     const fetchDatas = async () => {
-  //       const res = await apiCallAuth.get("/posts");
-  //       setPublications(res.data);
-  //       setTimeout(() => {
-  //         fetchDatas();
-  //       }, 10000);
-  //     };
-  //     fetchDatas();
-  //   }, []);
+  useEffect(() => {
+    const fetchDatas = async () => {
+      const res = await apiCallAuth.get("/stories");
+      setStories(res.data);
+      setTimeout(() => {
+        fetchDatas();
+      }, 10000);
+    };
+    fetchDatas();
+  }, []);
 
   return (
-    // <Box mt={13}>
     <Grid container direction="row" alignItems="center">
-      {/** Faire un map pour afficher les stories **/}
-      <Grid>
-        <Storie classes={classes} />
-      </Grid>
-      <Grid>
-        <Storie classes={classes} />
-      </Grid>
-      <Grid>
-        <Storie classes={classes} />
-      </Grid>
+      {stories.reverse().map(story => (
+        <Grid>
+          <Storie classes={classes} />
+        </Grid>
+      ))}
+      {/* <Grid>
+                <Storie classes={classes} />
+            </Grid>
+            <Grid>
+                <Storie classes={classes} />
+            </Grid>
+            <Grid>
+                <Storie classes={classes} />
+            </Grid> */}
     </Grid>
-    // </Box>
   );
 }
 
