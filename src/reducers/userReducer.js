@@ -5,7 +5,9 @@ const initialUserState = {
   username: "",
   firstname: "",
   lastname: "",
-  roles: []
+  roles: [],
+  classroom: "",
+  isRestricted: true
 };
 
 const userReducer = (state = initialUserState, action) => {
@@ -17,7 +19,9 @@ const userReducer = (state = initialUserState, action) => {
         username: action.payload.username,
         firstname: action.payload.firstname,
         lastname: action.payload.lastname,
-        roles: action.payload.roles
+        roles: action.payload.roles,
+        classroom: action.payload.classRoom,
+        isRestricted: action.payload.restricted
       };
     case LOG_OUT:
       return initialUserState;

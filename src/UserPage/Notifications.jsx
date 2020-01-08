@@ -11,6 +11,7 @@ import axios from "axios";
 import { CssBaseline } from "@material-ui/core";
 
 import "../Layout/Scroll.css";
+import NotifyComments from "./NotifyComments";
 
 const useStyles = makeStyles({
   card: {
@@ -47,11 +48,11 @@ export default function Notification() {
         ></CardHeader>
 
         <CardContent>
+          <NotifyComments />
           {commentaires.map(commentaire => {
             //return tous le nombre de commentaires pour chaque publication de la personne
           })}{" "}
           <AccountCircle color="primary" alignItems="center" />
-          Jules Bonard a commenté la publication de Basile
         </CardContent>
       </Card>
     </div>
