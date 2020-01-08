@@ -1,46 +1,99 @@
 import React, { useState, useEffect } from "react";
+import Comment from "./Comment";
 
-import { CardContent, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
+  Divider,
+  Typography,
+  CardActions,
+  IconButton,
+  CardContent,
+  Link
+} from "@material-ui/core";
+import { FavoriteBorder, Favorite } from "@material-ui/icons";
 
-import apiCallAuth from "../apiCallAuth";
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: "100%",
+    backgroundColor: theme.palette.background.paper
+  },
+  inline: {
+    display: "inline"
+  }
+}));
 
 function DisplayComments({ comments }) {
-  const [contentComments, setContentComments] = useState("");
+  const [displayComments, setDisplayComments] = useState(false);
+  const [arrComments, setComments] = useState([]);
+  const classes = useStyles();
 
-  // useEffect(() => {
-  //     const fetchComments = async () => {
-  //         const res = await apiCallAuth.get("/api/comments");
-  //         setPublications(res.data);
-  //     };
-  //     fetchDatas();
-  // }, []);
+  const handleDisplayComments = () => {
+    setDisplayComments(true);
+    const commentsArr = comments.reverse();
+    setComments(commentsArr);
+  };
+
+  const handleReduceComments = () => {
+    setDisplayComments(false);
+    const commentsArr = comments.reverse();
+    let array = [];
+    array.push(commentsArr[0]);
+    setComments(array);
+  };
+
+  useEffect(() => {
+    const commentsArr = comments.reverse();
+    let array = [];
+    array.push(commentsArr[0]);
+    setComments(array);
+  }, []);
 
   return (
-    <CardContent>
-      {comments.map(comment => {
-        let content = "totojhj";
-        const fetchComments = async comment => {
-          const res = await apiCallAuth.get(`${comment}`);
-          setContentComments(res.data.content);
-          // console.log(content);
-        };
-
-        fetchComments(comment);
-
-        return <Typography>{contentComments}</Typography>;
-
-        // apiCallAuth
-        //     .get(`${comment}`)
-        //     .then(res => {
-        //         const datas = res.data.content;
-
-        //         content = datas;
-        //         console.log(content);
-        //         return <Typography>{content}</Typography>;
-        //     })
-        //     .catch(err => console.log(err));
-      })}
-    </CardContent>
+    <>
+      {comments.length > 0 && (
+        <>
+          {displayComments ? (
+            <>
+              <List className={classes.root}>
+                {comments
+                  .slice(0)
+                  .reverse()
+                  .map(comment => (
+                    <Comment comment={comment} />
+                  ))}
+              </List>
+              <CardContent>
+                <Typography>
+                  <Link component="button" onClick={handleReduceComments}>
+                    Réduire
+                  </Link>
+                </Typography>
+              </CardContent>
+            </>
+          ) : (
+            <>
+              <List className={classes.root}>
+                {arrComments.map(eachComment => (
+                  <Comment comment={eachComment} />
+                ))}
+              </List>
+              <CardContent>
+                <Typography>
+                  <Link component="button" onClick={handleDisplayComments}>
+                    Voir tous les commentaires
+                  </Link>
+                </Typography>
+              </CardContent>
+            </>
+          )}
+        </>
+      )}
+    </>
   );
 }
 

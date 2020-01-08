@@ -63,6 +63,7 @@ function Post({
         })
         .then(res => {
           handleInputComment();
+          setInputValue("");
           return handleSnackBar("Ton commentaire a bien été posté");
         })
         .catch(err => console.log(err));
@@ -144,7 +145,11 @@ function Post({
           title={owner.username}
           action={
             <IconButton aria-label="settings">
-              <Warning />
+              {alert ? (
+                <Warning color="secondary" onClick={handleClickAlert} />
+              ) : (
+                <Warning color="disabled" onClick={handleClickAlert} />
+              )}
             </IconButton>
           }
         />
@@ -164,10 +169,10 @@ function Post({
           <IconButton aria-label="add to favorites">
             <ChatBubbleOutline onClick={handleInputComment} />
           </IconButton>
+          {comments.length}
         </CardActions>
         {inputCommentPost ? (
           <>
-            <DisplayComments comments={comments} />
             <CommentInput
               isError={isInputEmpty}
               helperText={isInputEmpty ? "Entre un commentaire" : null}
@@ -180,6 +185,7 @@ function Post({
         ) : (
           false
         )}
+        <DisplayComments comments={comments} />
       </div>
     </Card>
   );
