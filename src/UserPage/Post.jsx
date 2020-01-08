@@ -34,7 +34,7 @@ function Post({
   owner,
   token
 }) {
-  const [inputCommentPost, setInputComment] = useState(false);
+  const [displayCommentsPost, setDisplayComments] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isInputEmpty, setIsInputEmpty] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
@@ -63,7 +63,6 @@ function Post({
           user: `/api/users/${userId}`
         })
         .then(res => {
-          handleInputComment();
           setInputValue("");
           return handleSnackBar("Ton commentaire a bien été posté");
         })
@@ -71,8 +70,8 @@ function Post({
     }
   };
 
-  const handleInputComment = () => {
-    setInputComment(!inputCommentPost);
+  const handleDisplayComments = () => {
+    setDisplayComments(!displayCommentsPost);
   };
   const handleInputChange = e => {
     setInputValue(e.target.value);
@@ -178,25 +177,23 @@ function Post({
           </IconButton>
           {likesCount}
           <IconButton aria-label="add to favorites">
-            <ChatBubbleOutline onClick={handleInputComment} />
+            <ChatBubbleOutline onClick={handleDisplayComments} />
           </IconButton>
           {comments.length}
         </CardActions>
-        {inputCommentPost ? (
+        {displayCommentsPost && (
           <>
-            <CommentInput
-              isError={isInputEmpty}
-              helperText={isInputEmpty ? "Entre un commentaire" : null}
-              value={inputValue}
-              onChange={handleInputChange}
-              inputComment={handlePostComment}
-              id={postId}
-            />
+            <DisplayComments comments={comments} />
           </>
-        ) : (
-          false
         )}
-        <DisplayComments comments={comments} />
+        <CommentInput
+          isError={isInputEmpty}
+          helperText={isInputEmpty ? "Entre un commentaire" : null}
+          value={inputValue}
+          onChange={handleInputChange}
+          inputComment={handlePostComment}
+          id={postId}
+        />
       </div>
     </Card>
   );
