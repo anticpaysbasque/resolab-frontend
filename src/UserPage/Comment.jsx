@@ -9,7 +9,8 @@ import {
   CardActions,
   IconButton
 } from "@material-ui/core";
-import { FavoriteBorder, Favorite } from "@material-ui/icons";
+
+import CommentLikes from "./CommentLikes";
 
 const useStyles = makeStyles(theme => ({
   inline: {
@@ -19,11 +20,9 @@ const useStyles = makeStyles(theme => ({
 
 function Comment({ comment }) {
   const classes = useStyles();
-  const [isLiked, setIsLiked] = useState(false);
 
   return (
     <>
-      {console.log(comment)}
       <ListItem alignItems="flex-start">
         <ListItemText
           primary={comment.user.username}
@@ -42,13 +41,7 @@ function Comment({ comment }) {
         />
 
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            {isLiked ? (
-              <Favorite color="secondary" />
-            ) : (
-              <FavoriteBorder color="disabled" />
-            )}
-          </IconButton>
+          <CommentLikes commentId={comment.id} />
         </CardActions>
       </ListItem>
       <Divider component="li" />

@@ -42,9 +42,9 @@ function Post({
   const [stateLikes, setStateLikes] = useState(likes);
   const [likesCount, setLikesCount] = useState(stateLikes.length);
 
-  // useEffect(() => {
-  //   stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
-  // }, []);
+  useEffect(() => {
+    stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
+  }, []);
 
   useEffect(() => {
     setLikesCount(stateLikes.length);
@@ -169,6 +169,7 @@ function Post({
           <IconButton aria-label="add to favorites">
             <ChatBubbleOutline onClick={handleInputComment} />
           </IconButton>
+          {comments.length}
         </CardActions>
         {inputCommentPost ? (
           <>
