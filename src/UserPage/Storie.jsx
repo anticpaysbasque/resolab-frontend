@@ -12,7 +12,7 @@ function Storie({ classes }) {
           <CardMedia className={classes.media} image={img} />
         </CardActionArea>
       </Card>
-      <Typography>username</Typography>
+      <Typography className={classes.username}>username</Typography>
     </>
   );
 }
