@@ -7,6 +7,7 @@ import Publications from "./Publications";
 import Sidebar from "./Sidebar";
 import SnackBar from "./SnackBar";
 import DisplayStories from "./DisplayStories";
+import PostStorie from "./PostStorie";
 
 export default function UserPage() {
   const [snackBarNotification, setSnackBarNotification] = useState(false);
@@ -26,7 +27,9 @@ export default function UserPage() {
     <Layout>
       <Box mt={15}>
         <Grid container spacing={3} direction="row" alignItems="center">
-          <Grid container item xs={2} justify="center"></Grid>
+          <Grid container item xs={2} justify="center">
+            <PostStorie />
+          </Grid>
           <Grid container item xs={9} justify="center">
             <DisplayStories />
           </Grid>

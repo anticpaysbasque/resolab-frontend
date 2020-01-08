@@ -21,15 +21,17 @@ function DisplayStories() {
 
   return (
     // <Box mt={13}>
-    <Grid
-      container
-      spacing={3}
-      direction="column"
-      justify="center"
-      alignItems="center"
-    >
+    <Grid container direction="row" alignItems="center">
       {/** Faire un map pour afficher les stories **/}
-      <Storie classes={classes} />
+      <Grid>
+        <Storie classes={classes} />
+      </Grid>
+      <Grid>
+        <Storie classes={classes} />
+      </Grid>
+      <Grid>
+        <Storie classes={classes} />
+      </Grid>
     </Grid>
     // </Box>
   );
