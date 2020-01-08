@@ -15,7 +15,8 @@ import NotifyComments from "./NotifyComments";
 
 const useStyles = makeStyles({
   card: {
-    minWidth: 350
+    minWidth: 350,
+    padding: 0
   }
 });
 
@@ -45,14 +46,11 @@ export default function Notification() {
               <Typography>Notifications</Typography>
             </Box>
           }
+          style={{ padding: "2px" }}
         ></CardHeader>
 
-        <CardContent>
+        <CardContent style={{ padding: "0px" }}>
           <NotifyComments />
-          {commentaires.map(commentaire => {
-            //return tous le nombre de commentaires pour chaque publication de la personne
-          })}{" "}
-          <AccountCircle color="primary" alignItems="center" />
         </CardContent>
       </Card>
     </div>
