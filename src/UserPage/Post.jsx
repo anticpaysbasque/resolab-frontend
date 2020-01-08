@@ -149,7 +149,11 @@ function Post({
               <PermIdentity />
             </Avatar>
           }
-          title={owner.username}
+          title={
+            <Typography className={classes.username}>
+              {owner.username}
+            </Typography>
+          }
           action={
             <IconButton aria-label="settings">
               {alert ? (
@@ -183,7 +187,7 @@ function Post({
         </CardActions>
         {displayCommentsPost && (
           <>
-            <DisplayComments comments={comments} />
+            <DisplayComments comments={comments} classes={classes} />
           </>
         )}
         <CommentInput
