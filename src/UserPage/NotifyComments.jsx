@@ -22,12 +22,14 @@ function NotifyComments({ userId }) {
         const newUserMessages = userMessages.concat(fetchedUserMessages);
         setUserMessages(newUserMessages);
       })
-      .then(apiCallAuth.get(`/posts?page=${nextPage}`))
-      .then(res => {
-        if (res.data !== 0) {
-          fetchPosts(nextPage);
-        }
-      })
+      .then(
+        apiCallAuth.get(`/posts?page=${nextPage}`).then(res => {
+          if (res.data.length !== 0) {
+            fetchPosts(nextPage);
+          }
+        })
+      )
+
       .catch(err => console.log("error", err));
   };
 
