@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Box, Switch, Grid, makeStyles, Typography } from "@material-ui/core";
+import { connect } from "react-redux";
 
 import { useStyles } from "./useStyles";
 import apiCallAuth from "../apiCallAuth";
 import Post from "./Post";
 
-function Publications({ handleSnackBar }) {
+function Publications({ handleSnackBar, userId }) {
   const [publications, setPublications] = useState([]);
   const [showUserPublications, setShowUserPublications] = useState(false);
 
@@ -42,25 +43,49 @@ function Publications({ handleSnackBar }) {
           </Grid>
         </Grid>
         <Grid>
-          {publications.map(publication => (
-            <Box m={2}>
-              <Post
-                key={publication.id}
-                description={publication.description}
-                photo={publication.photo}
-                classes={classes}
-                handleSnackBar={handleSnackBar}
-                postId={publication.id}
-                comments={publication.comments}
-                owner={publication.user}
-                likes={publication.likes}
-              />
-            </Box>
-          ))}
+          {showUserPublications
+            ? publications
+                .filter(publi => publi.user.id === userId)
+                .map(publication => (
+                  <Box m={2}>
+                    <Post
+                      key={publication.id}
+                      description={publication.description}
+                      photo={publication.photo}
+                      classes={classes}
+                      handleSnackBar={handleSnackBar}
+                      postId={publication.id}
+                      comments={publication.comments}
+                      owner={publication.user}
+                      likes={publication.likes}
+                    />
+                  </Box>
+                ))
+            : publications.map(publication => (
+                <Box m={2}>
+                  <Post
+                    key={publication.id}
+                    description={publication.description}
+                    photo={publication.photo}
+                    classes={classes}
+                    handleSnackBar={handleSnackBar}
+                    postId={publication.id}
+                    comments={publication.comments}
+                    owner={publication.user}
+                    likes={publication.likes}
+                  />
+                </Box>
+              ))}
         </Grid>
       </Grid>
     </>
   );
 }
 
-export default Publications;
+const mapStateToProps = state => {
+  return {
+    userId: state.userReducer.id
+  };
+};
+
+export default connect(mapStateToProps)(Publications);
