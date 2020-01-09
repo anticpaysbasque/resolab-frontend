@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 
 import {
   Box,
@@ -14,9 +15,14 @@ import {
   Button
 } from "@material-ui/core";
 
+import apiCallAuth from "../apiCallAuth";
 import img from "../Assets/add.png";
 
-function PostStorie({ classes }) {
+const mapStateToProps = state => ({
+  id: state.userReducer.id
+});
+
+function PostStorie({ id, classes, handleSnackBar }) {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState("");
 
@@ -32,31 +38,28 @@ function PostStorie({ classes }) {
     setImage(e.target.files[0]);
   };
 
-  // const handleSubmit = e => {
-  //   console.log(description, image);
-  //   e.preventDefault();
+  const handleSubmit = e => {
+    e.preventDefault();
 
-  //   const formData = new FormData();
-  //   formData.append("file", image);
+    const formData = new FormData();
+    formData.append("file", image);
 
-  //   apiCallAuth
-  //     .post("/media_objects", formData)
-  //     .then(res => {
-  //       console.log(res);
-  //       return apiCallAuth.post("/posts", {
-  //         description: description,
-  //         photo: "http://localhost:8089" + res.data.contentUrl,
-  //         likes: 0,
-  //         user: `/api/users/${id}`
-  //       });
-  //     })
-  //     .then(res => {
-  //       console.log(res);
-  //       return handleSnackBar("Ta publication a bien été postée");
-  //     })
-  //     .catch(err => console.log(err))
-  //     .finally(() => handleClose());
-  // };
+    apiCallAuth
+      .post("/media_objects", formData)
+      .then(res => {
+        console.log(res);
+        return apiCallAuth.post("/stories", {
+          image: `/api/media_objects/${res.data.id}`,
+          user: `/api/users/${id}`
+        });
+      })
+      .then(res => {
+        console.log(res);
+        return handleSnackBar("Ta storie a bien été postée");
+      })
+      .catch(err => console.log(err))
+      .finally(() => handleClose());
+  };
 
   return (
     <div>
@@ -80,6 +83,7 @@ function PostStorie({ classes }) {
         BackdropProps={{
           timeout: 500
         }}
+        transition-modal-title
       >
         <Fade in={open}>
           <div className={classes.paper}>
@@ -96,7 +100,7 @@ function PostStorie({ classes }) {
               className={classes.form}
               noValidate
               autoComplete="off"
-              // onSubmit={handleSubmit}
+              onSubmit={handleSubmit}
             >
               <TextField
                 id="outlined-full-width"
@@ -110,7 +114,7 @@ function PostStorie({ classes }) {
                 onChange={handleChangeImage}
               />
               <Button
-                // type="submit"
+                type="submit"
                 style={{ margin: 18 }}
                 color="secondary"
                 variant="contained"
@@ -125,4 +129,4 @@ function PostStorie({ classes }) {
   );
 }
 
-export default PostStorie;
+export default connect(mapStateToProps)(PostStorie);
