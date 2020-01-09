@@ -36,5 +36,23 @@ export const useStyles = makeStyles(theme => ({
   },
   inline: {
     display: "inline"
+  },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3)
+  },
+  form: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: 600,
+      display: "flex"
+    }
   }
 }));
