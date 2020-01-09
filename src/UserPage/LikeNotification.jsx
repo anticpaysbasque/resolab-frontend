@@ -1,6 +1,6 @@
 import React from "react";
 import { ListItem, ListItemAvatar, ListItemText } from "@material-ui/core";
-import { ChatBubbleOutline, FavoriteBorder } from "@material-ui/icons";
+import { FavoriteBorder } from "@material-ui/icons";
 
 function LikeNotification({ like }) {
   const displayLike = like.comment

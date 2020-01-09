@@ -140,7 +140,7 @@ function Post({
     setAlert(!alert);
   };
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} style={{ width: "50vw" }}>
       <div className="scroll-post">
         <CardHeader
           avatar={

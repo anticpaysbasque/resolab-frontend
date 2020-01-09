@@ -24,13 +24,13 @@ export default function UserPage() {
   return (
     <Layout>
       <Grid container spacing={3} style={{ marginTop: "100px" }}>
-        <Grid container item xs={2} justify="center">
+        <Grid container item xs={2} xl={2} justify="center">
           <PostArticle handleSnackBar={handleSnackBar} />
         </Grid>
-        <Grid container item xs={6} justify="center">
+        <Grid container item xs={6} xl={6} justify="center">
           <Publications handleSnackBar={handleSnackBar} />
         </Grid>
-        <Grid container item xs={3} justify="center">
+        <Grid container item xs={3} xl={3} justify="center">
           <Sidebar />
         </Grid>
       </Grid>
