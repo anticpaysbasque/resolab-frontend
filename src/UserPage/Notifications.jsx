@@ -11,10 +11,12 @@ import axios from "axios";
 import { CssBaseline } from "@material-ui/core";
 
 import "../Layout/Scroll.css";
+import NotifyComments from "./NotifyComments";
 
 const useStyles = makeStyles({
   card: {
-    minWidth: 350
+    minWidth: 350,
+    padding: 0
   }
 });
 
@@ -44,14 +46,11 @@ export default function Notification() {
               <Typography>Notifications</Typography>
             </Box>
           }
+          style={{ padding: "2px" }}
         ></CardHeader>
 
-        <CardContent>
-          {commentaires.map(commentaire => {
-            //return tous le nombre de commentaires pour chaque publication de la personne
-          })}{" "}
-          <AccountCircle color="primary" alignItems="center" />
-          Jules Bonard a commenté la publication de Basile
+        <CardContent style={{ padding: "0px" }}>
+          <NotifyComments />
         </CardContent>
       </Card>
     </div>
