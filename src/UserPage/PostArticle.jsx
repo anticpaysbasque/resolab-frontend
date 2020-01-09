@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 
 import apiCallAuth from "../apiCallAuth";
 import "../Layout/Scroll.css";
+import WebcamComponent from "./WebcamComponent";
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -53,6 +54,7 @@ function PostArticle({ id, token, handleSnackBar }) {
 
   const handleChangeImage = e => {
     setImage(e.target.files[0]);
+    console.log(image);
   };
 
   const handleChangeDescription = e => {
@@ -128,7 +130,7 @@ function PostArticle({ id, token, handleSnackBar }) {
             >
               <TextField
                 id="outlined-full-width"
-                label="Ajouter une photo"
+                label="Ajouter une photo via l'ordinateur"
                 type="file"
                 style={{ margin: 18 }}
                 fullWidth
@@ -137,6 +139,7 @@ function PostArticle({ id, token, handleSnackBar }) {
                 variant="outlined"
                 onChange={handleChangeImage}
               />
+              {/* <WebcamComponent /> */}
               <TextField
                 id="outlined-full-width"
                 label="Description"
