@@ -26,15 +26,6 @@ function DisplayStories({ classes }) {
           <Storie classes={classes} />
         </Grid>
       ))}
-      {/* <Grid>
-                <Storie classes={classes} />
-            </Grid>
-            <Grid>
-                <Storie classes={classes} />
-            </Grid>
-            <Grid>
-                <Storie classes={classes} />
-            </Grid> */}
     </Grid>
   );
 }
