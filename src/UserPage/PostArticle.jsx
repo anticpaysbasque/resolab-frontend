@@ -11,8 +11,6 @@ import Button from "@material-ui/core/Button";
 
 import apiCallAuth from "../apiCallAuth";
 import "../Layout/Scroll.css";
-import "./UploadPicture";
-import UploadImage from "./UploadPicture";
 
 const useStyles = makeStyles(theme => ({
   modal: {
