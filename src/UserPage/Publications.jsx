@@ -25,7 +25,7 @@ function Publications({ handleSnackBar, userId }) {
 
   return (
     <>
-      <Grid direction="column">
+      <Grid direction="column" onContextMenu={e => e.preventDefault()}>
         <Grid container spacing={0} align="center" justify="center">
           <Grid item xs="5">
             <Typography>Toutes les publications</Typography>

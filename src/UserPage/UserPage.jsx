@@ -9,7 +9,7 @@ import SnackBar from "./SnackBar";
 
 export default function UserPage() {
   const [snackBarNotification, setSnackBarNotification] = useState(false);
-  const [isErro, setIsErro] = useState(false);
+  // const [isErro, setIsErro] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const handleSnackBar = message => {
@@ -17,9 +17,9 @@ export default function UserPage() {
     setSnackbarMessage(message);
   };
 
-  const handleIsErro = () => {
-    setIsErro(!isErro);
-  };
+  // const handleIsErro = () => {
+  //   setIsErro(!isErro);
+  // };
 
   return (
     <Layout>
