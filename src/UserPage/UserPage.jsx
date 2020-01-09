@@ -23,7 +23,7 @@ export default function UserPage() {
 
   return (
     <Layout>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} style={{ marginTop: "100px" }}>
         <Grid container item xs={2} justify="center">
           <PostArticle handleSnackBar={handleSnackBar} />
         </Grid>
