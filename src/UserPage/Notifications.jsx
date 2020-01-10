@@ -13,6 +13,7 @@ import { CssBaseline } from "@material-ui/core";
 import "../Layout/Scroll.css";
 import NotifyComments from "./NotifyComments";
 import NotifyLikes from "./NotifyLikes";
+import UserInfo from "./UserInfo";
 
 const useStyles = makeStyles({
   card: {
@@ -39,6 +40,7 @@ export default function Notification() {
 
   return (
     <div className="scroll-notifications">
+      <UserInfo />
       <Card className={classes.card}>
         <CardHeader
           title={
