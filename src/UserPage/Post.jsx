@@ -11,7 +11,7 @@ import {
   IconButton,
   Typography
 } from "@material-ui/core";
-
+import axios from "axios";
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
 import { connect } from "react-redux";
 
@@ -19,7 +19,7 @@ import apiCallAuth from "../apiCallAuth";
 import CommentInput from "./CommentInput";
 import DisplayComments from "./DisplayComments";
 
-import axios from "axios";
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function Post({
   description,
@@ -88,10 +88,8 @@ function Post({
       const foundLike = stateLikes.find(like => userId === like.user.id);
       if (foundLike) {
         axios
-          .delete(`http://localhost:8089/api/likes/${foundLike.id}`, config)
-          .then(() =>
-            axios.get(`http://localhost:8089/api/posts/${postId}`, config)
-          )
+          .delete(`${apiUrl}/likes/${foundLike.id}`, config)
+          .then(() => axios.get(`${apiUrl}/posts/${postId}`, config))
           .then(res => {
             setStateLikes(res.data.likes);
             setIsLiked(false);
@@ -112,16 +110,14 @@ function Post({
     if (!isLiked) {
       axios
         .post(
-          "http://localhost:8089/api/likes",
+          `${apiUrl}/likes`,
           {
             user: `api/users/${userId}`,
             post: `api/posts/${postId}`
           },
           config
         )
-        .then(() =>
-          axios.get(`http://localhost:8089/api/posts/${postId}`, config)
-        )
+        .then(() => axios.get(`${apiUrl}/posts/${postId}`, config))
         .then(res => {
           setStateLikes(res.data.likes);
           setIsLiked(true);
