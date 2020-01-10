@@ -9,18 +9,16 @@ import {
   Box
 } from "@material-ui/core";
 
-import img from "../Assets/logo-resolab.png";
-
-function Storie({ classes }) {
+function Storie({ classes, username, image }) {
   return (
     <Box mx={2}>
       <Grid container direction="column" justify="center" alignItems="center">
         <Card className={classes.storie}>
           <CardActionArea className={classes.storie}>
-            <CardMedia className={classes.media} image={img} />
+            <CardMedia className={classes.media} image={image} />
           </CardActionArea>
         </Card>
-        <Typography className={classes.username}>username</Typography>
+        <Typography className={classes.username}>{username}</Typography>
       </Grid>
     </Box>
   );
