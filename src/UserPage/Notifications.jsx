@@ -12,6 +12,7 @@ import { CssBaseline } from "@material-ui/core";
 
 import "../Layout/Scroll.css";
 import NotifyComments from "./NotifyComments";
+import NotifyLikes from "./NotifyLikes";
 
 const useStyles = makeStyles({
   card: {
@@ -51,6 +52,7 @@ export default function Notification() {
 
         <CardContent style={{ padding: "0px" }}>
           <NotifyComments />
+          <NotifyLikes />
         </CardContent>
       </Card>
     </div>
