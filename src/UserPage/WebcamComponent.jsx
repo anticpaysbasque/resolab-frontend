@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Webcam from "react-webcam";
-import TextField from "@material-ui/core/TextField";
 
 function WebcamComponent() {
   const [webImage, setWebImage] = useState(null);
@@ -11,17 +10,6 @@ function WebcamComponent() {
   return (
     <>
       <WebcamCapture takePhoto={setWebImage} />
-      <TextField
-        id="outlined-full-width"
-        label="Ajouter une photo via la webcam"
-        type="file"
-        style={{ margin: 18 }}
-        fullWidth
-        margin="normal"
-        InputLabelProps={{ shrink: true }}
-        variant="outlined"
-        onChange={handleChangeImage}
-      />
     </>
   );
 }
@@ -29,8 +17,8 @@ function WebcamComponent() {
 export default WebcamComponent;
 
 const videoConstraints = {
-  width: 720,
-  height: 720,
+  width: 450,
+  height: 450,
   facingMode: "user"
 };
 
@@ -59,10 +47,10 @@ function WebcamCapture({ takePhoto }) {
     <>
       <Webcam
         audio={false}
-        height={720}
+        height={450}
         ref={webcamRef}
         screenshotFormat="image/jpeg"
-        width={1280}
+        width={450}
         videoConstraints={videoConstraints}
         alignItems="center"
       />

@@ -88,7 +88,7 @@ function PostArticle({ id, token, handleSnackBar }) {
   };
 
   return (
-    <div className="scroll-add-content">
+    <div className="scroll-post-article">
       <Box
         display="flex"
         flexDirection="column"
@@ -128,39 +128,41 @@ function PostArticle({ id, token, handleSnackBar }) {
               autoComplete="off"
               onSubmit={handleSubmit}
             >
-              <TextField
-                id="outlined-full-width"
-                label="Ajouter une photo via l'ordinateur"
-                type="file"
-                style={{ margin: 18 }}
-                fullWidth
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-                variant="outlined"
-                onChange={handleChangeImage}
-              />
-              {/* <WebcamComponent /> */}
-              <TextField
-                id="outlined-full-width"
-                label="Description"
-                style={{ margin: 18 }}
-                fullWidth
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-                multiline
-                rows="4"
-                variant="outlined"
-                value={description}
-                onChange={handleChangeDescription}
-              />
-              <Button
-                type="submit"
-                style={{ margin: 18 }}
-                color="secondary"
-                variant="contained"
-              >
-                Poster
-              </Button>
+              <div className="scroll-publication">
+                <WebcamComponent />
+                <TextField
+                  id="outlined-full-width"
+                  label="Ajouter une photo via l'ordinateur"
+                  type="file"
+                  style={{ margin: 18 }}
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{ shrink: true }}
+                  variant="outlined"
+                  onChange={handleChangeImage}
+                />
+                <TextField
+                  id="outlined-full-width"
+                  label="Description"
+                  style={{ margin: 18 }}
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{ shrink: true }}
+                  multiline
+                  rows="4"
+                  variant="outlined"
+                  value={description}
+                  onChange={handleChangeDescription}
+                />
+                <Button
+                  type="submit"
+                  style={{ margin: 18 }}
+                  color="secondary"
+                  variant="contained"
+                >
+                  Poster
+                </Button>
+              </div>
             </form>
           </div>
         </Fade>
