@@ -70,7 +70,7 @@ function PostStorie({ id, classes, handleSnackBar }) {
               <CardMedia className={classes.media} image={img} />
             </CardActionArea>
           </Card>
-          <Typography className={classes.username}>Ta storie</Typography>
+          <Typography className={classes.username}>Ta story</Typography>
         </Grid>
       </Box>
       <Modal
