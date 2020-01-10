@@ -33,7 +33,7 @@ function DisplayStories({ classes }) {
                 <Storie
                   classes={classes}
                   username={story.user.username}
-                  image={story.image.filePath}
+                  image={`http://localhost:8089/media/${story.image.filePath}`}
                 />
               ) : (
                 <Storie
