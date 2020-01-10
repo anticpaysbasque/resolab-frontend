@@ -22,30 +22,29 @@ function DisplayStories({ classes }) {
 
   return (
     <Grid container direction="row" alignItems="center">
-      {stories.reverse().map(story => {
-        // const image = story.image;
-        // if (image.filePath === undefined || image.filePath === null) {
-        return (
-          <Grid>
-            <Storie
-              classes={classes}
-              username={story.user.username}
-              image={img}
-            />
-          </Grid>
-        );
-        // } else {
-        //     return (
-        //         <Grid>
-        //             <Storie
-        //                 classes={classes}
-        //                 username={story.user.username}
-        //                 image={`http://localhost:8089/media/${story.image.filePath}`}
-        //             />
-        //         </Grid>
-        //     );
-        // }
-      })}
+      {stories
+        .reverse()
+        .slice(25)
+        .reverse()
+        .map(story => {
+          return (
+            <Grid>
+              {story.image ? (
+                <Storie
+                  classes={classes}
+                  username={story.user.username}
+                  image={`http://localhost:8089/media/${story.image.filePath}`}
+                />
+              ) : (
+                <Storie
+                  classes={classes}
+                  username={story.user.username}
+                  image={img}
+                />
+              )}
+            </Grid>
+          );
+        })}
     </Grid>
   );
 }
