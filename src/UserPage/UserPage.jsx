@@ -29,7 +29,7 @@ export default function UserPage() {
     <Layout>
       <Box mt={15}>
         <Grid container spacing={3} direction="row" alignItems="center">
-          <Grid container item xs={2} justify="center">
+          <Grid container item xs={1} justify="center">
             <PostStorie classes={classes} handleSnackBar={handleSnackBar} />
           </Grid>
           <Grid container item xs={9} justify="center">
@@ -39,7 +39,6 @@ export default function UserPage() {
       </Box>
       <Grid container spacing={3}>
         <Grid container item xs={2} justify="center">
-
           <PostArticle handleSnackBar={handleSnackBar} />
         </Grid>
         <Grid container item xs={6} xl={6} justify="center">
