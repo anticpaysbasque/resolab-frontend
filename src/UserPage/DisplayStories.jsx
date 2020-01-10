@@ -22,7 +22,7 @@ function DisplayStories({ classes }) {
 
   return (
     <Grid container direction="row" alignItems="center">
-      {stories.reverse().map(story => {
+      {stories.map(story => {
         // const image = story.image;
         // if (image.filePath === undefined || image.filePath === null) {
         return (
