@@ -24,7 +24,7 @@ function DisplayStories({ classes }) {
     <Grid container direction="row" alignItems="center">
       {stories
         .reverse()
-        .slice(20)
+        .slice(25)
         .reverse()
         .map(story => {
           return (
