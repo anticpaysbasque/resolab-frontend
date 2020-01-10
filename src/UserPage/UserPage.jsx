@@ -9,7 +9,7 @@ import SnackBar from "./SnackBar";
 
 export default function UserPage() {
   const [snackBarNotification, setSnackBarNotification] = useState(false);
-  const [isErro, setIsErro] = useState(false);
+  // const [isErro, setIsErro] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const handleSnackBar = message => {
@@ -17,20 +17,20 @@ export default function UserPage() {
     setSnackbarMessage(message);
   };
 
-  const handleIsErro = () => {
-    setIsErro(!isErro);
-  };
+  // const handleIsErro = () => {
+  //   setIsErro(!isErro);
+  // };
 
   return (
     <Layout>
-      <Grid container spacing={3}>
-        <Grid container item xs={2} justify="center">
+      <Grid container spacing={3} style={{ marginTop: "100px" }}>
+        <Grid container item xs={2} xl={2} justify="center">
           <PostArticle handleSnackBar={handleSnackBar} />
         </Grid>
-        <Grid container item xs={6} justify="center">
+        <Grid container item xs={6} xl={6} justify="center">
           <Publications handleSnackBar={handleSnackBar} />
         </Grid>
-        <Grid container item xs={3} justify="center">
+        <Grid container item xs={3} xl={3} justify="center">
           <Sidebar />
         </Grid>
       </Grid>

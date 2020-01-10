@@ -24,18 +24,18 @@ const useStyles = makeStyles({
 export default function Notification() {
   const classes = useStyles();
 
-  const [commentaires, setCommentaires] = useState([]);
+  // const [commentaires, setCommentaires] = useState([]);
 
-  const handleCommentsNotifications = () => {
-    axios
-      .get("")
-      .then(res => {
-        setCommentaires(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+  // const handleCommentsNotifications = () => {
+  //   axios
+  //     .get("")
+  //     .then(res => {
+  //       setCommentaires(res);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
 
   return (
     <div className="scroll-notifications">
