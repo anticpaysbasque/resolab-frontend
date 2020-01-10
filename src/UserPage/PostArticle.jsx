@@ -14,6 +14,8 @@ import "../Layout/Scroll.css";
 import "./UploadPicture";
 import UploadImage from "./UploadPicture";
 
+const mediaUrl = process.env.REACT_APP_MEDIA_URL;
+
 const useStyles = makeStyles(theme => ({
   modal: {
     display: "flex",
@@ -74,7 +76,7 @@ function PostArticle({ id, token, handleSnackBar }) {
         console.log(res);
         return apiCallAuth.post("/posts", {
           description: description,
-          photo: "http://localhost:8089" + res.data.contentUrl,
+          photo: mediaUrl + res.data.contentUrl,
           likes: 0,
           user: `/api/users/${id}`
         });

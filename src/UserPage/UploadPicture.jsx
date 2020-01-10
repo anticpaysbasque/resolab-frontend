@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 function UploadImage({ token }) {
   const [image, setImage] = useState(null);
 
@@ -21,11 +23,7 @@ function UploadImage({ token }) {
     };
 
     try {
-      await axios.post(
-        "http://localhost:8089/api/media_objects",
-        formData,
-        config
-      );
+      await axios.post(`${apiUrl}/media_objects`, formData, config);
     } catch (error) {
       console.log(error.response);
     }

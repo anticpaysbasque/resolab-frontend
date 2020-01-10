@@ -27,6 +27,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 function LogIn({ storeToken, setUser, roles, isAuth }) {
   const classes = useStyles();
   const [login, setLogin] = useState("");
@@ -64,15 +66,12 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
     if (login.length > 0 || password.length > 0) {
       try {
         setIsLoading(true);
-        const postRes = await Axios.post(
-          "http://localhost:8089/api/login_check",
-          {
-            username: login,
-            password: password
-          }
-        );
+        const postRes = await Axios.post(`${apiUrl}/login_check`, {
+          username: login,
+          password: password
+        });
         storeToken(postRes.data.token);
-        const getRes = await Axios.get("http://localhost:8089/api/users", {
+        const getRes = await Axios.get(`${apiUrl}/users`, {
           headers: {
             Authorization: "Bearer " + postRes.data.token,
             Accept: "application/json"

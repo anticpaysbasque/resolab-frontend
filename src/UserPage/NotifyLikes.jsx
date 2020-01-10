@@ -12,6 +12,7 @@ function NotifyLikes({ userId }) {
   const fetchLikes = page => {
     // retreiving all posts from database until there is no more post
     const nextPage = page + 1;
+    let newUserLikes = [];
     apiCallAuth
       .get(`/likes?page=${page}`)
       .then(res => {
@@ -24,7 +25,7 @@ function NotifyLikes({ userId }) {
             (like.post && like.post.user.id === userId) ||
             (like.comment && like.comment.user.id === userId)
         );
-        const newUserLikes = userLikes.concat(fetchedUserLikes);
+        newUserLikes = userLikes.concat(fetchedUserLikes);
         console.log(newUserLikes);
         setUserLikes(newUserLikes);
       })
@@ -43,9 +44,13 @@ function NotifyLikes({ userId }) {
     fetchLikes(1);
   }, []);
 
+  useEffect(() => {
+    setLikesForUser(userLikes.reverse().splice(0, 5));
+  }, [userLikes]);
+
   return (
     <div>
-      {userLikes.map(like => (
+      {likesForUser.map(like => (
         <LikeNotification like={like} />
       ))}
     </div>
