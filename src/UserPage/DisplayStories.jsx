@@ -25,20 +25,27 @@ function DisplayStories({ classes, handleSnackBar }) {
     <Grid container direction="row" alignItems="center" wrap="nowrap">
       <PostStorie classes={classes} handleSnackBar={handleSnackBar} />
       {stories.map(story => {
+        const storyDate = Date.parse(story.date);
+        const nowDate = Date.now();
+        const imageStory = story.image;
         return (
           <>
-            {story.image ? (
-              <Storie
-                classes={classes}
-                username={story.user.username}
-                image={`http://localhost:8089/media/${story.image.filePath}`}
-              />
-            ) : (
-              <Storie
-                classes={classes}
-                username={story.user.username}
-                image={img}
-              />
+            {nowDate - storyDate < 86400000 && (
+              <>
+                {imageStory ? (
+                  <Storie
+                    classes={classes}
+                    username={story.user.username}
+                    image={`http://localhost:8089/media/${story.image.filePath}`}
+                  />
+                ) : (
+                  <Storie
+                    classes={classes}
+                    username={story.user.username}
+                    image={img}
+                  />
+                )}
+              </>
             )}
           </>
         );
