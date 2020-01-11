@@ -7,7 +7,6 @@ import Publications from "./Publications";
 import Sidebar from "./Sidebar";
 import SnackBar from "./SnackBar";
 import DisplayStories from "./DisplayStories";
-import PostStorie from "./PostStorie";
 import { useStyles } from "./useStyles";
 
 export default function UserPage() {
@@ -27,21 +26,28 @@ export default function UserPage() {
 
   return (
     <Layout>
-      <Box mt={15}>
-        <Grid container spacing={3} direction="row" alignItems="center">
-          <Grid container item xs={1} justify="center">
-            <PostStorie classes={classes} handleSnackBar={handleSnackBar} />
-          </Grid>
-          <Grid container item xs={9} justify="center">
-            <DisplayStories classes={classes} />
-          </Grid>
-        </Grid>
-      </Box>
-      <Grid container spacing={3}>
+      <Grid container style={{ marginTop: "80px" }} spacing={3}>
         <Grid container item xs={2} justify="center">
           <PostArticle handleSnackBar={handleSnackBar} />
         </Grid>
         <Grid container item xs={6} xl={6} justify="center">
+          <Box p={5} width="100%">
+            <Box
+              style={{
+                display: "flex",
+                alignItems: "center",
+                height: "150px",
+                overflowX: "auto",
+                overflowY: "visible"
+              }}
+            >
+              <DisplayStories
+                noWrap
+                classes={classes}
+                handleSnackBar={handleSnackBar}
+              />
+            </Box>
+          </Box>
           <Publications handleSnackBar={handleSnackBar} />
         </Grid>
         <Grid container item xs={3} xl={3} justify="center">

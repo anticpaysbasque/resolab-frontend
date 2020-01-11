@@ -3,10 +3,11 @@ import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 
 import Storie from "./Storie";
+import PostStorie from "./PostStorie";
 import apiCallAuth from "../apiCallAuth";
 import img from "../Assets/logo-resolab.png";
 
-function DisplayStories({ classes }) {
+function DisplayStories({ classes, handleSnackBar }) {
   const [stories, setStories] = useState([]);
 
   useEffect(() => {
@@ -21,30 +22,27 @@ function DisplayStories({ classes }) {
   }, []);
 
   return (
-    <Grid container direction="row" alignItems="center">
-      {stories
-        .reverse()
-        .slice(25)
-        .reverse()
-        .map(story => {
-          return (
-            <Grid>
-              {story.image ? (
-                <Storie
-                  classes={classes}
-                  username={story.user.username}
-                  image={`http://localhost:8089/media/${story.image.filePath}`}
-                />
-              ) : (
-                <Storie
-                  classes={classes}
-                  username={story.user.username}
-                  image={img}
-                />
-              )}
-            </Grid>
-          );
-        })}
+    <Grid container direction="row" alignItems="center" wrap="nowrap">
+      <PostStorie classes={classes} handleSnackBar={handleSnackBar} />
+      {stories.map(story => {
+        return (
+          <>
+            {story.image ? (
+              <Storie
+                classes={classes}
+                username={story.user.username}
+                image={`http://localhost:8089/media/${story.image.filePath}`}
+              />
+            ) : (
+              <Storie
+                classes={classes}
+                username={story.user.username}
+                image={img}
+              />
+            )}
+          </>
+        );
+      })}
     </Grid>
   );
 }
