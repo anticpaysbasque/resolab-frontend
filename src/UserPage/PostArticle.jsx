@@ -129,7 +129,7 @@ function PostArticle({ id, token, handleSnackBar }) {
               onSubmit={handleSubmit}
             >
               <div className="scroll-publication">
-                <WebcamComponent />
+                <WebcamComponent setImage={setImage} />
                 <TextField
                   id="outlined-full-width"
                   label="Ajouter une photo via l'ordinateur"

@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import Webcam from "react-webcam";
 
-function WebcamComponent() {
-  const [webImage, setWebImage] = useState(null);
-  const handleChangeImage = e => {
-    setWebImage(e.target.files[0]);
-  };
-
+function WebcamComponent({ setImage }) {
   return (
     <>
-      <WebcamCapture takePhoto={setWebImage} />
+      <WebcamCapture takePhoto={setImage} />
     </>
   );
 }
