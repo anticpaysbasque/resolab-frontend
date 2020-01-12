@@ -1,7 +1,7 @@
 import React from "react";
 
 import Notifications from "./Notifications";
-import UserInfo from "./UserInfo";
+import UserInfo from "../UserPage/UserInfo";
 
 export default function Sidebar() {
   return (

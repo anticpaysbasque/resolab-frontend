@@ -11,8 +11,8 @@ import Button from "@material-ui/core/Button";
 
 import apiCallAuth from "../apiCallAuth";
 import "../Layout/Scroll.css";
-import "./UploadPicture";
-import UploadImage from "./UploadPicture";
+import "../UserPage/UploadPicture";
+import UploadImage from "../UserPage/UploadPicture";
 
 const mediaUrl = process.env.REACT_APP_MEDIA_URL;
 

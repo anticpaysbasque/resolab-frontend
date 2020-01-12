@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Grid, Box, Snackbar } from "@material-ui/core";
 
 import Layout from "../Layout/Layout";
-import PostArticle from "./PostArticle";
-import Publications from "./Publications";
-import Notifications from "./Notifications";
-import DisplayStories from "./DisplayStories";
-import PostStorie from "./PostStorie";
+import PostArticle from "../commonComponent/PostArticle";
+import Publications from "../commonComponent/Publications";
+import Notifications from "../commonComponent/Notifications";
+import DisplayStories from "../commonComponent/DisplayStories";
+import PostStorie from "../commonComponent/PostStorie";
 import UserInfo from "./UserInfo";
-import { useStyles } from "./useStyles";
+import { useStyles } from "../commonComponent/useStyles";
 
 export default function UserPage() {
   const classes = useStyles();

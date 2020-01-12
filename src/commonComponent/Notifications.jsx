@@ -13,7 +13,7 @@ import { CssBaseline } from "@material-ui/core";
 import "../Layout/Scroll.css";
 import NotifyComments from "./NotifyComments";
 import NotifyLikes from "./NotifyLikes";
-import UserInfo from "./UserInfo";
+import UserInfo from "../UserPage/UserInfo";
 
 const useStyles = makeStyles({
   card: {

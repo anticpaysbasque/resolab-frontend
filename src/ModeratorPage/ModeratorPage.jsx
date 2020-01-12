@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Box, Grid, Snackbar } from "@material-ui/core";
 
-import { useStyles } from "../UserPage/useStyles";
-import PostStorie from "../UserPage/PostStorie";
 import Layout from "../Layout/Layout";
-import DisplayStories from "../UserPage/DisplayStories";
-import PostArticle from "../UserPage/PostArticle";
-import Publications from "../UserPage/Publications";
-import Notifications from "../UserPage/Notifications";
+import PostArticle from "../commonComponent/PostArticle";
+import Publications from "../commonComponent/Publications";
+import Notifications from "../commonComponent/Notifications";
+import DisplayStories from "../commonComponent/DisplayStories";
+import PostStorie from "../commonComponent/PostStorie";
+import { useStyles } from "../commonComponent/useStyles";
 import ModeratorInfo from "./ModeratorInfos";
 
 export default function ModeratorPage() {
