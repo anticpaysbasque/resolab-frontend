@@ -13,8 +13,6 @@ import Axios from "axios";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import apiCallAuth from "../apiCallAuth";
-import { LOGIN, SET_USER } from "../reducers/actionTypes";
 import VoidField from "./VoidField";
 import Loader from "./Loader";
 import DisplayError from "./DisplayError";
