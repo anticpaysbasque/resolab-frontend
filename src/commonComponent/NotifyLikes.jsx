@@ -17,8 +17,6 @@ function NotifyLikes({ userId }) {
       .get(`/likes?page=${page}`)
       .then(res => {
         const fetchedLikes = res.data;
-        console.log(page);
-        console.log(fetchedLikes);
 
         const fetchedUserLikes = fetchedLikes.filter(
           like =>
@@ -26,7 +24,6 @@ function NotifyLikes({ userId }) {
             (like.comment && like.comment.user.id === userId)
         );
         newUserLikes = userLikes.concat(fetchedUserLikes);
-        console.log(newUserLikes);
         setUserLikes(newUserLikes);
       })
       .then(
