@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Webcam from "react-webcam";
 
+import "../Layout/Scroll.css";
+
 function WebcamComponent({ setImage }) {
   return (
     <>
@@ -47,9 +49,8 @@ function WebcamCapture({ takePhoto }) {
         screenshotFormat="image/jpeg"
         width={450}
         videoConstraints={videoConstraints}
-        alignItems="center"
       />
-      <button onClick={capture} alignItems="center" padding="15">
+      <button onClick={capture} type="button" alignItems="center" padding="15">
         Prendre une photo depuis la Webcam
       </button>
     </>

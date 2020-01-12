@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
@@ -41,8 +41,19 @@ const mapStateToProps = state => ({
 function PostArticle({ id, token, handleSnackBar }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
   const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    if (image) {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+      };
+      reader.readAsDataURL(image);
+    }
+  }, [image]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -129,7 +140,14 @@ function PostArticle({ id, token, handleSnackBar }) {
               onSubmit={handleSubmit}
             >
               <div className="scroll-publication">
-                <WebcamComponent setImage={setImage} />
+                {image ? (
+                  <img src={previewImage} alt="" width={450} />
+                ) : (
+                  <WebcamComponent setImage={setImage} />
+                )}
+                <button type="button" onClick={() => setImage(null)}>
+                  Reprendre la photo
+                </button>
                 <TextField
                   id="outlined-full-width"
                   label="Ajouter une photo via l'ordinateur"
