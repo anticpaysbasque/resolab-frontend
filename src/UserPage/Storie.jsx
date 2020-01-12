@@ -21,6 +21,9 @@ function Storie({ classes, username, image }) {
 
   const handleOpen = () => {
     setOpen(true);
+    setTimeout(() => {
+      setOpen(false);
+    }, 5000);
   };
 
   const handleClose = () => {
