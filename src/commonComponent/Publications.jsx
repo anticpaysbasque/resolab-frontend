@@ -31,11 +31,9 @@ function Publications({ handleSnackBar, userId }) {
 
   const fetchPages = async lastPage => {
     let fetchedPublications = [];
-    console.log("last page ", lastPage);
     for (let page = 1; page <= lastPage; page++) {
       const res = await apiCallAuth.get(`/posts?page=${page}`);
       fetchedPublications = fetchedPublications.concat(res.data);
-      console.log(page, fetchedPublications);
     }
     return fetchedPublications;
   };

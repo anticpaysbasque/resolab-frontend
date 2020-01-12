@@ -9,32 +9,33 @@ function NotifyComments({ userId }) {
   const [userMessages, setUserMessages] = useState([]);
   const [commentsOnUserMessages, setCommentsOnUserMessages] = useState([]);
 
-  const fetchPosts = page => {
+  const fetchPosts = async (page, previousMessages) => {
     // retreiving all posts from database until there is no more post
     const nextPage = page + 1;
-    apiCallAuth
+    let messages = previousMessages;
+    await apiCallAuth
       .get(`/posts?page=${page}`)
-      .then(res => {
+      .then(async res => {
         const fetchedMessages = res.data;
-        const fetchedUserMessages = fetchedMessages.filter(
-          post => post.user.id === userId
+        console.log("fetch ", fetchedMessages);
+        messages = messages.concat(
+          fetchedMessages.filter(post => post.user.id === userId)
         );
-        const newUserMessages = userMessages.concat(fetchedUserMessages);
-        setUserMessages(newUserMessages);
-      })
-      .then(
-        apiCallAuth.get(`/posts?page=${nextPage}`).then(res => {
+        console.log("new messages ", messages);
+        await apiCallAuth.get(`/posts?page=${nextPage}`).then(res => {
           if (res.data.length !== 0) {
-            fetchPosts(nextPage);
+            fetchPosts(nextPage, messages);
+          } else {
+            setUserMessages(messages);
           }
-        })
-      )
+        });
+      })
 
       .catch(err => console.log("error", err));
   };
 
   useEffect(() => {
-    fetchPosts(1);
+    fetchPosts(1, []);
   }, []);
 
   useEffect(() => {
@@ -50,11 +51,11 @@ function NotifyComments({ userId }) {
     });
     // sorting comments from newer to older
     comments.sort(function(a, b) {
-      return new Date(b.createdAt) - new Date(a.createdAt);
+      return new Date(a.createdAt) - new Date(b.createdAt);
     });
     // removing comments from user
-    comments = comments.filter(comment => comment.user.id !== userId);
-    setCommentsOnUserMessages(comments);
+    // comments = comments.filter(comment => comment.user.id !== userId);
+    setCommentsOnUserMessages(comments.reverse());
   }, [userMessages]);
 
   return (
