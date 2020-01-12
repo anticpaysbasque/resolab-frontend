@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Notification() {
+export default function Notification({ children }) {
   const classes = useStyles();
 
   // const [commentaires, setCommentaires] = useState([]);
@@ -40,7 +40,7 @@ export default function Notification() {
 
   return (
     <div className="scroll-notifications">
-      <UserInfo />
+      {children}
       <Card className={classes.card}>
         <CardHeader
           title={
