@@ -3,10 +3,12 @@ import { Box, Switch, Grid, makeStyles, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import BottomScrollListener from "react-bottom-scroll-listener";
 import { useStyles } from "./useStyles";
-import apiCallAuth from "../apiCallAuth";
 import Post from "./Post";
+import axios from "axios";
 
 import useInterval from "../useInterval";
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function Publications({ handleSnackBar, userId }) {
   const [publications, setPublications] = useState([]);
@@ -32,7 +34,12 @@ function Publications({ handleSnackBar, userId }) {
   const fetchPages = async lastPage => {
     let fetchedPublications = [];
     for (let page = 1; page <= lastPage; page++) {
-      const res = await apiCallAuth.get(`/posts?page=${page}`);
+      const res = await axios.get(`${apiUrl}/posts?page=${page}`, {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          Accept: "application/json"
+        }
+      });
       fetchedPublications = fetchedPublications.concat(res.data);
     }
     return fetchedPublications;
@@ -103,7 +110,8 @@ function Publications({ handleSnackBar, userId }) {
 
 const mapStateToProps = state => {
   return {
-    userId: state.userReducer.id
+    userId: state.userReducer.id,
+    token: state.authReducer.token
   };
 };
 
