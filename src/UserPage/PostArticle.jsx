@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,8 +11,7 @@ import Button from "@material-ui/core/Button";
 
 import apiCallAuth from "../apiCallAuth";
 import "../Layout/Scroll.css";
-import "./UploadPicture";
-import UploadImage from "./UploadPicture";
+import WebcamComponent from "./WebcamComponent";
 
 const mediaUrl = process.env.REACT_APP_MEDIA_URL;
 
@@ -44,8 +43,19 @@ const mapStateToProps = state => ({
 function PostArticle({ id, token, handleSnackBar }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
   const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    if (image) {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+      };
+      reader.readAsDataURL(image);
+    }
+  }, [image]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -57,6 +67,7 @@ function PostArticle({ id, token, handleSnackBar }) {
 
   const handleChangeImage = e => {
     setImage(e.target.files[0]);
+    console.log(image);
   };
 
   const handleChangeDescription = e => {
@@ -90,7 +101,7 @@ function PostArticle({ id, token, handleSnackBar }) {
   };
 
   return (
-    <div className="scroll-add-content">
+    <div className="scroll-post-article">
       <Box
         display="flex"
         flexDirection="column"
@@ -130,38 +141,48 @@ function PostArticle({ id, token, handleSnackBar }) {
               autoComplete="off"
               onSubmit={handleSubmit}
             >
-              <TextField
-                id="outlined-full-width"
-                label="Ajouter une photo"
-                type="file"
-                style={{ margin: 18 }}
-                fullWidth
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-                variant="outlined"
-                onChange={handleChangeImage}
-              />
-              <TextField
-                id="outlined-full-width"
-                label="Description"
-                style={{ margin: 18 }}
-                fullWidth
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-                multiline
-                rows="4"
-                variant="outlined"
-                value={description}
-                onChange={handleChangeDescription}
-              />
-              <Button
-                type="submit"
-                style={{ margin: 18 }}
-                color="secondary"
-                variant="contained"
-              >
-                Poster
-              </Button>
+              <div className="scroll-publication">
+                {image ? (
+                  <img src={previewImage} alt="" width={450} />
+                ) : (
+                  <WebcamComponent setImage={setImage} />
+                )}
+                <button type="button" onClick={() => setImage(null)}>
+                  Reprendre la photo
+                </button>
+                <TextField
+                  id="outlined-full-width"
+                  label="Ajouter une photo via l'ordinateur"
+                  type="file"
+                  style={{ margin: 18 }}
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{ shrink: true }}
+                  variant="outlined"
+                  onChange={handleChangeImage}
+                />
+                <TextField
+                  id="outlined-full-width"
+                  label="Description"
+                  style={{ margin: 18 }}
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{ shrink: true }}
+                  multiline
+                  rows="4"
+                  variant="outlined"
+                  value={description}
+                  onChange={handleChangeDescription}
+                />
+                <Button
+                  type="submit"
+                  style={{ margin: 18 }}
+                  color="secondary"
+                  variant="contained"
+                >
+                  Poster
+                </Button>
+              </div>
             </form>
           </div>
         </Fade>
