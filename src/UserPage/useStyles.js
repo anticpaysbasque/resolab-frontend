@@ -20,6 +20,11 @@ export const useStyles = makeStyles(theme => ({
   expandOpen: {
     transform: "rotate(180deg)"
   },
+  storie: {
+    width: 100,
+    height: 100,
+    borderRadius: "50%"
+  },
   username: {
     fontWeight: 1000
   },
@@ -31,5 +36,23 @@ export const useStyles = makeStyles(theme => ({
   },
   inline: {
     display: "inline"
+  },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3)
+  },
+  form: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: 600,
+      display: "flex"
+    }
   }
 }));

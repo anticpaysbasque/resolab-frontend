@@ -12,6 +12,8 @@ import { CssBaseline } from "@material-ui/core";
 
 import "../Layout/Scroll.css";
 import NotifyComments from "./NotifyComments";
+import NotifyLikes from "./NotifyLikes";
+import UserInfo from "./UserInfo";
 
 const useStyles = makeStyles({
   card: {
@@ -20,24 +22,25 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Notification() {
+export default function Notification({ children }) {
   const classes = useStyles();
 
-  const [commentaires, setCommentaires] = useState([]);
+  // const [commentaires, setCommentaires] = useState([]);
 
-  const handleCommentsNotifications = () => {
-    axios
-      .get("")
-      .then(res => {
-        setCommentaires(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+  // const handleCommentsNotifications = () => {
+  //   axios
+  //     .get("")
+  //     .then(res => {
+  //       setCommentaires(res);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
 
   return (
     <div className="scroll-notifications">
+      {children}
       <Card className={classes.card}>
         <CardHeader
           title={
@@ -51,6 +54,7 @@ export default function Notification() {
 
         <CardContent style={{ padding: "0px" }}>
           <NotifyComments />
+          <NotifyLikes />
         </CardContent>
       </Card>
     </div>
