@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Box, Grid, Snackbar } from "@material-ui/core";
 
-import { useStyles } from "../UserPage/useStyles";
-import PostStorie from "../UserPage/PostStorie";
 import Layout from "../Layout/Layout";
-import DisplayStories from "../UserPage/DisplayStories";
-import PostArticle from "../UserPage/PostArticle";
-import Publications from "../UserPage/Publications";
-import Notifications from "../UserPage/Notifications";
+import PostArticle from "../commonComponent/PostArticle";
+import Publications from "../commonComponent/Publications";
+import Notifications from "../commonComponent/Notifications";
+import DisplayStories from "../commonComponent/DisplayStories";
+import PostStorie from "../commonComponent/PostStorie";
+import { useStyles } from "../commonComponent/useStyles";
 import ModeratorInfo from "./ModeratorInfos";
 
 export default function ModeratorPage() {
@@ -21,21 +21,28 @@ export default function ModeratorPage() {
   };
   return (
     <Layout>
-      <Box mt={15}>
-        <Grid container spacing={3} direction="row" alignItems="center">
-          <Grid container item xs={2} justify="center">
-            <PostStorie classes={classes} handleSnackBar={handleSnackBar} />
-          </Grid>
-          <Grid container item xs={9} justify="center">
-            <DisplayStories classes={classes} />
-          </Grid>
-        </Grid>
-      </Box>
-      <Grid container spacing={3}>
+      <Grid container style={{ marginTop: "80px" }} spacing={3}>
         <Grid container item xs={2} justify="center">
           <PostArticle handleSnackBar={handleSnackBar} />
         </Grid>
         <Grid container item xs={6} xl={6} justify="center">
+          <Box p={5} width="100%">
+            <Box
+              style={{
+                display: "flex",
+                alignItems: "center",
+                height: "150px",
+                overflowX: "auto",
+                overflowY: "visible"
+              }}
+            >
+              <DisplayStories
+                noWrap
+                classes={classes}
+                handleSnackBar={handleSnackBar}
+              />
+            </Box>
+          </Box>
           <Publications handleSnackBar={handleSnackBar} />
         </Grid>
         <Grid container item xs={3} xl={3} justify="center">
@@ -44,6 +51,7 @@ export default function ModeratorPage() {
           </Notifications>
         </Grid>
       </Grid>
+
       <Snackbar
         open={snackBarNotification}
         setOpen={setSnackBarNotification}
