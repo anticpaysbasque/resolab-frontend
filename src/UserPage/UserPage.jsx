@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { Grid, Box } from "@material-ui/core";
+import { Grid, Box, Snackbar } from "@material-ui/core";
 
 import Layout from "../Layout/Layout";
-import PostArticle from "./PostArticle";
-import Publications from "./Publications";
-import Sidebar from "./Sidebar";
-import SnackBar from "./SnackBar";
-import DisplayStories from "./DisplayStories";
-import { useStyles } from "./useStyles";
+import PostArticle from "../commonComponent/PostArticle";
+import Publications from "../commonComponent/Publications";
+import Notifications from "../commonComponent/Notifications";
+import DisplayStories from "../commonComponent/DisplayStories";
+import PostStorie from "../commonComponent/PostStorie";
+import UserInfo from "./UserInfo";
+import { useStyles } from "../commonComponent/useStyles";
 
 export default function UserPage() {
   const classes = useStyles();
@@ -51,11 +52,13 @@ export default function UserPage() {
           <Publications handleSnackBar={handleSnackBar} />
         </Grid>
         <Grid container item xs={3} xl={3} justify="center">
-          <Sidebar />
+          <Notifications>
+            <UserInfo />
+          </Notifications>
         </Grid>
       </Grid>
 
-      <SnackBar
+      <Snackbar
         open={snackBarNotification}
         setOpen={setSnackBarNotification}
         handleSnackBar={handleSnackBar}
