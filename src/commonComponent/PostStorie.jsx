@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import {
@@ -17,6 +17,7 @@ import {
 
 import apiCallAuth from "../apiCallAuth";
 import img from "../Assets/add.png";
+import WebcamComponent from "./WebcamComponent";
 
 const mapStateToProps = state => ({
   id: state.userReducer.id
@@ -24,7 +25,18 @@ const mapStateToProps = state => ({
 
 function PostStorie({ id, classes, handleSnackBar }) {
   const [open, setOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
   const [image, setImage] = useState("");
+
+  useEffect(() => {
+    if (image) {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+      };
+      reader.readAsDataURL(image);
+    }
+  }, [image]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -87,41 +99,51 @@ function PostStorie({ id, classes, handleSnackBar }) {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <Box
-              id="transition-modal-title"
-              textAlign="center"
-              p={4}
-              fontSize={24}
-              fontWeight="fontWeightBold"
-            >
-              Nouvelle storie
-            </Box>
-            <form
-              className={classes.form}
-              noValidate
-              autoComplete="off"
-              onSubmit={handleSubmit}
-            >
-              <TextField
-                id="outlined-full-width"
-                label="Ajouter une photo à partir de tes fichiers"
-                type="file"
-                style={{ margin: 18 }}
-                fullWidth
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-                variant="outlined"
-                onChange={handleChangeImage}
-              />
-              <Button
-                type="submit"
-                style={{ margin: 18 }}
-                color="secondary"
-                variant="contained"
+            <div className="scroll-publication">
+              {image ? (
+                <img src={previewImage} alt="" width={450} />
+              ) : (
+                <WebcamComponent setImage={setImage} />
+              )}
+              <button type="button" onClick={() => setImage(null)}>
+                Reprendre la photo
+              </button>
+              <Box
+                id="transition-modal-title"
+                textAlign="center"
+                p={4}
+                fontSize={24}
+                fontWeight="fontWeightBold"
               >
-                Poster
-              </Button>
-            </form>
+                Nouvelle storie
+              </Box>
+              <form
+                className={classes.form}
+                noValidate
+                autoComplete="off"
+                onSubmit={handleSubmit}
+              >
+                <TextField
+                  id="outlined-full-width"
+                  label="Ajouter une photo à partir de tes fichiers"
+                  type="file"
+                  style={{ margin: 18 }}
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{ shrink: true }}
+                  variant="outlined"
+                  onChange={handleChangeImage}
+                />
+                <Button
+                  type="submit"
+                  style={{ margin: 18 }}
+                  color="secondary"
+                  variant="contained"
+                >
+                  Poster
+                </Button>
+              </form>
+            </div>
           </div>
         </Fade>
       </Modal>

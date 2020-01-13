@@ -29,7 +29,7 @@ export default function UserPage() {
     <Layout>
       <Grid container style={{ marginTop: "80px" }} spacing={3}>
         <Grid container item xs={2} justify="center">
-          <PostArticle handleSnackBar={handleSnackBar} />
+          <PostArticle handleSnackBar={handleSnackBar} classes={classes} />
         </Grid>
         <Grid container item xs={6} xl={6} justify="center">
           <Box p={5} width="100%">
