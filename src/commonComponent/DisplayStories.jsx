@@ -2,17 +2,25 @@ import React, { useState, useEffect } from "react";
 
 import { Grid } from "@material-ui/core";
 
-import Storie from "./Storie";
+import Storie from "./Story";
 import PostStorie from "./PostStorie";
-import apiCallAuth from "../apiCallAuth";
+// import apiCallAuth from "../apiCallAuth";
+import axios from "axios";
 import img from "../Assets/logo-resolab.png";
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function DisplayStories({ classes, handleSnackBar }) {
   const [stories, setStories] = useState([]);
 
   useEffect(() => {
     const fetchDatas = async () => {
-      const res = await apiCallAuth.get("/stories");
+      const res = await axios.get(`${apiUrl}/stories`, {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          Accept: "application/json"
+        }
+      });
       setStories(res.data);
       setTimeout(() => {
         fetchDatas();
