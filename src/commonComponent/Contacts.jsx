@@ -1,20 +1,16 @@
 import React from "react";
-import { Grid, Card, CardHeader, Typography } from "@material-ui/core";
-import { Notifications } from "@material-ui/icons/";
-import Box from "@material-ui/core/Box";
+import { Box, Grid, Card, CardHeader, Typography } from "@material-ui/core";
+import ContactsIcon from "@material-ui/icons/Contacts";
 
-import NotifyComments from "./NotifyComments";
-import NotifyLikes from "./NotifyLikes";
-
-export default function Notification({ classes }) {
+function Contacts({ classes }) {
   return (
     <Card className={classes.sidebarCard}>
       <CardHeader
         title={
           <Box display="flex">
-            <Notifications className={classes.sidebarCardHeaderElements} />
+            <ContactsIcon className={classes.sidebarCardHeaderElements} />
             <Typography className={classes.sidebarCardHeaderElements}>
-              Notifications
+              Contacts
             </Typography>
           </Box>
         }
@@ -30,11 +26,15 @@ export default function Notification({ classes }) {
           overflowX: "visible"
         }}
       >
-        <Grid container direction="column" alignItems="center" wrap="nowrap">
-          <NotifyComments />
-          <NotifyLikes />
-        </Grid>
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          wrap="nowrap"
+        ></Grid>
       </Box>
     </Card>
   );
 }
+
+export default Contacts;

@@ -54,5 +54,17 @@ export const useStyles = makeStyles(theme => ({
       width: 600,
       display: "flex"
     }
+  },
+  sidebarCard: {
+    minWidth: 350,
+    maxHeight: 350,
+    margin: 8
+  },
+  sidebarCardHeader: {
+    backgroundColor: "#f2f2f2"
+  },
+  sidebarCardHeaderElements: {
+    marginRight: "8px",
+    marginLeft: "8px"
   }
 }));

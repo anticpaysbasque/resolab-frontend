@@ -9,6 +9,7 @@ import DisplayStories from "../commonComponent/DisplayStories";
 import PostStorie from "../commonComponent/PostStorie";
 import UserInfo from "./UserInfo";
 import { useStyles } from "../commonComponent/useStyles";
+import Sidebar from "../commonComponent/Sidebar";
 
 export default function UserPage() {
   const classes = useStyles();
@@ -52,9 +53,10 @@ export default function UserPage() {
           <Publications handleSnackBar={handleSnackBar} />
         </Grid>
         <Grid container item xs={3} xl={3} justify="center">
-          <Notifications>
+          {/* <Notifications>
             <UserInfo />
-          </Notifications>
+          </Notifications> */}
+          <Sidebar classes={classes} />
         </Grid>
       </Grid>
 
