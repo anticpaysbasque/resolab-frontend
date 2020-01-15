@@ -53,9 +53,6 @@ export default function UserPage() {
           <Publications handleSnackBar={handleSnackBar} />
         </Grid>
         <Grid container item xs={3} xl={3} justify="center">
-          {/* <Notifications>
-            <UserInfo />
-          </Notifications> */}
           <Sidebar classes={classes} />
         </Grid>
       </Grid>
