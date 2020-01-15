@@ -6,18 +6,18 @@ import Typography from "@material-ui/core/Typography";
 
 import "../Layout/Scroll.css";
 
-function Alerts() {
+function Alerts({ classes }) {
   return (
     <>
       <div className="scroll-alerts">
-        {children}
+        {/* {children} */}
         <Card className={classes.card} />
         <CardHeader
           title={
-            <Box display="flex">
-              <Notifications />
-              <Typography>Notifications</Typography>
-            </Box>
+            // <Box display="flex">
+            //   {/* <Notifications /> */}
+            <Typography>Notifications</Typography>
+            // </Box>
           }
           style={{ padding: "2px" }}
         ></CardHeader>

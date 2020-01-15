@@ -4,10 +4,7 @@ import { Grid, Box, Snackbar } from "@material-ui/core";
 import Layout from "../Layout/Layout";
 import PostArticle from "../commonComponent/PostArticle";
 import Publications from "../commonComponent/Publications";
-import Notifications from "../commonComponent/Notifications";
 import DisplayStories from "../commonComponent/DisplayStories";
-import PostStorie from "../commonComponent/PostStorie";
-import UserInfo from "./UserInfo";
 import { useStyles } from "../commonComponent/useStyles";
 import Sidebar from "../commonComponent/Sidebar";
 
