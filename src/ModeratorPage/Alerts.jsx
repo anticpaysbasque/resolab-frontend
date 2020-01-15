@@ -3,7 +3,9 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
-  Typography
+  Typography,
+  Box,
+  Grid
 } from "@material-ui/core";
 import { NotificationImportant } from "@material-ui/icons";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -23,7 +25,20 @@ function Alerts({ classes }) {
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <Typography>ALED</Typography>
+        <Box
+          style={{
+            display: "flex",
+            alignItems: "center",
+            height: "250px",
+            overflowY: "auto",
+            overflowX: "visible",
+            paddingTop: "25px"
+          }}
+        >
+          <Grid container direction="column" alignItems="center" wrap="nowrap">
+            <Typography>ALED</Typography>
+          </Grid>
+        </Box>
       </ExpansionPanelDetails>
     </ExpansionPanel>
   );
