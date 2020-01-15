@@ -1,28 +1,31 @@
 import React from "react";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-
-import "../Layout/Scroll.css";
+import {
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  Typography
+} from "@material-ui/core";
+import { NotificationImportant } from "@material-ui/icons";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 function Alerts({ classes }) {
   return (
-    <>
-      <div className="scroll-alerts">
-        {/* {children} */}
-        <Card className={classes.card} />
-        <CardHeader
-          title={
-            // <Box display="flex">
-            //   {/* <Notifications /> */}
-            <Typography>Notifications</Typography>
-            // </Box>
-          }
-          style={{ padding: "2px" }}
-        ></CardHeader>
-      </div>
-    </>
+    <ExpansionPanel className={classes.sidebarCard}>
+      <ExpansionPanelSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+        className={classes.sidebarCardHeader}
+      >
+        <NotificationImportant className={classes.sidebarCardHeaderElements} />
+        <Typography className={classes.sidebarCardHeaderElements}>
+          Alerts
+        </Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        <Typography>ALED</Typography>
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
   );
 }
 
