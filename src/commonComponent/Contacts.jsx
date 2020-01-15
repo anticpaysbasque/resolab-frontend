@@ -2,6 +2,8 @@ import React from "react";
 import { Box, Grid, Card, CardHeader, Typography } from "@material-ui/core";
 import ContactsIcon from "@material-ui/icons/Contacts";
 
+import ContactsList from "./ContactsList";
+
 function Contacts({ classes }) {
   return (
     <Card className={classes.sidebarCard}>
@@ -23,15 +25,12 @@ function Contacts({ classes }) {
           alignItems: "center",
           height: "250px",
           overflowY: "auto",
-          overflowX: "visible"
+          paddingTop: "25px"
         }}
       >
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          wrap="nowrap"
-        ></Grid>
+        <Grid container direction="column" wrap="nowrap">
+          <ContactsList classes={classes} />
+        </Grid>
       </Box>
     </Card>
   );

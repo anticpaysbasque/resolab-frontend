@@ -27,7 +27,8 @@ export default function Notification({ classes }) {
           alignItems: "center",
           height: "250px",
           overflowY: "auto",
-          overflowX: "visible"
+          overflowX: "visible",
+          paddingTop: "25px"
         }}
       >
         <Grid container direction="column" alignItems="center" wrap="nowrap">
