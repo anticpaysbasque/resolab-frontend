@@ -14,17 +14,12 @@ import Sidebar from "../commonComponent/Sidebar";
 export default function UserPage() {
   const classes = useStyles();
   const [snackBarNotification, setSnackBarNotification] = useState(false);
-  // const [isErro, setIsErro] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const handleSnackBar = message => {
     setSnackBarNotification(true);
     setSnackbarMessage(message);
   };
-
-  // const handleIsErro = () => {
-  //   setIsErro(!isErro);
-  // };
 
   return (
     <Layout>
