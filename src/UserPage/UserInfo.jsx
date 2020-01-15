@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
-  Box,
-  Card,
-  CardHeader,
-  Typography,
-  CardContent
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  Typography
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Face, ExpandMore } from "@material-ui/icons";
 import { connect } from "react-redux";
-import apiCallAuth from "../apiCallAuth";
 
-// const useStyles = makeStyles({
-//     card: {
-//         minWidth: 350,
-//         padding: 0
-//     }
-// });
+import apiCallAuth from "../apiCallAuth";
 
 const baseUrl = process.env.REACT_APP_MEDIA_URL;
 
@@ -28,34 +21,25 @@ function UserInfo({ classes, username, firstName, lastName, classroom }) {
       .then(res => setuserClassroom(res.data.name));
   });
 
-  // const classes = useStyles();
-
   return (
-    <Card className={classes.sidebarCard}>
-      <CardHeader
-        title={
-          <>
-            <Typography
-              className={classes.sidebarCardHeaderElements}
-              variant="h6"
-            >
-              {username}
-            </Typography>
-            <Typography
-              className={classes.sidebarCardHeaderElements}
-              variant="subtitle1"
-            >
-              {firstName} {lastName}
-            </Typography>
-          </>
-        }
+    <ExpansionPanel className={classes.sidebarCard}>
+      <ExpansionPanelSummary
+        expandIcon={<ExpandMore />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
         className={classes.sidebarCardHeader}
-      ></CardHeader>
-
-      <CardContent style={{ padding: "8px" }}>
-        <Typography>Ta classe : {userClassroom}</Typography>
-      </CardContent>
-    </Card>
+      >
+        <Face className={classes.sidebarCardHeaderElements} />
+        <Typography className={classes.sidebarCardHeaderElements}>
+          {firstName} {lastName}
+        </Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        <Typography>
+          {username} <br /> Ta classe : {userClassroom}
+        </Typography>
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
   );
 }
 
