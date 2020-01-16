@@ -22,7 +22,14 @@ function Alert({ alert, classes }) {
       </ListItemAvatar>
       <ListItemText
         primary={`${alert.user.username} a lancé une alerte`}
-        secondary={<AlertInfo alert={alert} />}
+        secondary={
+          <>
+            <AlertInfo alert={alert} />
+            {alert.moderator && (
+              <div>Pris en charge par {alert.moderator.username}</div>
+            )}
+          </>
+        }
       />
     </ListItem>
   );
