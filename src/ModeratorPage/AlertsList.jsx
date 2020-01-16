@@ -28,7 +28,7 @@ function AlertsList({ classes }) {
   return (
     <List>
       {alerts.reverse().map(alert => (
-        <Alert alert={alert} classes={classes} />
+        <>{!alert.resolved && <Alert alert={alert} classes={classes} />}</>
       ))}
     </List>
   );
