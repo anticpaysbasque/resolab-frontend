@@ -4,26 +4,19 @@ import { Grid, Box, Snackbar } from "@material-ui/core";
 import Layout from "../Layout/Layout";
 import PostArticle from "../commonComponent/PostArticle";
 import Publications from "../commonComponent/Publications";
-import Notifications from "../commonComponent/Notifications";
 import DisplayStories from "../commonComponent/DisplayStories";
-import PostStorie from "../commonComponent/PostStorie";
-import UserInfo from "./UserInfo";
 import { useStyles } from "../commonComponent/useStyles";
+import Sidebar from "../commonComponent/Sidebar";
 
 export default function UserPage() {
   const classes = useStyles();
   const [snackBarNotification, setSnackBarNotification] = useState(false);
-  // const [isErro, setIsErro] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const handleSnackBar = message => {
     setSnackBarNotification(true);
     setSnackbarMessage(message);
   };
-
-  // const handleIsErro = () => {
-  //   setIsErro(!isErro);
-  // };
 
   return (
     <Layout>
@@ -52,9 +45,7 @@ export default function UserPage() {
           <Publications handleSnackBar={handleSnackBar} />
         </Grid>
         <Grid container item xs={3} xl={3} justify="center">
-          <Notifications>
-            <UserInfo />
-          </Notifications>
+          <Sidebar classes={classes} />
         </Grid>
       </Grid>
 

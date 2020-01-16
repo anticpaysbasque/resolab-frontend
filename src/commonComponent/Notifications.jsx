@@ -1,62 +1,48 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import { Notifications, AccountCircle } from "@material-ui/icons/";
-import Box from "@material-ui/core/Box";
-import axios from "axios";
-import { CssBaseline } from "@material-ui/core";
+import React from "react";
+import {
+  Typography,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  Box,
+  Grid
+} from "@material-ui/core";
+import { Notifications, ExpandMore } from "@material-ui/icons/";
 
-import "../Layout/Scroll.css";
 import NotifyComments from "./NotifyComments";
 import NotifyLikes from "./NotifyLikes";
-import UserInfo from "../UserPage/UserInfo";
 
-const useStyles = makeStyles({
-  card: {
-    minWidth: 350,
-    padding: 0
-  }
-});
-
-export default function Notification({ children }) {
-  const classes = useStyles();
-
-  // const [commentaires, setCommentaires] = useState([]);
-
-  // const handleCommentsNotifications = () => {
-  //   axios
-  //     .get("")
-  //     .then(res => {
-  //       setCommentaires(res);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // };
-
+export default function Notification({ classes }) {
   return (
-    <div className="scroll-notifications">
-      {children}
-      <Card className={classes.card}>
-        <CardHeader
-          title={
-            <Box display="flex">
-              <Notifications />
-              <Typography>Notifications</Typography>
-            </Box>
-          }
-          style={{ padding: "2px" }}
-        ></CardHeader>
-
-        <CardContent style={{ padding: "0px" }}>
-          <NotifyComments />
-          <NotifyLikes />
-        </CardContent>
-      </Card>
-    </div>
+    <ExpansionPanel className={classes.sidebarCard}>
+      <ExpansionPanelSummary
+        expandIcon={<ExpandMore />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+        className={classes.sidebarCardHeader}
+      >
+        <Notifications className={classes.sidebarCardHeaderElements} />
+        <Typography className={classes.sidebarCardHeaderElements}>
+          Notifications
+        </Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        <Box
+          style={{
+            display: "flex",
+            alignItems: "center",
+            height: "250px",
+            overflowY: "auto",
+            overflowX: "visible",
+            paddingTop: "25px"
+          }}
+        >
+          <Grid container direction="column" alignItems="center" wrap="nowrap">
+            <NotifyComments />
+            <NotifyLikes />
+          </Grid>
+        </Box>
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
   );
 }

@@ -1,16 +1,18 @@
 import React from "react";
 import {
+  Box,
+  Grid,
+  Typography,
   ExpansionPanel,
   ExpansionPanelSummary,
-  ExpansionPanelDetails,
-  Typography,
-  Box,
-  Grid
+  ExpansionPanelDetails
 } from "@material-ui/core";
-import { NotificationImportant } from "@material-ui/icons";
+import ForumIcon from "@material-ui/icons/Forum";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-function Alerts({ classes }) {
+import ContactsList from "./ContactsList";
+
+function Contacts({ classes }) {
   return (
     <ExpansionPanel className={classes.sidebarCard}>
       <ExpansionPanelSummary
@@ -19,9 +21,9 @@ function Alerts({ classes }) {
         id="panel1a-header"
         className={classes.sidebarCardHeader}
       >
-        <NotificationImportant className={classes.sidebarCardHeaderElements} />
+        <ForumIcon className={classes.sidebarCardHeaderElements} />
         <Typography className={classes.sidebarCardHeaderElements}>
-          Alerts
+          Discussion instantanée
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
@@ -32,11 +34,12 @@ function Alerts({ classes }) {
             height: "250px",
             overflowY: "auto",
             overflowX: "visible",
-            paddingTop: "25px"
+            paddingTop: "25px",
+            width: "100%"
           }}
         >
-          <Grid container direction="column" alignItems="center" wrap="nowrap">
-            <Typography>ALED</Typography>
+          <Grid container direction="column" wrap="nowrap">
+            <ContactsList classes={classes} />
           </Grid>
         </Box>
       </ExpansionPanelDetails>
@@ -44,4 +47,4 @@ function Alerts({ classes }) {
   );
 }
 
-export default Alerts;
+export default Contacts;
