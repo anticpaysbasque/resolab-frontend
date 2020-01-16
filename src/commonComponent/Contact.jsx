@@ -40,10 +40,10 @@ function Contact({ contact, classes }) {
         key={contact.id}
         style={{
           paddingTop: "0px",
-          paddingBottom: "0px",
-          cursor: "pointer"
+          paddingBottom: "0px"
         }}
         onClick={openChat}
+        button
       >
         <ListItemAvatar>
           <AccountCircleIcon />
