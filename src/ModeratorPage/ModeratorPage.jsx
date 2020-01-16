@@ -5,9 +5,10 @@ import Layout from "../Layout/Layout";
 import PostArticle from "../commonComponent/PostArticle";
 import Publications from "../commonComponent/Publications";
 import DisplayStories from "../commonComponent/DisplayStories";
+import Sidebar from "../commonComponent/Sidebar";
+import ModerationComponent from "./ModerationComponent";
 
 import { useStyles } from "../commonComponent/useStyles";
-import Sidebar from "../commonComponent/Sidebar";
 
 export default function ModeratorPage() {
   const classes = useStyles();
@@ -43,6 +44,7 @@ export default function ModeratorPage() {
               />
             </Box>
           </Box>
+          <ModerationComponent classes={classes} />
           <Publications handleSnackBar={handleSnackBar} />
         </Grid>
         <Grid container item xs={3} xl={3} justify="center">
