@@ -70,7 +70,7 @@ function Publications({ handleSnackBar, userId }) {
           </Grid>
         </Grid>
         <Grid>
-          {/* {/* {showUserPublications
+          {showUserPublications
             ? publications
                 .filter(publi => publi.user.id === userId)
                 .map(publication => (
@@ -99,10 +99,10 @@ function Publications({ handleSnackBar, userId }) {
                     postId={publication.id}
                     comments={publication.comments}
                     owner={publication.user}
-                    likes={publication.likes} */}
-          {/* />
+                    likes={publication.likes}
+                  />
                 </Box>
-              ))}  */}
+              ))}
           <ModerationComponent classes={classes} />
         </Grid>
       </Grid>
