@@ -30,11 +30,8 @@ function Alerts({ classes }) {
         <Box
           style={{
             display: "flex",
-            alignItems: "center",
             height: "250px",
             overflowY: "auto",
-            overflowX: "visible",
-            paddingTop: "75px",
             width: "100%"
           }}
         >

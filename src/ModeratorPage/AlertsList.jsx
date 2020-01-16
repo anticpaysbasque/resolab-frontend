@@ -27,7 +27,7 @@ function AlertsList({ classes }) {
 
   return (
     <List>
-      {alerts.map(alert => (
+      {alerts.reverse().map(alert => (
         <Alert alert={alert} classes={classes} />
       ))}
     </List>

@@ -25,7 +25,11 @@ function LikeNotification({ like }) {
       : `${displayLike.content.slice(0, 30)}...`;
 
   return (
-    <ListItem key={like.id} style={{ paddingTop: "0px", paddingBottom: "0px" }}>
+    <ListItem
+      key={like.id}
+      style={{ paddingTop: "0px", paddingBottom: "0px" }}
+      button
+    >
       <ListItemAvatar>
         <FavoriteBorder />
       </ListItemAvatar>

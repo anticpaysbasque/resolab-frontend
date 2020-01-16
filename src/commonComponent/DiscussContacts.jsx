@@ -30,11 +30,8 @@ function Contacts({ classes }) {
         <Box
           style={{
             display: "flex",
-            alignItems: "center",
             height: "250px",
             overflowY: "auto",
-            overflowX: "visible",
-            paddingTop: "25px",
             width: "100%"
           }}
         >
