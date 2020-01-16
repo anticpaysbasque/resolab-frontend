@@ -35,7 +35,7 @@ function Alerts({ classes }) {
             width: "100%"
           }}
         >
-          <Grid container direction="column" alignItems="center" wrap="nowrap">
+          <Grid container direction="column" wrap="nowrap">
             <AlertsList classes={classes} />
           </Grid>
         </Box>
