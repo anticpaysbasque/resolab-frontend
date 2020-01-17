@@ -17,13 +17,16 @@ import SendIcon from "@material-ui/icons/Send";
 import ForumIcon from "@material-ui/icons/Forum";
 import { Warning, PermIdentity } from "@material-ui/icons";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
+import { last, get } from "lodash";
+import Messages from "../Chat/messages/Messages";
 
-function Contact({ contact, classes }) {
+function Contact({ contact, classes, addChat, chat, user, activeChat }) {
   const [chatVisibility, setChatVisibility] = useState(false);
   const [alert, setAlert] = useState(false);
 
   const openChat = () => {
     setChatVisibility(true);
+    addChat(contact.username);
   };
 
   const closeChat = () => {
@@ -37,7 +40,7 @@ function Contact({ contact, classes }) {
   return (
     <>
       <ListItem
-        key={contact.id}
+        // key={contact.id}
         style={{
           paddingTop: "0px",
           paddingBottom: "0px",
@@ -50,7 +53,7 @@ function Contact({ contact, classes }) {
         </ListItemAvatar>
         <ListItemText
           primary={contact.username}
-          secondary={`${contact.roles[0]}`}
+          secondary={get(last(chat.messages), "message", "")}
         />
       </ListItem>
 
@@ -87,7 +90,11 @@ function Contact({ contact, classes }) {
         />
 
         <CardContent>
-          <Typography>chat</Typography>
+          <Messages
+            messages={activeChat.messages}
+            user={user}
+            typingUsers={activeChat.typingUsers}
+          />
         </CardContent>
         <TextField
           // error={isError}
