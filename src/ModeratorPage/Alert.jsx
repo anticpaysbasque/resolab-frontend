@@ -1,6 +1,7 @@
 import React from "react";
 import { ListItem, ListItemAvatar, ListItemText } from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import { connect } from "react-redux";
 
 import AlertInfo from "./AlertInfo";
 
@@ -35,4 +36,8 @@ function Alert({ alert, classes }) {
   );
 }
 
-export default Alert;
+const mapStateToProps = state => ({
+  reduxAlert: state.alertReducer.alert
+});
+
+export default connect(mapStateToProps)(Alert);

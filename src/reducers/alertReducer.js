@@ -1,3 +1,5 @@
+import { SET_ALERT, REMOVE_ALERT } from "./actionTypes";
+
 const initialAlertState = {
   alert: {}
 };
