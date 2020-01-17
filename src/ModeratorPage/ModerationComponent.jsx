@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import {
   Box,
   Card,
@@ -14,18 +15,9 @@ import {
 } from "@material-ui/core";
 import PermIdentity from "@material-ui/icons/PermIdentity";
 import { ChatBubbleOutline } from "@material-ui/icons";
+import { removeAlert } from "../reducers/actions";
 
-function ModerationComponent({
-  description,
-  photo,
-  classes,
-  handleSnackBar,
-  postId,
-  userId,
-  comments,
-  // owner,
-  token
-}) {
+function ModerationComponent({ openAlert, classes }) {
   const [isTakenInCharge, setIsTakenInCharge] = useState(false);
   const [isResolved, setIsResolved] = useState(false);
 
@@ -53,6 +45,7 @@ function ModerationComponent({
       />
       <CardContent>
         <Card>
+          {openAlert && <div>alerte !</div>}
           <Typography>Hé j'ai un problème avec ce contenu!</Typography>
         </Card>
         <Box
@@ -89,4 +82,8 @@ function ModerationComponent({
   );
 }
 
-export default ModerationComponent;
+const mapStateToProps = state => ({
+  openAlert: state.alertReducer
+});
+
+export default connect(mapStateToProps)(ModerationComponent);

@@ -4,8 +4,13 @@ import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { connect } from "react-redux";
 
 import AlertInfo from "./AlertInfo";
+import { setAlert } from "../reducers/actions";
 
-function Alert({ alert, classes }) {
+function Alert({ alert, setAlert }) {
+  const openAlert = () => {
+    setAlert(alert);
+  };
+
   return (
     <ListItem
       key={alert.id}
@@ -14,6 +19,7 @@ function Alert({ alert, classes }) {
         paddingBottom: "0px"
       }}
       button
+      onClick={() => openAlert()}
     >
       <ListItemAvatar>
         <FiberManualRecordIcon
@@ -36,8 +42,14 @@ function Alert({ alert, classes }) {
   );
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    setAlert: alert => dispatch(setAlert(alert))
+  };
+};
+
 const mapStateToProps = state => ({
-  reduxAlert: state.alertReducer.alert
+  openAlert: state.alertReducer.alert
 });
 
-export default connect(mapStateToProps)(Alert);
+export default connect(mapStateToProps, mapDispatchToProps)(Alert);

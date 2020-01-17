@@ -10,7 +10,7 @@ import ModerationComponent from "./ModerationComponent";
 
 import { useStyles } from "../commonComponent/useStyles";
 
-export default function ModeratorPage() {
+function ModeratorPage() {
   const classes = useStyles();
   const [snackBarNotification, setSnackBarNotification] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -61,3 +61,5 @@ export default function ModeratorPage() {
     </Layout>
   );
 }
+
+export default ModeratorPage;
