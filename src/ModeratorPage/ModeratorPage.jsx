@@ -45,7 +45,7 @@ function ModeratorPage({ openAlert }) {
               />
             </Box>
           </Box>
-          {openAlert.id ? (
+          {openAlert.resolved === false ? (
             <ModerationComponent classes={classes} />
           ) : (
             <Publications handleSnackBar={handleSnackBar} />

@@ -1,25 +1,27 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import axios from "axios";
 import {
   Box,
   Card,
   CardHeader,
-  CardMedia,
   CardContent,
   CardActions,
   Grid,
   Avatar,
-  IconButton,
   Typography,
-  Switch
+  Switch,
+  IconButton
 } from "@material-ui/core";
 import PermIdentity from "@material-ui/icons/PermIdentity";
-import { ChatBubbleOutline } from "@material-ui/icons";
+import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 
 import ModerationContent from "./ModerationContent";
 import { removeAlert } from "../reducers/actions";
 
-function ModerationComponent({ openAlert, classes }) {
+const apiUrl = process.env.REACT_APP_API_URL;
+
+function ModerationComponent({ openAlert, classes, removeAlert }) {
   const [isTakenInCharge, setIsTakenInCharge] = useState(false);
   const [isResolved, setIsResolved] = useState(false);
 
@@ -29,6 +31,15 @@ function ModerationComponent({ openAlert, classes }) {
 
   const handleResolved = () => {
     setIsResolved(!isResolved);
+    axios
+      .put(`${apiUrl}/alerts/${openAlert.id}`, {
+        resolved: true
+      })
+      .then(res => {
+        console.log(res);
+        removeAlert();
+      })
+      .catch(err => console.log(err));
   };
 
   return (
@@ -44,48 +55,74 @@ function ModerationComponent({ openAlert, classes }) {
             Alerte de {openAlert.user.username}
           </Typography>
         }
+        action={
+          <IconButton aria-label="settings">
+            <RemoveOutlinedIcon />
+          </IconButton>
+        }
       />
       <CardContent>
         <ModerationContent openAlert={openAlert} classes={classes} />
+        <Typography>
+          Message laissé par {openAlert.user.username} concernant cette alert :
+        </Typography>
         <Card>
-          <Typography>Hé j'ai un problème avec ce contenu!</Typography>
+          <Typography>"Hé j'ai un problème avec ce contenu!"</Typography>
         </Card>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center"
-          }}
-        >
-          <Grid container>
-            <Typography>Prise en charge du problème</Typography>
-            <Switch
-              checked={isTakenInCharge}
-              onChange={() => setIsTakenInCharge(!isTakenInCharge)}
-              value={isTakenInCharge}
-              color="secondary"
-            />{" "}
-          </Grid>
-          <Grid container>
-            <Typography>Résolution du problème</Typography>
-            <Switch
-              checked={isResolved}
-              onChange={() => setIsResolved(!isResolved)}
-              value={isResolved}
-              color="secondary"
-            />
-          </Grid>
-        </Box>
       </CardContent>
+
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites"></IconButton>
+        <Grid
+          container
+          item
+          xs={6}
+          direction="column"
+          alignItems="center"
+          style={{ padding: "16px" }}
+        >
+          <Typography>Ce prend en charge ce problème</Typography>
+          <Switch
+            checked={isTakenInCharge}
+            onChange={() => setIsTakenInCharge(!isTakenInCharge)}
+            value={isTakenInCharge}
+            color="secondary"
+          />{" "}
+        </Grid>
+        <Grid
+          container
+          item
+          xs={6}
+          direction="column"
+          alignItems="center"
+          style={{ padding: "16px" }}
+        >
+          <Typography>
+            Je marque ce problème comme résolu et je clos cette alerte
+            définitivement
+          </Typography>
+          <Switch
+            checked={isResolved}
+            onChange={handleResolved}
+            value={isResolved}
+            color="secondary"
+          />
+        </Grid>
       </CardActions>
     </Card>
   );
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    removeAlert: () => dispatch(removeAlert())
+  };
+};
+
 const mapStateToProps = state => ({
   openAlert: state.alertReducer.alert
 });
 
-export default connect(mapStateToProps)(ModerationComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ModerationComponent);
