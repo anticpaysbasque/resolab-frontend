@@ -7,6 +7,7 @@ import Post from "./Post";
 import axios from "axios";
 
 import useInterval from "../useInterval";
+import ModerationComponent from "../ModeratorPage/ModerationComponent";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -102,6 +103,7 @@ function Publications({ handleSnackBar, userId }) {
                   />
                 </Box>
               ))}
+          <ModerationComponent classes={classes} />
         </Grid>
       </Grid>
     </BottomScrollListener>
