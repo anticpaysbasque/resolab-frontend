@@ -15,6 +15,8 @@ import {
 } from "@material-ui/core";
 import PermIdentity from "@material-ui/icons/PermIdentity";
 import { ChatBubbleOutline } from "@material-ui/icons";
+
+import ModerationContent from "./ModerationContent";
 import { removeAlert } from "../reducers/actions";
 
 function ModerationComponent({ openAlert, classes }) {
@@ -44,10 +46,7 @@ function ModerationComponent({ openAlert, classes }) {
         }
       />
       <CardContent>
-        <Typography>
-          {openAlert.user.username} a lancé une alerte concernant le contenu
-          émis par
-        </Typography>
+        <ModerationContent openAlert={openAlert} classes={classes} />
         <Card>
           <Typography>Hé j'ai un problème avec ce contenu!</Typography>
         </Card>

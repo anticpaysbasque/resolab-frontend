@@ -1,17 +1,66 @@
 import React from "react";
+import { Typography, Card, CardMedia } from "@material-ui/core";
+import { useState } from "react";
 
-function ModerationContent({ alert }) {
-  if (alert.post) {
-    return <div>sur la publication de {alert.post.user.username}</div>;
+function ModerationContent({ classes, openAlert }) {
+  if (openAlert.post) {
+    return (
+      <>
+        <Typography>
+          {openAlert.user.username} a lancé une alerte sur la publication de{" "}
+          {openAlert.post.user.username} :
+        </Typography>
+        <Card>
+          {openAlert.post.photo && (
+            <CardMedia className={classes.media} image={openAlert.post.photo} />
+          )}
+          <Typography>"{openAlert.post.description}"</Typography>
+          <Typography>{openAlert.post.createdAt}</Typography>
+        </Card>
+      </>
+    );
   }
-  if (alert.comment) {
-    return <div>sur le commentaire de {alert.comment.user.username}</div>;
+  if (openAlert.comment) {
+    return (
+      <>
+        <Typography>
+          {openAlert.user.username} a lancé une alerte sur le commentaire de{" "}
+          {openAlert.comment.user.username} :
+        </Typography>
+        <Card>
+          <Typography>"{openAlert.comment.content}"</Typography>
+          <Typography>{openAlert.comment.createdAt}</Typography>
+        </Card>
+      </>
+    );
   }
-  if (alert.story) {
-    return <div>sur la story de {alert.story.user.username}</div>;
+  if (openAlert.story) {
+    return (
+      <>
+        <Typography>
+          {openAlert.user.username} a lancé une alerte sur la story de
+          {openAlert.story.user.username} :
+        </Typography>
+        <Card>
+          {openAlert.story.image && (
+            <CardMedia
+              className={classes.media}
+              image={openAlert.story.image}
+            />
+          )}
+
+          <Typography>{openAlert.story.date}</Typography>
+        </Card>
+      </>
+    );
   }
-  if (alert.chat) {
-    return <div>sur la discussion de {alert.chat.user.username}</div>;
+  if (openAlert.chat) {
+    return (
+      <Typography>
+        {openAlert.user.username} a lancé une alerte sur la discussion de{" "}
+        {openAlert.chat.user.username} :
+      </Typography>
+    );
   }
 }
 
