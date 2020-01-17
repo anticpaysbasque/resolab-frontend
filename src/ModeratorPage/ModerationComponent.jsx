@@ -25,6 +25,12 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
   const [isTakenInCharge, setIsTakenInCharge] = useState(false);
   const [isResolved, setIsResolved] = useState(false);
 
+  const config = {
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token")
+    }
+  };
+
   const handleTakeInCharge = () => {
     setIsTakenInCharge(!isTakenInCharge);
   };
@@ -32,9 +38,13 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
   const handleResolved = () => {
     setIsResolved(!isResolved);
     axios
-      .put(`${apiUrl}/alerts/${openAlert.id}`, {
-        resolved: true
-      })
+      .put(
+        `${apiUrl}/alerts/${openAlert.id}`,
+        {
+          resolved: true
+        },
+        config
+      )
       .then(res => {
         console.log(res);
         removeAlert();
