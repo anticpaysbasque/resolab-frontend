@@ -33,6 +33,18 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
 
   const handleTakeInCharge = () => {
     setIsTakenInCharge(!isTakenInCharge);
+    axios
+      .put(
+        `${apiUrl}/alerts/${openAlert.id}`,
+        {
+          takenCare: isTakenInCharge
+        },
+        config
+      )
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => console.log(err));
   };
 
   const handleResolved = () => {
@@ -93,7 +105,7 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
           <Typography>Ce prend en charge ce problème</Typography>
           <Switch
             checked={isTakenInCharge}
-            onChange={() => setIsTakenInCharge(!isTakenInCharge)}
+            onChange={handleTakeInCharge}
             value={isTakenInCharge}
             color="secondary"
           />{" "}
