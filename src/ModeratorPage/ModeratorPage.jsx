@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Grid, Box, Snackbar } from "@material-ui/core";
+import { connect } from "react-redux";
 
 import Layout from "../Layout/Layout";
 import PostArticle from "../commonComponent/PostArticle";
@@ -10,7 +11,7 @@ import ModerationComponent from "./ModerationComponent";
 
 import { useStyles } from "../commonComponent/useStyles";
 
-function ModeratorPage() {
+function ModeratorPage({ openAlert }) {
   const classes = useStyles();
   const [snackBarNotification, setSnackBarNotification] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -44,8 +45,11 @@ function ModeratorPage() {
               />
             </Box>
           </Box>
-          <ModerationComponent classes={classes} />
-          <Publications handleSnackBar={handleSnackBar} />
+          {openAlert.id ? (
+            <ModerationComponent classes={classes} />
+          ) : (
+            <Publications handleSnackBar={handleSnackBar} />
+          )}
         </Grid>
         <Grid container item xs={3} xl={3} justify="center">
           <Sidebar classes={classes} />
@@ -62,4 +66,8 @@ function ModeratorPage() {
   );
 }
 
-export default ModeratorPage;
+const mapStateToProps = state => ({
+  openAlert: state.alertReducer.alert
+});
+
+export default connect(mapStateToProps)(ModeratorPage);

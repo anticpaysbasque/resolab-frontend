@@ -39,13 +39,16 @@ function ModerationComponent({ openAlert, classes }) {
         }
         title={
           <Typography className={classes.username}>
-            Nom de l'élève qui lancé l'alerte :{/* {alert.user.username} */}
+            Alerte de {openAlert.user.username}
           </Typography>
         }
       />
       <CardContent>
+        <Typography>
+          {openAlert.user.username} a lancé une alerte concernant le contenu
+          émis par
+        </Typography>
         <Card>
-          {openAlert && <div>alerte !</div>}
           <Typography>Hé j'ai un problème avec ce contenu!</Typography>
         </Card>
         <Box
@@ -83,7 +86,7 @@ function ModerationComponent({ openAlert, classes }) {
 }
 
 const mapStateToProps = state => ({
-  openAlert: state.alertReducer
+  openAlert: state.alertReducer.alert
 });
 
 export default connect(mapStateToProps)(ModerationComponent);
