@@ -67,7 +67,7 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
         }
         action={
           <IconButton aria-label="settings">
-            <RemoveOutlinedIcon />
+            <RemoveOutlinedIcon onClick={() => removeAlert()} />
           </IconButton>
         }
       />
