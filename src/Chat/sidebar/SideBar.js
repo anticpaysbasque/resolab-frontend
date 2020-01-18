@@ -12,9 +12,12 @@ export default class SideBar extends Component {
     super(props);
     this.state = {
       reciever: "",
-      activeSideBar: SideBar.type.USERS
+      activeSideBar: SideBar.type.CHATS
     };
   }
+
+  // handlesubmit used for search field
+
   handleSubmit = e => {
     e.preventDefault();
     const { reciever } = this.state;

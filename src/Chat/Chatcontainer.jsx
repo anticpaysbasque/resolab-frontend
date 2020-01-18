@@ -25,6 +25,14 @@ export default class ChatContainer extends Component {
     };
   }
 
+  // componentDidUpdate() {
+  //     const { users } = this.state;
+  //     users.forEach(user => {
+  //         this.sendOpenPrivateMessage(user);
+  //         console.log(user);
+  //     });
+  // }
+
   componentDidMount() {
     const { socket } = this.props;
     this.initSocket(socket);
@@ -54,10 +62,12 @@ export default class ChatContainer extends Component {
   sendOpenPrivateMessage = reciever => {
     const { socket, user } = this.props;
     const { activeChat } = this.state;
+    console.log("private message");
+
     socket.emit(PRIVATE_MESSAGE, {
       reciever,
       sender: user.name,
-      activeChat
+      activeChat: null
     });
   };
 

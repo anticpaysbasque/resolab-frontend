@@ -25,8 +25,6 @@ export default class chatWrapper extends Component {
   initSocket = () => {
     const socket = io(socketUrl);
     const nickname = this.props.username;
-    console.log(nickname);
-
     socket.on("connect", () => {
       console.log("Connected");
     });

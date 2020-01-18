@@ -62,21 +62,19 @@ export default class MessageInput extends Component {
     return (
       <div className="message-input">
         <form onSubmit={this.handleSubmit} className="message-form">
-          <TextField
-            // error={isError}
-            // helperText={helperText}
-            // value={value}
-            // onChange={onChange}
-            id="input-with-icon-textfield"
-            label="Ecrire un message"
-            fullWidth
-            variant="outlined"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SendIcon style={{ cursor: "pointer" }} />
-                </InputAdornment>
-              )
+          <input
+            id="message"
+            ref={"messageinput"}
+            type="text"
+            className="form-control"
+            value={message}
+            autoComplete={"off"}
+            placeholder="Type something interesting"
+            onKeyUp={e => {
+              e.keyCode !== 13 && this.sendTyping();
+            }}
+            onChange={({ target }) => {
+              this.setState({ message: target.value });
             }}
           />
           <button disabled={message.length < 1} type="submit" className="send">
