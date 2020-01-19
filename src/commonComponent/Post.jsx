@@ -37,11 +37,16 @@ function Post({
   const [inputValue, setInputValue] = useState("");
   const [isInputEmpty, setIsInputEmpty] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const [alert, setAlert] = useState(false);
+  const [isAlert, setIsAlert] = useState(false);
   const [stateLikes, setStateLikes] = useState(likes);
   const [likesCount, setLikesCount] = useState(stateLikes.length);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  };
   useEffect(() => {
     stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
   }, []);
@@ -78,12 +83,9 @@ function Post({
 
   const handleLike = () => {
     setIsButtonDisabled(true);
+
     // Si c'est déjà liké, on supprime le like dans l'API, puis isLiked -> false, count -1
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token
-      }
-    };
+
     if (isLiked) {
       const foundLike = stateLikes.find(like => userId === like.user.id);
       if (foundLike) {
@@ -102,7 +104,7 @@ function Post({
             throw err;
           });
       } else {
-        alert("Undefined !");
+        isAlert("Undefined !");
       }
     }
 
@@ -133,8 +135,24 @@ function Post({
   };
 
   const handleClickAlert = () => {
-    setAlert(!alert);
+    axios
+      .post(
+        `${apiUrl}/alerts`,
+        {
+          user: `api/users/${userId}`,
+          post: `api/posts/${postId}`
+        },
+        config
+      )
+      .then(res => {
+        setIsAlert(true);
+      })
+      .catch(err => {
+        console.log(err.message);
+        throw err;
+      });
   };
+
   return (
     <Card className={classes.card} style={{ width: "50vw" }}>
       <div className="scroll-post">
@@ -151,7 +169,7 @@ function Post({
           }
           action={
             <IconButton aria-label="settings">
-              {alert ? (
+              {isAlert ? (
                 <Warning color="secondary" onClick={handleClickAlert} />
               ) : (
                 <Warning color="disabled" onClick={handleClickAlert} />
