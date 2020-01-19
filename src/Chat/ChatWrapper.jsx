@@ -3,7 +3,8 @@ import io from "socket.io-client";
 import { USER_CONNECTED, LOGOUT, VERIFY_USER } from "../utils/Events";
 import ChatContainer from "./Chatcontainer";
 
-const socketUrl = "http://localhost:3231";
+const socketUrl = process.env.REACT_APP_WEBSOCKET_URL;
+
 export default class chatWrapper extends Component {
   constructor(props) {
     super(props);
