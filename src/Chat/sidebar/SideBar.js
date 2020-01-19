@@ -12,7 +12,7 @@ export default class SideBar extends Component {
     super(props);
     this.state = {
       reciever: "",
-      activeSideBar: SideBar.type.CHATS
+      activeSideBar: SideBar.type.USERS
     };
   }
 
@@ -22,17 +22,21 @@ export default class SideBar extends Component {
     e.preventDefault();
     const { reciever } = this.state;
     const { onSendPrivateMessage } = this.props;
-
     onSendPrivateMessage(reciever);
     this.setState({ reciever: "" });
   };
 
+  // ***********************************
+
   addChatForUser = reciever => {
+    console.log("addChat");
     this.props.onSendPrivateMessage(reciever);
   };
-  setActiveSideBar = type => {
-    this.setState({ activeSideBar: type });
-  };
+
+  // ******** will not be used ****************
+  // setActiveSideBar = type => {
+  //     this.setState({ activeSideBar: type });
+  // };
 
   render() {
     const {
@@ -87,41 +91,56 @@ export default class SideBar extends Component {
             e.target === this.refs.user && setActiveChat(null);
           }}
         >
-          {activeSideBar === SideBar.type.CHATS
-            ? chats.map(chat => {
-                return (
-                  <SideBarOption
-                    key={chat.id}
-                    lastMessage={get(last(chat.messages), "message", "")}
-                    name={
-                      chat.isCommunity
-                        ? chat.name
-                        : createChatNameFromUsers(chat.users, user.name)
-                    }
-                    active={activeChat.id === chat.id}
-                    onClick={() => {
-                      this.props.setActiveChat(chat);
-                    }}
-                  />
-                );
-              })
-            : differenceBy(users, [user], "name").map(usr => {
-                return (
-                  <Contact
-                    activeChat={activeChat}
-                    key={usr.id}
-                    user={user}
-                    contact={{ username: usr.name }}
-                    classes={classes}
-                    addChat={this.addChatForUser}
-                    chat={chats.filter(
-                      chat =>
-                        chat.users[0] === usr.name &&
-                        chat.users[1] === user.name
-                    )}
-                  />
-                );
-              })}
+          {/* {activeSideBar === SideBar.type.CHATS
+                        ? chats.map(chat => {
+                              return (
+                                  <SideBarOption
+                                      key={chat.id}
+                                      lastMessage={get(
+                                          last(chat.messages),
+                                          "message",
+                                          ""
+                                      )}
+                                      name={
+                                          chat.isCommunity
+                                              ? chat.name
+                                              : createChatNameFromUsers(
+                                                    chat.users,
+                                                    user.name
+                                                )
+                                      }
+                                      active={activeChat.id === chat.id}
+                                      onClick={() => {
+                                          this.props.setActiveChat(chat);
+                                      }}
+                                  />
+                              );
+                          }) */}
+          {differenceBy(users, [user], "name").map(usr => {
+            return (
+              <Contact
+                activeChat={activeChat}
+                key={usr.id}
+                user={user}
+                contact={usr}
+                classes={classes}
+                addChat={receiver => this.addChatForUser(receiver)}
+                chat={chats.filter(
+                  chat =>
+                    (chat.users[0] === user.name &&
+                      chat.users[1] === usr.name) ||
+                    (chat.users[1] === user.name && chat.users[0] === usr.name)
+                )}
+                setActiveChat={chat => this.props.setActiveChat(chat)}
+                sendTyping={(chatId, isTyping) =>
+                  this.props.sendTyping(chatId, isTyping)
+                }
+                sendMessage={(chatId, message) =>
+                  this.props.sendMessage(chatId, message)
+                }
+              />
+            );
+          })}
         </div>
       </div>
     );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ListItem,
   ListItemAvatar,
@@ -19,14 +19,42 @@ import { Warning, PermIdentity } from "@material-ui/icons";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 import { last, get } from "lodash";
 import Messages from "../Chat/messages/Messages";
+import MessageInput from "../Chat/messages/MessageInput";
 
-function Contact({ contact, classes, addChat, chat, user, activeChat }) {
+function Contact({
+  contact,
+  classes,
+  addChat,
+  chat,
+  user,
+  activeChat,
+  setActiveChat,
+  sendTyping,
+  sendMessage
+}) {
   const [chatVisibility, setChatVisibility] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [userChat, setUserChat] = useState(chat[0]);
 
-  const openChat = () => {
-    setChatVisibility(true);
-    addChat(contact.username);
+  useEffect(() => {
+    console.log("chat update");
+    setActiveChat(chat[0]);
+    setUserChat(chat[0]);
+  }, [chat[0]]);
+
+  const openChat = async () => {
+    console.log("chat", userChat);
+    if (userChat === undefined) {
+      console.log("create chat");
+      await addChat(contact.name);
+
+      setChatVisibility(true);
+    } else {
+      console.log("switch to chat");
+      setChatVisibility(true);
+      setActiveChat(chat[0]);
+      setUserChat(chat[0]);
+    }
   };
 
   const closeChat = () => {
@@ -40,7 +68,6 @@ function Contact({ contact, classes, addChat, chat, user, activeChat }) {
   return (
     <>
       <ListItem
-        // key={contact.id}
         style={{
           paddingTop: "0px",
           paddingBottom: "0px",
@@ -52,8 +79,8 @@ function Contact({ contact, classes, addChat, chat, user, activeChat }) {
           <AccountCircleIcon />
         </ListItemAvatar>
         <ListItemText
-          primary={contact.username}
-          secondary={get(last(chat.messages), "message", "")}
+          primary={contact.name}
+          // secondary={get(last(chat.messages), "message", "")}
         />
       </ListItem>
 
@@ -63,6 +90,7 @@ function Contact({ contact, classes, addChat, chat, user, activeChat }) {
             ? classes.chatWindowVisible
             : classes.chatWindowNoVisible
         }
+        style={{ zIndex: "100 !important" }}
       >
         <CardHeader
           avatar={
@@ -91,28 +119,32 @@ function Contact({ contact, classes, addChat, chat, user, activeChat }) {
 
         <CardContent>
           <Messages
-            messages={activeChat.messages}
+            messages={activeChat && activeChat.messages}
             user={user}
-            typingUsers={activeChat.typingUsers}
+            typingUsers={activeChat && activeChat.typingUsers}
           />
         </CardContent>
-        <TextField
-          // error={isError}
-          // helperText={helperText}
-          // value={value}
-          // onChange={onChange}
-          id="input-with-icon-textfield"
-          label="Ecrire un message"
-          fullWidth
-          variant="outlined"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SendIcon style={{ cursor: "pointer" }} />
-              </InputAdornment>
-            )
-          }}
+        <MessageInput
+          sendMessage={message => sendMessage(activeChat.id, message)}
+          sendTyping={isTyping => sendTyping(activeChat.id, isTyping)}
         />
+        {/* <TextField
+                    // error={isError}
+                    // helperText={helperText}
+                    // value={value}
+                    // onChange={onChange}
+                    id="input-with-icon-textfield"
+                    label="Ecrire un message"
+                    fullWidth
+                    variant="outlined"
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <SendIcon style={{ cursor: "pointer" }} />
+                            </InputAdornment>
+                        )
+                    }}
+                /> */}
       </Card>
     </>
   );
