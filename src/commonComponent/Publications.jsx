@@ -103,7 +103,6 @@ function Publications({ handleSnackBar, userId }) {
                   />
                 </Box>
               ))}
-          <ModerationComponent classes={classes} />
         </Grid>
       </Grid>
     </BottomScrollListener>
