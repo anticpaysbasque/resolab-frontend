@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { TextField } from "@material-ui/core";
 
 export default class MessageInput extends Component {
   constructor(props) {
@@ -60,27 +61,27 @@ export default class MessageInput extends Component {
   render() {
     const { message } = this.state;
     return (
-      <div className="message-input">
-        <form onSubmit={this.handleSubmit} className="message-form">
-          <input
+      <div className="message-input" style={{ padding: "0px 15 px" }}>
+        <form
+          onSubmit={this.handleSubmit}
+          className="message-form"
+          style={{ margin: "3px" }}
+        >
+          <TextField
             id="message"
+            fullWidth
             ref={"messageinput"}
-            type="text"
-            className="form-control"
+            variant="outlined"
             value={message}
-            autoComplete={"off"}
-            placeholder="Type something interesting"
+            placeholder="Saisir le message"
             onKeyUp={e => {
               e.keyCode !== 13 && this.sendTyping();
             }}
             onChange={({ target }) => {
               this.setState({ message: target.value });
             }}
+            style={{ height: "20px" }}
           />
-          <button disabled={message.length < 1} type="submit" className="send">
-            {" "}
-            Send{" "}
-          </button>
         </form>
       </div>
     );

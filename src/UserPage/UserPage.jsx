@@ -20,7 +20,7 @@ export default function UserPage() {
 
   return (
     <Layout>
-      <Grid container style={{ marginTop: "80px" }} spacing={3}>
+      <Grid container style={{ marginTop: "80px" }}>
         <Grid container item xs={2} justify="center">
           <PostArticle handleSnackBar={handleSnackBar} classes={classes} />
         </Grid>

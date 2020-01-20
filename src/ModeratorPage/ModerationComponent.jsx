@@ -9,6 +9,7 @@ import {
   CardActions,
   Grid,
   Avatar,
+
   Typography,
   Switch,
   IconButton,
@@ -16,7 +17,6 @@ import {
 } from "@material-ui/core";
 import PermIdentity from "@material-ui/icons/PermIdentity";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
-
 import ModerationContent from "./ModerationContent";
 import { removeAlert } from "../reducers/actions";
 
