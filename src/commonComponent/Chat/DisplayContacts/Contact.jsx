@@ -15,11 +15,11 @@ import ForumIcon from "@material-ui/icons/Forum";
 import { Warning } from "@material-ui/icons";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 // import { last, get } from "lodash";
-import Messages from "../Chat/messages/Messages";
-import MessageInput from "../Chat/messages/MessageInput";
+import Messages from "../messages/Messages";
+import MessageInput from "../messages/MessageInput";
 
 function Contact({
-  contact,
+  receiver,
   classes,
   addChat,
   chat,
@@ -45,7 +45,7 @@ function Contact({
     console.log("chat", userChat);
     if (userChat === undefined) {
       console.log("create chat");
-      await addChat(contact.name);
+      await addChat(receiver.name);
       setChatVisibility(true);
     } else {
       console.log("switch to chat");
@@ -77,7 +77,7 @@ function Contact({
         <ListItemAvatar>
           <AccountCircleIcon />
         </ListItemAvatar>
-        <ListItemText primary={contact.name} secondary={lastMessage} />
+        <ListItemText primary={receiver.name} secondary={lastMessage} />
       </ListItem>
 
       <Card
@@ -95,7 +95,7 @@ function Contact({
           }
           title={
             <Typography className={classes.username}>
-              {`Discussion avec ${contact.name}`}
+              {`Discussion avec ${receiver.name}`}
             </Typography>
           }
           action={
