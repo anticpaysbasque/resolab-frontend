@@ -22,6 +22,7 @@ function AlertsList({ classes }) {
         fetchDatas();
       }, 10000);
     };
+
     fetchDatas();
   }, []);
 

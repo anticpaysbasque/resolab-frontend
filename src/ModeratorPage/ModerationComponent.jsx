@@ -11,7 +11,8 @@ import {
   Avatar,
   Typography,
   Switch,
-  IconButton
+  IconButton,
+  Paper
 } from "@material-ui/core";
 import PermIdentity from "@material-ui/icons/PermIdentity";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
@@ -83,16 +84,23 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
           </IconButton>
         }
       />
-      <CardContent>
-        <ModerationContent openAlert={openAlert} classes={classes} />
-        <Typography>
-          Message laissé par {openAlert.user.username} concernant cette alert :
-        </Typography>
-        <Card>
+      <ModerationContent openAlert={openAlert} classes={classes} />
+      <Grid
+        container
+        items
+        xs={10}
+        display="flex"
+        direction="row"
+        alignItems="center"
+      >
+        <Paper padding={"5px"} elevation={1}>
+          <Typography>
+            Message laissé par {openAlert.user.username} concernant cette alerte
+            :
+          </Typography>
           <Typography>"Hé j'ai un problème avec ce contenu!"</Typography>
-        </Card>
-      </CardContent>
-
+        </Paper>
+      </Grid>
       <CardActions disableSpacing>
         <Grid
           container
@@ -102,7 +110,7 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
           alignItems="center"
           style={{ padding: "16px" }}
         >
-          <Typography>Ce prend en charge ce problème</Typography>
+          <Typography>Je prend en charge ce problème</Typography>
           <Switch
             checked={isTakenInCharge}
             onChange={handleTakeInCharge}

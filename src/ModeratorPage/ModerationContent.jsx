@@ -1,6 +1,5 @@
-import React from "react";
-import { Typography, Card, CardMedia } from "@material-ui/core";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Typography, CardMedia } from "@material-ui/core";
 
 function ModerationContent({ classes, openAlert }) {
   if (openAlert.post) {
@@ -10,13 +9,12 @@ function ModerationContent({ classes, openAlert }) {
           {openAlert.user.username} a lancé une alerte sur la publication de{" "}
           {openAlert.post.user.username} :
         </Typography>
-        <Card>
-          {openAlert.post.photo && (
-            <CardMedia className={classes.media} image={openAlert.post.photo} />
-          )}
-          <Typography>"{openAlert.post.description}"</Typography>
-          <Typography>{openAlert.post.createdAt}</Typography>
-        </Card>
+
+        {openAlert.post.photo && (
+          <CardMedia className={classes.media} image={openAlert.post.photo} />
+        )}
+        <Typography>"{openAlert.post.description}"</Typography>
+        <Typography>{openAlert.post.createdAt}</Typography>
       </>
     );
   }
@@ -27,10 +25,9 @@ function ModerationContent({ classes, openAlert }) {
           {openAlert.user.username} a lancé une alerte sur le commentaire de{" "}
           {openAlert.comment.user.username} :
         </Typography>
-        <Card>
-          <Typography>"{openAlert.comment.content}"</Typography>
-          <Typography>{openAlert.comment.createdAt}</Typography>
-        </Card>
+
+        <Typography>"{openAlert.comment.content}"</Typography>
+        <Typography>{openAlert.comment.createdAt}</Typography>
       </>
     );
   }
@@ -41,16 +38,13 @@ function ModerationContent({ classes, openAlert }) {
           {openAlert.user.username} a lancé une alerte sur la story de
           {openAlert.story.user.username} :
         </Typography>
-        <Card>
-          {openAlert.story.image && (
-            <CardMedia
-              className={classes.media}
-              image={openAlert.story.image}
-            />
-          )}
 
+        {openAlert.story.image && (
+          <CardMedia className={classes.media} image={openAlert.story.image} />
+        )}
+        <div className="separation-post-comment">
           <Typography>{openAlert.story.date}</Typography>
-        </Card>
+        </div>
       </>
     );
   }
