@@ -94,6 +94,9 @@ function PostArticle({ id, token, handleSnackBar }) {
       })
       .then(res => {
         console.log(res);
+        setPreviewImage(null);
+        setImage(null);
+        setDescription("");
         return handleSnackBar("Ta publication a bien été postée");
       })
       .catch(err => console.log(err))

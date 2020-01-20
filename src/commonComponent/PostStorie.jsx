@@ -67,6 +67,8 @@ function PostStorie({ id, classes, handleSnackBar }) {
       })
       .then(res => {
         console.log(res);
+        setPreviewImage(null);
+        setImage(null);
         return handleSnackBar("Ta storie a bien été postée");
       })
       .catch(err => console.log(err))
