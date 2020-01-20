@@ -15,9 +15,9 @@ import axios from "axios";
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
 import { connect } from "react-redux";
 
-import apiCallAuth from "../apiCallAuth";
-import CommentInput from "./CommentInput";
-import DisplayComments from "./DisplayComments";
+import apiCallAuth from "../../apiCallAuth";
+import CommentInput from "./Comments/CommentInput";
+import DisplayComments from "./Comments/DisplayComments";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 

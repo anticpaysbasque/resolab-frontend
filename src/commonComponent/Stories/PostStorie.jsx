@@ -15,9 +15,9 @@ import {
   Button
 } from "@material-ui/core";
 
-import apiCallAuth from "../apiCallAuth";
-import img from "../Assets/add.png";
-import WebcamComponent from "./WebcamComponent";
+import apiCallAuth from "../../apiCallAuth";
+import img from "../../Assets/add.png";
+import WebcamComponent from "../WebcamComponent";
 
 const mapStateToProps = state => ({
   id: state.userReducer.id
@@ -117,7 +117,7 @@ function PostStorie({ id, classes, handleSnackBar }) {
                 fontSize={24}
                 fontWeight="fontWeightBold"
               >
-                Nouvelle storie
+                Nouvelle story
               </Box>
               <form
                 className={classes.form}

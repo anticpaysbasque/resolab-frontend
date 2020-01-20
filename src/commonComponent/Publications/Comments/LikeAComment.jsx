@@ -1,17 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-import { makeStyles } from "@material-ui/core/styles";
 import { IconButton } from "@material-ui/core";
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
 import { connect } from "react-redux";
 
-import apiCallAuth from "../apiCallAuth";
-
-const useStyles = makeStyles(theme => ({
-  inline: {
-    display: "inline"
-  }
-}));
+import apiCallAuth from "../../../apiCallAuth";
 
 function CommentLikes({ commentId, userId }) {
   const [isLiked, setIsLiked] = useState(false);

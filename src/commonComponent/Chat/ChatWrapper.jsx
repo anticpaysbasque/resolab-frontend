@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
-import { USER_CONNECTED, LOGOUT, VERIFY_USER } from "../utils/Events";
+import { USER_CONNECTED, LOGOUT, VERIFY_USER } from "../../utils/Events";
 import ChatContainer from "./Chatcontainer";
 
 const socketUrl = process.env.REACT_APP_WEBSOCKET_URL;

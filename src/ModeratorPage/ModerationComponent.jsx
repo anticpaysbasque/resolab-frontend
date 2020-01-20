@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import {
-  Box,
   Card,
   CardHeader,
-  CardContent,
   CardActions,
   Grid,
   Avatar,
-
   Typography,
   Switch,
   IconButton,

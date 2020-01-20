@@ -8,15 +8,13 @@ import {
   Avatar,
   CardContent,
   IconButton,
-  Typography,
-  Box,
-  Grid
+  Typography
 } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ForumIcon from "@material-ui/icons/Forum";
-import { Warning, PermIdentity } from "@material-ui/icons";
+import { Warning } from "@material-ui/icons";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
-import { last, get } from "lodash";
+// import { last, get } from "lodash";
 import Messages from "../Chat/messages/Messages";
 import MessageInput from "../Chat/messages/MessageInput";
 

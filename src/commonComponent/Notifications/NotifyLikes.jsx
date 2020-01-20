@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { List } from "@material-ui/core";
 
-import apiCallAuth from "../apiCallAuth";
+import apiCallAuth from "../../apiCallAuth";
 import LikeNotification from "./LikeNotification";
 
 function NotifyLikes({ userId }) {

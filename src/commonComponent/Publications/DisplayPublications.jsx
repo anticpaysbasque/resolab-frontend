@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Box, Switch, Grid, makeStyles, Typography } from "@material-ui/core";
+import { Box, Switch, Grid, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import BottomScrollListener from "react-bottom-scroll-listener";
-import { useStyles } from "./useStyles";
-import Post from "./Post";
+import { useStyles } from "../useStyles";
+import Publication from "./Publication";
 import axios from "axios";
 
-import useInterval from "../useInterval";
-import ModerationComponent from "../ModeratorPage/ModerationComponent";
+import useInterval from "../../useInterval";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function Publications({ handleSnackBar, userId }) {
+function DisplayPublications({ handleSnackBar, userId }) {
   const [publications, setPublications] = useState([]);
   const [showUserPublications, setShowUserPublications] = useState(false);
   const [lastPageToFetch, setLastPageToFetch] = useState(1);
@@ -75,7 +74,7 @@ function Publications({ handleSnackBar, userId }) {
                 .filter(publi => publi.user.id === userId)
                 .map(publication => (
                   <Box m={2}>
-                    <Post
+                    <Publication
                       key={publication.id}
                       description={publication.description}
                       photo={publication.photo}
@@ -90,7 +89,7 @@ function Publications({ handleSnackBar, userId }) {
                 ))
             : publications.map(publication => (
                 <Box m={2}>
-                  <Post
+                  <Publication
                     key={publication.id}
                     description={publication.description}
                     photo={publication.photo}
@@ -116,4 +115,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Publications);
+export default connect(mapStateToProps)(DisplayPublications);

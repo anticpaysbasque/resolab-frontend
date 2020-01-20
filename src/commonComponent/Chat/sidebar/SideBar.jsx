@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import SideBarOption from "./SideBarOption";
-import { last, get, differenceBy } from "lodash";
-import { createChatNameFromUsers } from "../../utils/websocketsFactories";
-import Contact from "../../commonComponent/Contact";
+import { differenceBy } from "lodash";
+// import { createChatNameFromUsers } from "../../../utils/websocketsFactories";
+import Contact from "../Contact";
 export default class SideBar extends Component {
   static type = {
     USERS: "users",
@@ -44,11 +43,10 @@ export default class SideBar extends Component {
       activeChat,
       user,
       setActiveChat,
-      logout,
       users,
       classes
     } = this.props;
-    const { reciever, activeSideBar } = this.state;
+    const { reciever } = this.state;
     return (
       <div id="side-bar">
         <form onSubmit={this.handleSubmit} className="search">

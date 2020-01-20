@@ -8,10 +8,7 @@ import {
   PRIVATE_MESSAGE,
   USER_CONNECTED,
   USER_DISCONNECTED
-} from "../utils/Events";
-import ChatHeading from "./ChatHeading";
-import Messages from "./messages/Messages";
-import MessageInput from "./messages/MessageInput";
+} from "../../utils/Events";
 import { values } from "lodash";
 
 export default class ChatContainer extends Component {
@@ -61,7 +58,7 @@ export default class ChatContainer extends Component {
 
   sendOpenPrivateMessage = reciever => {
     const { socket, user } = this.props;
-    const { activeChat } = this.state;
+    // const { activeChat } = this.state;
     console.log("private message");
 
     socket.emit(PRIVATE_MESSAGE, {

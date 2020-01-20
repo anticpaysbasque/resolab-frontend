@@ -6,7 +6,6 @@ import LoginPage from "./LoginPage/LoginPage";
 import UserPage from "./UserPage/UserPage";
 import ModeratorPage from "./ModeratorPage/ModeratorPage";
 import SettingsPage from "./SettingsPage/SettingsPage";
-import ChatWrapper from "./Chat/ChatWrapper";
 
 function AuthRouteUser({ isAuth, component: Component, ...rest }) {
   return (
@@ -49,7 +48,6 @@ function Router({ isAuth, roles }) {
           component={ModeratorPage}
         />
         <Route path="/settings" component={SettingsPage} />
-        <Route path="/chat" component={ChatWrapper} />
       </Switch>
     </BrowserRouter>
   );

@@ -9,9 +9,9 @@ import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 
-import apiCallAuth from "../apiCallAuth";
-import "../Layout/Scroll.css";
-import WebcamComponent from "./WebcamComponent";
+import apiCallAuth from "../../apiCallAuth";
+import "../../Layout/Scroll.css";
+import WebcamComponent from "../WebcamComponent";
 
 const mediaUrl = process.env.REACT_APP_MEDIA_URL;
 

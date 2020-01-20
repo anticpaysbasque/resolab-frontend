@@ -16,7 +16,13 @@ export default function HeaderSite() {
         alignItems="center"
       >
         <Grid item xs={2}>
-          <img src={logo} width="50" spacing={2} justify="center" />
+          <img
+            src={logo}
+            width="50"
+            spacing={2}
+            justify="center"
+            alt="RésoLab"
+          />
         </Grid>
         <Grid item xs={10} flex-direction="flex-start">
           <Typography>

@@ -11,8 +11,7 @@ import ForumIcon from "@material-ui/icons/Forum";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { connect } from "react-redux";
 
-import ContactsList from "./ContactsList";
-import ChatWrapper from "../Chat/ChatWrapper";
+import ChatWrapper from "./ChatWrapper";
 
 function Contacts({ classes, username }) {
   return (

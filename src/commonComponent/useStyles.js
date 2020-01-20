@@ -1,6 +1,4 @@
 import { makeStyles } from "@material-ui/core/styles";
-import zIndex from "@material-ui/core/styles/zIndex";
-import { grey } from "@material-ui/core/colors";
 
 export const useStyles = makeStyles(theme => ({
   card: {

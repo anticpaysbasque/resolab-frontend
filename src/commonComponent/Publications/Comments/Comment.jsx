@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 
 import {
   ListItem,
   ListItemText,
   Divider,
   Typography,
-  CardActions,
-  IconButton
+  CardActions
 } from "@material-ui/core";
 
-import CommentLikes from "./CommentLikes";
+import CommentLikes from "./LikeAComment";
 
 function Comment({ comment, classes }) {
   return (

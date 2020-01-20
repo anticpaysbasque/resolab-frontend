@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Typography, CardMedia } from "@material-ui/core";
 
 function ModerationContent({ classes, openAlert }) {

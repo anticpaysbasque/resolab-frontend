@@ -6,7 +6,7 @@ import Storie from "./Story";
 import PostStorie from "./PostStorie";
 // import apiCallAuth from "../apiCallAuth";
 import axios from "axios";
-import img from "../Assets/logo-resolab.png";
+import img from "../../Assets/logo-resolab.png";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
