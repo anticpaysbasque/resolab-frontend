@@ -10,6 +10,8 @@ import {
 import { NotificationImportant } from "@material-ui/icons";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
+import AlertsList from "./AlertsList";
+
 function Alerts({ classes }) {
   return (
     <ExpansionPanel className={classes.sidebarCard}>
@@ -28,15 +30,13 @@ function Alerts({ classes }) {
         <Box
           style={{
             display: "flex",
-            alignItems: "center",
             height: "250px",
             overflowY: "auto",
-            overflowX: "visible",
-            paddingTop: "25px"
+            width: "100%"
           }}
         >
-          <Grid container direction="column" alignItems="center" wrap="nowrap">
-            <Typography>ALED</Typography>
+          <Grid container direction="column" wrap="nowrap">
+            <AlertsList classes={classes} />
           </Grid>
         </Box>
       </ExpansionPanelDetails>

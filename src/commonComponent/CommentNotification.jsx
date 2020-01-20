@@ -12,6 +12,7 @@ function CommentNotification({ comment }) {
     <ListItem
       key={comment.id}
       style={{ paddingTop: "0px", paddingBottom: "0px" }}
+      button
     >
       <ListItemAvatar>
         <ChatBubbleOutline />

@@ -1,4 +1,10 @@
-import { LOGIN, SET_USER, LOG_OUT } from "./actionTypes";
+import {
+  LOGIN,
+  SET_USER,
+  LOG_OUT,
+  SET_ALERT,
+  REMOVE_ALERT
+} from "./actionTypes";
 
 export const storeToken = token => dispatch => {
   dispatch({ type: LOGIN, payload: token });
@@ -14,4 +20,12 @@ export const removeToken = () => dispatch => {
   dispatch({ type: LOG_OUT });
   sessionStorage.clear("token");
   return;
+};
+
+export const setAlert = alert => dispatch => {
+  return dispatch({ type: SET_ALERT, payload: alert });
+};
+
+export const removeAlert = () => dispatch => {
+  return dispatch({ type: REMOVE_ALERT });
 };
