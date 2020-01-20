@@ -9,10 +9,12 @@ import {
 } from "@material-ui/core";
 import ForumIcon from "@material-ui/icons/Forum";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { connect } from "react-redux";
 
 import ContactsList from "./ContactsList";
+import ChatWrapper from "../Chat/ChatWrapper";
 
-function Contacts({ classes }) {
+function Contacts({ classes, username }) {
   return (
     <ExpansionPanel className={classes.sidebarCard}>
       <ExpansionPanelSummary
@@ -39,7 +41,8 @@ function Contacts({ classes }) {
           }}
         >
           <Grid container direction="column" wrap="nowrap">
-            <ContactsList classes={classes} />
+            {/* <ContactsList classes={classes} /> */}
+            <ChatWrapper username={username} classes={classes} />
           </Grid>
         </Box>
       </ExpansionPanelDetails>
@@ -47,4 +50,10 @@ function Contacts({ classes }) {
   );
 }
 
-export default Contacts;
+const mapStateToProps = state => {
+  return {
+    username: state.userReducer.username
+  };
+};
+
+export default connect(mapStateToProps)(Contacts);
