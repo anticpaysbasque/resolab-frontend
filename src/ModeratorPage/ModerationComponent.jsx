@@ -75,7 +75,7 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
         }
         title={
           <Typography className={classes.username}>
-            Alerte de {openAlert.user.username}
+            Alerte de {openAlert && openAlert.user.username}
           </Typography>
         }
         action={
@@ -156,4 +156,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ModerationComponent);
-
