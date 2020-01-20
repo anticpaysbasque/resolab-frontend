@@ -30,14 +30,12 @@ export default function Notification({ classes }) {
         <Box
           style={{
             display: "flex",
-            alignItems: "center",
             height: "250px",
             overflowY: "auto",
-            overflowX: "visible",
-            paddingTop: "25px"
+            width: "100%"
           }}
         >
-          <Grid container direction="column" alignItems="center" wrap="nowrap">
+          <Grid container direction="column" wrap="nowrap">
             <NotifyComments />
             <NotifyLikes />
           </Grid>
