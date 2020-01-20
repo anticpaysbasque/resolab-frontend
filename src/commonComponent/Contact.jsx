@@ -19,7 +19,6 @@ import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 import { last, get } from "lodash";
 import Messages from "../Chat/messages/Messages";
 import MessageInput from "../Chat/messages/MessageInput";
-import ScrollToBottom from "react-scroll-to-bottom";
 
 function Contact({
   contact,

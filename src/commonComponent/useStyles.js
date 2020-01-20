@@ -70,7 +70,7 @@ export const useStyles = makeStyles(theme => ({
     marginLeft: "8px"
   },
   chatWindowVisible: {
-    width: "50vw",
+    width: "40vw",
     maxHeight: "50vh",
     minHeight: "45vh",
     position: "fixed",
@@ -81,7 +81,7 @@ export const useStyles = makeStyles(theme => ({
     visibility: "visible"
   },
   chatWindowNoVisible: {
-    width: "100vw",
+    width: "40vw",
     maxHeight: "40vh",
     position: "fixed",
     bottom: "0px",

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ScrollToBottom from "react-scroll-to-bottom";
 import "./messages.css";
 
 export default class Messages extends Component {
