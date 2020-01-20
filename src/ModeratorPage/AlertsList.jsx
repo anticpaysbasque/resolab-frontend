@@ -6,7 +6,7 @@ import Alert from "./Alert";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function AlertsList({ classes }) {
+function AlertsList({ classes, setAlertCount }) {
   const [alerts, setAlerts] = useState([]);
 
   useEffect(() => {
@@ -18,6 +18,7 @@ function AlertsList({ classes }) {
         }
       });
       setAlerts(res.data);
+      setAlertCount(res.data.length);
       setTimeout(() => {
         fetchDatas();
       }, 10000);
