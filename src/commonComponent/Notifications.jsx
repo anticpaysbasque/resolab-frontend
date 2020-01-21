@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
   Box,
-  Grid
+  Grid,
+  Badge
 } from "@material-ui/core";
 import { Notifications, ExpandMore } from "@material-ui/icons/";
 
@@ -13,6 +14,14 @@ import NotifyComments from "./NotifyComments";
 import NotifyLikes from "./NotifyLikes";
 
 export default function Notification({ classes }) {
+  const [commentsCount, setCommentsCount] = useState(0);
+  const [likesCount, setLikesCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
+
+  useEffect(() => {
+    setTotalCount(commentsCount + likesCount);
+  }, [commentsCount, likesCount]);
+
   return (
     <ExpansionPanel className={classes.sidebarCard}>
       <ExpansionPanelSummary
@@ -25,6 +34,7 @@ export default function Notification({ classes }) {
         <Typography className={classes.sidebarCardHeaderElements}>
           Notifications
         </Typography>
+        <Badge color="secondary" badgeContent={totalCount} showZero></Badge>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <Box
@@ -36,8 +46,8 @@ export default function Notification({ classes }) {
           }}
         >
           <Grid container direction="column" wrap="nowrap">
-            <NotifyComments />
-            <NotifyLikes />
+            <NotifyComments setCount={setCommentsCount} />
+            <NotifyLikes setCount={setLikesCount} />
           </Grid>
         </Box>
       </ExpansionPanelDetails>
