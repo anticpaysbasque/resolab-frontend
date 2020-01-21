@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import SideBar from "./sidebar/SideBar";
+import DisplayContacts from "./DisplayContacts/DisplayContacts";
+
 import {
   COMMUNITY_CHAT,
   MESSAGE_SENT,
@@ -58,9 +59,6 @@ export default class ChatContainer extends Component {
 
   sendOpenPrivateMessage = reciever => {
     const { socket, user } = this.props;
-    // const { activeChat } = this.state;
-    console.log("private message");
-
     socket.emit(PRIVATE_MESSAGE, {
       reciever,
       sender: user.name,
@@ -171,7 +169,7 @@ export default class ChatContainer extends Component {
     const { chats, activeChat, users } = this.state;
     return (
       <div className="container">
-        <SideBar
+        <DisplayContacts
           logout={logout}
           chats={chats}
           user={user}

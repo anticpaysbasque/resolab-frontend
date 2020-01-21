@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { TextField } from "@material-ui/core";
+import { TextField, Grid } from "@material-ui/core";
+import { EmojiEmotions } from "@material-ui/icons";
+
+import EmojiPicker from "./EmojiPicker";
 
 export default class MessageInput extends Component {
   constructor(props) {
@@ -7,7 +10,8 @@ export default class MessageInput extends Component {
 
     this.state = {
       message: "",
-      isTyping: false
+      isTyping: false,
+      isEmojiOpen: false
     };
   }
 
@@ -32,6 +36,12 @@ export default class MessageInput extends Component {
       this.props.sendTyping(true);
       this.startCheckingTyping();
     }
+  };
+  addEmoji = e => {
+    let emoji = e.native;
+    this.setState({
+      message: this.state.message + emoji
+    });
   };
 
   /*
@@ -59,30 +69,45 @@ export default class MessageInput extends Component {
   };
 
   render() {
-    const { message } = this.state;
+    const { message, isEmojiOpen } = this.state;
     return (
       <div className="message-input" style={{ padding: "0px 15 px" }}>
-        <form
-          onSubmit={this.handleSubmit}
-          className="message-form"
-          style={{ margin: "3px" }}
-        >
-          <TextField
-            id="message"
-            fullWidth
-            ref={"messageinput"}
-            variant="outlined"
-            value={message}
-            placeholder="Saisir le message"
-            onKeyUp={e => {
-              e.keyCode !== 13 && this.sendTyping();
-            }}
-            onChange={({ target }) => {
-              this.setState({ message: target.value });
-            }}
-            style={{ height: "20px" }}
-          />
-        </form>
+        <Grid container>
+          <Grid item xs={11}>
+            <form
+              onSubmit={this.handleSubmit}
+              className="message-form"
+              style={{ margin: "3px" }}
+            >
+              <TextField
+                id="message"
+                fullWidth
+                ref={"messageinput"}
+                variant="outlined"
+                value={message}
+                placeholder="Saisir le message"
+                onKeyUp={e => {
+                  e.keyCode !== 13 && this.sendTyping();
+                }}
+                onChange={({ target }) => {
+                  this.setState({ message: target.value });
+                }}
+                style={{ height: "20px" }}
+              />
+            </form>
+          </Grid>
+          <Grid item xs={1}>
+            <EmojiEmotions
+              color="primary"
+              onClick={() =>
+                this.setState({
+                  isEmojiOpen: !this.state.isEmojiOpen
+                })
+              }
+            />
+            {isEmojiOpen && <EmojiPicker addEmoji={e => this.addEmoji(e)} />}
+          </Grid>
+        </Grid>
       </div>
     );
   }

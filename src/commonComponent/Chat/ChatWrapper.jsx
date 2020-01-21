@@ -5,7 +5,7 @@ import ChatContainer from "./Chatcontainer";
 
 const socketUrl = process.env.REACT_APP_WEBSOCKET_URL;
 
-export default class chatWrapper extends Component {
+export default class ChatWrapper extends Component {
   constructor(props) {
     super(props);
 
@@ -26,11 +26,12 @@ export default class chatWrapper extends Component {
   initSocket = () => {
     const socket = io(socketUrl);
     const nickname = this.props.username;
+    const userId = this.props.userId;
     socket.on("connect", () => {
       console.log("Connected");
     });
     this.setState({ socket });
-    socket.emit(VERIFY_USER, nickname, this.setUserVerify);
+    socket.emit(VERIFY_USER, nickname, userId, this.setUserVerify);
   };
 
   /*
