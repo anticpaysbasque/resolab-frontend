@@ -4,7 +4,6 @@ import { Grid } from "@material-ui/core";
 
 import Storie from "./Story";
 import PostStorie from "./PostStorie";
-// import apiCallAuth from "../apiCallAuth";
 import axios from "axios";
 import img from "../../Assets/logo-resolab.png";
 

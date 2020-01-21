@@ -8,12 +8,13 @@ import Fade from "@material-ui/core/Fade";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
 
-import apiCallAuth from "../../apiCallAuth";
 import "../../Layout/Scroll.css";
 import WebcamComponent from "../WebcamComponent";
 
 const mediaUrl = process.env.REACT_APP_MEDIA_URL;
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -81,16 +82,30 @@ function PostArticle({ id, token, handleSnackBar }) {
     const formData = new FormData();
     formData.append("file", image);
 
-    apiCallAuth
-      .post("/media_objects", formData)
+    axios
+      .post(`${apiUrl}/media_objects`, formData, {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          Accept: "application/json"
+        }
+      })
       .then(res => {
         console.log(res);
-        return apiCallAuth.post("/posts", {
-          description: description,
-          photo: mediaUrl + res.data.contentUrl,
-          likes: 0,
-          user: `/api/users/${id}`
-        });
+        return axios.post(
+          `${apiUrl}/posts`,
+          {
+            description: description,
+            photo: mediaUrl + res.data.contentUrl,
+            likes: 0,
+            user: `/api/users/${id}`
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + sessionStorage.getItem("token"),
+              Accept: "application/json"
+            }
+          }
+        );
       })
       .then(res => {
         console.log(res);

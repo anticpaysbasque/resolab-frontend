@@ -2,7 +2,7 @@ import React from "react";
 import { Picker } from "emoji-mart";
 
 import "emoji-mart/css/emoji-mart.css";
-import "./emojiPicker.css";
+// import "./emojiPicker.css";
 
 function EmojiPicker({ addEmoji }) {
   return (
