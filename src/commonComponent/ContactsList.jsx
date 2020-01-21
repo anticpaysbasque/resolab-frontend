@@ -19,4 +19,4 @@ function ContactsList({ classes }) {
   );
 }
 
-export default ContactsList;
+// export default ContactsList;

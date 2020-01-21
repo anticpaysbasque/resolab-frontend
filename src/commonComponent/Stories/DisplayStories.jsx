@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 
-import { useRecursiveGet } from "../hooks/useApi";
+import { useRecursiveGet } from "../../hooks/useApi";
 import Storie from "./Story";
 import PostStorie from "./PostStorie";
-import resolab2 from "../Assets/resolab2.png";
+import img from "../../Assets/logo-resolab.png";
 
 function DisplayStories({ classes, handleSnackBar }) {
   const { datas, request } = useRecursiveGet("/stories", 10000);
@@ -35,7 +35,7 @@ function DisplayStories({ classes, handleSnackBar }) {
                     <Storie
                       classes={classes}
                       username={story.user.username}
-                      image={resolab2}
+                      image={img}
                     />
                   )}
                 </>

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./messages.css";
 
 export default class Messages extends Component {
   constructor(props) {
@@ -23,7 +24,11 @@ export default class Messages extends Component {
   render() {
     const { messages, user, typingUsers } = this.props;
     return (
-      <div ref="container" className="thread-container">
+      <div
+        ref="container"
+        className="thread-container"
+        style={{ height: "250px" }}
+      >
         <div className="thread">
           {messages !== undefined &&
             messages.map(mes => {
@@ -45,7 +50,7 @@ export default class Messages extends Component {
             typingUsers.map(name => {
               return (
                 <div key={name} className="typing-user">
-                  {`${name} is typing . . .`}
+                  {`${name} est en train d'écrire . . .`}
                 </div>
               );
             })}

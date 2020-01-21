@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Grid, Box, Snackbar } from "@material-ui/core";
+import { Grid, Box } from "@material-ui/core";
 
 import Layout from "../Layout/Layout";
-import PostArticle from "../commonComponent/PostArticle";
-import Publications from "../commonComponent/Publications";
-import DisplayStories from "../commonComponent/DisplayStories";
+import PostArticle from "../commonComponent/Publications/PostArticle";
+import DisplayPublications from "../commonComponent/Publications/DisplayPublications";
+import DisplayStories from "../commonComponent/Stories/DisplayStories";
 import { useStyles } from "../commonComponent/useStyles";
 import Sidebar from "../commonComponent/Sidebar";
+
+import CustomizedSnackbars from "../commonComponent/SnackBar";
 
 export default function UserPage() {
   const classes = useStyles();
@@ -20,7 +22,7 @@ export default function UserPage() {
 
   return (
     <Layout>
-      <Grid container style={{ marginTop: "80px" }} spacing={3}>
+      <Grid container style={{ marginTop: "80px" }}>
         <Grid container item xs={2} justify="center">
           <PostArticle handleSnackBar={handleSnackBar} classes={classes} />
         </Grid>
@@ -42,14 +44,14 @@ export default function UserPage() {
               />
             </Box>
           </Box>
-          <Publications handleSnackBar={handleSnackBar} />
+          <DisplayPublications handleSnackBar={handleSnackBar} />
         </Grid>
         <Grid container item xs={3} xl={3} justify="center">
           <Sidebar classes={classes} />
         </Grid>
       </Grid>
 
-      <Snackbar
+      <CustomizedSnackbars
         open={snackBarNotification}
         setOpen={setSnackBarNotification}
         handleSnackBar={handleSnackBar}

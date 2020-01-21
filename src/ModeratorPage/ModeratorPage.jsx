@@ -3,13 +3,15 @@ import { Grid, Box, Snackbar } from "@material-ui/core";
 import { connect } from "react-redux";
 
 import Layout from "../Layout/Layout";
-import PostArticle from "../commonComponent/PostArticle";
-import Publications from "../commonComponent/Publications";
-import DisplayStories from "../commonComponent/DisplayStories";
+import PostArticle from "../commonComponent/Publications/PostArticle";
+import DisplayPublications from "../commonComponent/Publications/DisplayPublications";
+import DisplayStories from "../commonComponent/Stories/DisplayStories";
 import Sidebar from "../commonComponent/Sidebar";
 import ModerationComponent from "./ModerationComponent";
 
 import { useStyles } from "../commonComponent/useStyles";
+
+import CustomizedSnackbars from "../commonComponent/SnackBar";
 
 function ModeratorPage({ openAlert }) {
   const classes = useStyles();
@@ -48,7 +50,7 @@ function ModeratorPage({ openAlert }) {
           {openAlert.resolved === false ? (
             <ModerationComponent classes={classes} />
           ) : (
-            <Publications handleSnackBar={handleSnackBar} />
+            <DisplayPublications handleSnackBar={handleSnackBar} />
           )}
         </Grid>
         <Grid container item xs={3} xl={3} justify="center">
@@ -56,7 +58,7 @@ function ModeratorPage({ openAlert }) {
         </Grid>
       </Grid>
 
-      <Snackbar
+      <CustomizedSnackbars
         open={snackBarNotification}
         setOpen={setSnackBarNotification}
         handleSnackBar={handleSnackBar}

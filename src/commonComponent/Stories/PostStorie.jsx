@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-
+import axios from "axios";
 import {
   Box,
   Grid,
@@ -15,10 +15,10 @@ import {
   Button
 } from "@material-ui/core";
 
-import apiCallAuth from "../apiCallAuth";
-import img from "../Assets/add.png";
-import WebcamComponent from "./WebcamComponent";
+import img from "../../Assets/add.png";
+import WebcamComponent from "../WebcamComponent";
 
+const apiUrl = process.env.REACT_APP_API_URL;
 const mapStateToProps = state => ({
   id: state.userReducer.id
 });
@@ -55,15 +55,28 @@ function PostStorie({ id, classes, handleSnackBar }) {
 
     const formData = new FormData();
     formData.append("file", image);
-
-    apiCallAuth
-      .post("/media_objects", formData)
+    axios
+      .post(`${apiUrl}/media_objects`, formData, {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          Accept: "application/json"
+        }
+      })
       .then(res => {
         console.log(res);
-        return apiCallAuth.post("/stories", {
-          image: `/api/media_objects/${res.data.id}`,
-          user: `/api/users/${id}`
-        });
+        return axios.post(
+          `${apiUrl}/stories`,
+          {
+            image: `/api/media_objects/${res.data.id}`,
+            user: `/api/users/${id}`
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + sessionStorage.getItem("token"),
+              Accept: "application/json"
+            }
+          }
+        );
       })
       .then(res => {
         console.log(res);
@@ -117,7 +130,7 @@ function PostStorie({ id, classes, handleSnackBar }) {
                 fontSize={24}
                 fontWeight="fontWeightBold"
               >
-                Nouvelle storie
+                Nouvelle story
               </Box>
               <form
                 className={classes.form}

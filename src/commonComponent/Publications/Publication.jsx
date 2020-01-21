@@ -15,9 +15,8 @@ import axios from "axios";
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
 import { connect } from "react-redux";
 
-import apiCallAuth from "../apiCallAuth";
-import CommentInput from "./CommentInput";
-import DisplayComments from "./DisplayComments";
+import CommentInput from "./Comments/CommentInput";
+import DisplayComments from "./Comments/DisplayComments";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -59,13 +58,22 @@ function Post({
     if (inputValue === "") {
       setIsInputEmpty(true);
     } else {
-      apiCallAuth
-        .post("/comments", {
-          content: inputValue,
-          date: new Date().toISOString(),
-          post: `/api/posts/${postId}`,
-          user: `/api/users/${userId}`
-        })
+      axios
+        .post(
+          `${apiUrl}/comments`,
+          {
+            content: inputValue,
+            date: new Date().toISOString(),
+            post: `/api/posts/${postId}`,
+            user: `/api/users/${userId}`
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + sessionStorage.getItem("token"),
+              Accept: "application/json"
+            }
+          }
+        )
         .then(res => {
           setInputValue("");
           return handleSnackBar("Ton commentaire a bien été posté");

@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core/styles";
-import zIndex from "@material-ui/core/styles/zIndex";
 
 export const useStyles = makeStyles(theme => ({
   card: {
@@ -69,16 +68,18 @@ export const useStyles = makeStyles(theme => ({
     marginLeft: "8px"
   },
   chatWindowVisible: {
-    width: "100vw",
-    maxHeight: "40vh",
+    width: "40vw",
+    maxHeight: "50vh",
+    minHeight: "45vh",
     position: "fixed",
-    bottom: "0px",
+    bottom: "10px",
     left: "0px",
     zIndex: "100",
+    backgroundColor: "rgba(255,255,255,1)",
     visibility: "visible"
   },
   chatWindowNoVisible: {
-    width: "100vw",
+    width: "40vw",
     maxHeight: "40vh",
     position: "fixed",
     bottom: "0px",

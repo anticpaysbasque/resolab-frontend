@@ -7,8 +7,7 @@ import {
 } from "@material-ui/core";
 import { Face, ExpandMore } from "@material-ui/icons";
 import { connect } from "react-redux";
-
-import apiCallAuth from "../apiCallAuth";
+import axios from "axios";
 
 const baseUrl = process.env.REACT_APP_MEDIA_URL;
 
@@ -16,8 +15,13 @@ function UserInfo({ classes, username, firstName, lastName, classroom }) {
   const [userClassroom, setuserClassroom] = useState("");
 
   useEffect(() => {
-    apiCallAuth
-      .get(`${baseUrl}${classroom}`)
+    axios
+      .get(`${baseUrl}${classroom}`, {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          Accept: "application/json"
+        }
+      })
       .then(res => setuserClassroom(res.data.name));
   });
 

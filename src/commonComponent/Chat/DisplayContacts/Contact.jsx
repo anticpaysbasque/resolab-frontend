@@ -8,21 +8,18 @@ import {
   Avatar,
   CardContent,
   IconButton,
-  Typography,
-  TextField,
-  InputAdornment
+  Typography
 } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import SendIcon from "@material-ui/icons/Send";
 import ForumIcon from "@material-ui/icons/Forum";
-import { Warning, PermIdentity } from "@material-ui/icons";
+import { Warning } from "@material-ui/icons";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
-import { last, get } from "lodash";
-import Messages from "../Chat/messages/Messages";
-import MessageInput from "../Chat/messages/MessageInput";
+// import { last, get } from "lodash";
+import Messages from "../messages/Messages";
+import MessageInput from "../messages/MessageInput";
 
 function Contact({
-  contact,
+  receiver,
   classes,
   addChat,
   chat,
@@ -35,6 +32,8 @@ function Contact({
   const [chatVisibility, setChatVisibility] = useState(false);
   const [alert, setAlert] = useState(false);
   const [userChat, setUserChat] = useState(chat[0]);
+  const [isNewMessage, setIsNewMessage] = useState(false);
+  const [lastMessage, setLastMessage] = useState("");
 
   useEffect(() => {
     console.log("chat update");
@@ -46,8 +45,7 @@ function Contact({
     console.log("chat", userChat);
     if (userChat === undefined) {
       console.log("create chat");
-      await addChat(contact.name);
-
+      await addChat(receiver.name);
       setChatVisibility(true);
     } else {
       console.log("switch to chat");
@@ -55,6 +53,7 @@ function Contact({
       setActiveChat(chat[0]);
       setUserChat(chat[0]);
     }
+    setIsNewMessage(false);
   };
 
   const closeChat = () => {
@@ -78,10 +77,7 @@ function Contact({
         <ListItemAvatar>
           <AccountCircleIcon />
         </ListItemAvatar>
-        <ListItemText
-          primary={contact.name}
-          // secondary={get(last(chat.messages), "message", "")}
-        />
+        <ListItemText primary={receiver.name} secondary={lastMessage} />
       </ListItem>
 
       <Card
@@ -90,7 +86,6 @@ function Contact({
             ? classes.chatWindowVisible
             : classes.chatWindowNoVisible
         }
-        style={{ zIndex: "100 !important" }}
       >
         <CardHeader
           avatar={
@@ -99,7 +94,9 @@ function Contact({
             </Avatar>
           }
           title={
-            <Typography className={classes.username}>Discussion</Typography>
+            <Typography className={classes.username}>
+              {`Discussion avec ${receiver.name}`}
+            </Typography>
           }
           action={
             <>
@@ -128,23 +125,6 @@ function Contact({
           sendMessage={message => sendMessage(activeChat.id, message)}
           sendTyping={isTyping => sendTyping(activeChat.id, isTyping)}
         />
-        {/* <TextField
-                    // error={isError}
-                    // helperText={helperText}
-                    // value={value}
-                    // onChange={onChange}
-                    id="input-with-icon-textfield"
-                    label="Ecrire un message"
-                    fullWidth
-                    variant="outlined"
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <SendIcon style={{ cursor: "pointer" }} />
-                            </InputAdornment>
-                        )
-                    }}
-                /> */}
       </Card>
     </>
   );

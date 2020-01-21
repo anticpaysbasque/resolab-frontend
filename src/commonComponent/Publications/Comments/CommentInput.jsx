@@ -15,8 +15,8 @@ const CommentInput = ({
       helperText={helperText}
       value={value}
       onChange={onChange}
-      id="input-with-icon-textfield"
-      label="Ajouter un commentaire"
+      label=""
+      placeholder="Ajouter un commentaire"
       fullWidth
       variant="outlined"
       InputProps={{

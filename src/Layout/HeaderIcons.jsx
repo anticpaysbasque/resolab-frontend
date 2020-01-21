@@ -2,17 +2,20 @@ import React from "react";
 import { Settings, ExitToApp } from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
 import Fab from "@material-ui/core/Fab";
 
+import { LOGOUT } from "../utils/Events";
 import { removeToken } from "../reducers/actions";
 
-function HeaderIcons({ logOut }) {
+function HeaderIcons({ logOut, socket }) {
   const handleLogout = () => {
     logOut();
+    chatLogout(socket);
   };
 
-  let history = useHistory();
+  const chatLogout = socket => {
+    socket.emit(LOGOUT);
+  };
 
   return (
     <>
@@ -40,4 +43,10 @@ const mapdispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapdispatchToProps)(HeaderIcons);
+const mapStateToProps = state => {
+  return {
+    socket: state.socketReducer.socket
+  };
+};
+
+export default connect(mapStateToProps, mapdispatchToProps)(HeaderIcons);
