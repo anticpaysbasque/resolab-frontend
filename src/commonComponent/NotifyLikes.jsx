@@ -5,7 +5,7 @@ import { List } from "@material-ui/core";
 import apiCallAuth from "../apiCallAuth";
 import LikeNotification from "./LikeNotification";
 
-function NotifyLikes({ userId }) {
+function NotifyLikes({ userId, setCount }) {
   const [userLikes, setUserLikes] = useState([]);
   const [likesForUser, setLikesForUser] = useState([]);
 
@@ -44,6 +44,8 @@ function NotifyLikes({ userId }) {
   useEffect(() => {
     setLikesForUser(userLikes.reverse().splice(0, 5));
   }, [userLikes]);
+
+  useEffect(() => setCount(likesForUser.length), [likesForUser]);
 
   return (
     <div>

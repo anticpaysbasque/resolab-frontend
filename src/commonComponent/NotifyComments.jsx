@@ -5,7 +5,7 @@ import { List } from "@material-ui/core";
 import apiCallAuth from "../apiCallAuth";
 import CommentNotification from "./CommentNotification";
 
-function NotifyComments({ userId }) {
+function NotifyComments({ userId, setCount }) {
   const [userMessages, setUserMessages] = useState([]);
   const [commentsOnUserMessages, setCommentsOnUserMessages] = useState([]);
 
@@ -56,6 +56,7 @@ function NotifyComments({ userId }) {
     // removing comments from user
     // comments = comments.filter(comment => comment.user.id !== userId);
     setCommentsOnUserMessages(comments.reverse());
+    setCount(commentsOnUserMessages.length + userMessages.length);
   }, [userMessages]);
 
   return (
