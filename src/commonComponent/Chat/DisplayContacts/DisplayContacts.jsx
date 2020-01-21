@@ -75,8 +75,8 @@ export default class DisplayContacts extends Component {
                 sendTyping={(chatId, isTyping) =>
                   this.props.sendTyping(chatId, isTyping)
                 }
-                sendMessage={(chatId, message) =>
-                  this.props.sendMessage(chatId, message)
+                sendMessage={(chatId, receiver, receiverId, message) =>
+                  this.props.sendMessage(chatId, receiver, receiverId, message)
                 }
               />
             );

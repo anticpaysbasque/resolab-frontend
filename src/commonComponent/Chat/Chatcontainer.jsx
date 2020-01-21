@@ -149,9 +149,9 @@ export default class ChatContainer extends Component {
    *	@param chatId {number}  The id of the chat to be added to.
    *	@param message {string} The message to be added to the chat.
    */
-  sendMessage = (chatId, message) => {
+  sendMessage = (chatId, receiver, receiverId, message) => {
     const { socket } = this.props;
-    socket.emit(MESSAGE_SENT, { chatId, message });
+    socket.emit(MESSAGE_SENT, { chatId, receiver, receiverId, message });
   };
 
   /*
@@ -182,7 +182,9 @@ export default class ChatContainer extends Component {
           onSendPrivateMessage={this.sendOpenPrivateMessage}
           classes={classes}
           sendTyping={(chatId, isTyping) => this.sendTyping(chatId, isTyping)}
-          sendMessage={(chatId, message) => this.sendMessage(chatId, message)}
+          sendMessage={(chatId, receiver, receiverId, message) =>
+            this.sendMessage(chatId, receiver, receiverId, message)
+          }
         />
       </div>
     );

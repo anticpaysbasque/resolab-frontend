@@ -122,7 +122,9 @@ function Contact({
           />
         </CardContent>
         <MessageInput
-          sendMessage={message => sendMessage(activeChat.id, message)}
+          sendMessage={message =>
+            sendMessage(activeChat.id, receiver.name, receiver.id, message)
+          }
           sendTyping={isTyping => sendTyping(activeChat.id, isTyping)}
         />
       </Card>
