@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import io from "socket.io-client";
 import { USER_CONNECTED, LOGOUT, VERIFY_USER } from "../../utils/Events";
 import ChatContainer from "./Chatcontainer";
+import { connect } from "react-redux";
+
+import { storeSocket } from "../../reducers/actions";
 
 const socketUrl = process.env.REACT_APP_WEBSOCKET_URL;
 
-export default class ChatWrapper extends Component {
+class ChatWrapper extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       socket: null,
       user: "null",
@@ -31,6 +33,8 @@ export default class ChatWrapper extends Component {
       console.log("Connected");
     });
     this.setState({ socket });
+    sessionStorage.setItem("socket", socket);
+    this.props.storeSocket(socket);
     socket.emit(VERIFY_USER, nickname, userId, this.setUserVerify);
   };
 
@@ -81,3 +85,11 @@ export default class ChatWrapper extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    storeSocket: socket => dispatch(storeSocket(socket))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ChatWrapper);
