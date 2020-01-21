@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, Box, Snackbar } from "@material-ui/core";
+import { Grid, Box } from "@material-ui/core";
 
 import Layout from "../Layout/Layout";
 import PostArticle from "../commonComponent/Publications/PostArticle";
@@ -7,6 +7,8 @@ import DisplayPublications from "../commonComponent/Publications/DisplayPublicat
 import DisplayStories from "../commonComponent/Stories/DisplayStories";
 import { useStyles } from "../commonComponent/useStyles";
 import Sidebar from "../commonComponent/Sidebar";
+
+import CustomizedSnackbars from "../commonComponent/SnackBar";
 
 export default function UserPage() {
   const classes = useStyles();
@@ -49,7 +51,7 @@ export default function UserPage() {
         </Grid>
       </Grid>
 
-      <Snackbar
+      <CustomizedSnackbars
         open={snackBarNotification}
         setOpen={setSnackBarNotification}
         handleSnackBar={handleSnackBar}

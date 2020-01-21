@@ -11,6 +11,8 @@ import ModerationComponent from "./ModerationComponent";
 
 import { useStyles } from "../commonComponent/useStyles";
 
+import CustomizedSnackbars from "../commonComponent/SnackBar";
+
 function ModeratorPage({ openAlert }) {
   const classes = useStyles();
   const [snackBarNotification, setSnackBarNotification] = useState(false);
@@ -56,7 +58,7 @@ function ModeratorPage({ openAlert }) {
         </Grid>
       </Grid>
 
-      <Snackbar
+      <CustomizedSnackbars
         open={snackBarNotification}
         setOpen={setSnackBarNotification}
         handleSnackBar={handleSnackBar}
