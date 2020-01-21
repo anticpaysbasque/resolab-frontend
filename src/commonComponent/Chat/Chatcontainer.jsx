@@ -11,6 +11,7 @@ import {
   USER_DISCONNECTED
 } from "../../utils/Events";
 import { values } from "lodash";
+import { useSelector } from "react-redux";
 
 export default class ChatContainer extends Component {
   constructor(props) {
@@ -57,11 +58,13 @@ export default class ChatContainer extends Component {
     });
   }
 
-  sendOpenPrivateMessage = reciever => {
+  sendOpenPrivateMessage = (receiverName, receiverId) => {
     const { socket, user } = this.props;
     socket.emit(PRIVATE_MESSAGE, {
-      reciever,
+      reciever: receiverName,
+      recieverId: receiverId,
       sender: user.name,
+      senderId: user.id,
       activeChat: null
     });
   };

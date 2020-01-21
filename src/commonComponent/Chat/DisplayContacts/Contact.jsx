@@ -45,7 +45,7 @@ function Contact({
     console.log("chat", userChat);
     if (userChat === undefined) {
       console.log("create chat");
-      await addChat(receiver.name);
+      await addChat(receiver.name, receiver.id);
       setChatVisibility(true);
     } else {
       console.log("switch to chat");
