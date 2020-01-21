@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { List } from "@material-ui/core";
+import axios from "axios";
 
 import apiCallAuth from "../../apiCallAuth";
 import CommentNotification from "./CommentNotification";
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function NotifyComments({ userId }) {
   const [userMessages, setUserMessages] = useState([]);
@@ -13,8 +16,13 @@ function NotifyComments({ userId }) {
     // retreiving all posts from database until there is no more post
     const nextPage = page + 1;
     let messages = previousMessages;
-    await apiCallAuth
-      .get(`/posts?page=${page}`)
+    await axios
+      .get(`${apiUrl}/posts?page=${page}`, {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          Accept: "application/json"
+        }
+      })
       .then(async res => {
         const fetchedMessages = res.data;
         console.log("fetch ", fetchedMessages);

@@ -10,7 +10,7 @@ function EmojiPicker({ addEmoji }) {
       <Picker
         set="messenger"
         onSelect={e => addEmoji(e)}
-        style={{ position: "fixed", top: "450px", left: "35vw" }}
+        style={{ position: "fixed", bottom: "100px", left: "35vw" }}
         i18n={{
           search: "Recherche",
           categories: {
