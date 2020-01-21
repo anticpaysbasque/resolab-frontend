@@ -1,37 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { List } from "@material-ui/core";
-import axios from "axios";
 
 import Alert from "./Alert";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { useRecursiveGet } from "../hooks/useApi";
 
 function AlertsList({ classes, setAlertCount }) {
-  const [alerts, setAlerts] = useState([]);
+  const { datas, request } = useRecursiveGet("/alerts", 10000);
 
   useEffect(() => {
-    const fetchDatas = async () => {
-      const res = await axios.get(`${apiUrl}/alerts`, {
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
-          Accept: "application/json"
-        }
-      });
-      setAlerts(res.data);
-      setAlertCount(res.data.length);
-      setTimeout(() => {
-        fetchDatas();
-      }, 10000);
-    };
-
-    fetchDatas();
+    request();
   }, []);
+
+  useEffect(() => {
+    datas && setAlertCount(datas.length);
+  }, [datas]);
 
   return (
     <List>
-      {alerts.reverse().map(alert => (
-        <>{!alert.resolved && <Alert alert={alert} classes={classes} />}</>
-      ))}
+      {datas &&
+        datas
+          .reverse()
+          .map(alert => (
+            <>{!alert.resolved && <Alert alert={alert} classes={classes} />}</>
+          ))}
     </List>
   );
 }
