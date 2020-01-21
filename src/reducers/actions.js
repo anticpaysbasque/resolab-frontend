@@ -3,7 +3,8 @@ import {
   SET_USER,
   LOG_OUT,
   SET_ALERT,
-  REMOVE_ALERT
+  REMOVE_ALERT,
+  SET_SOCKET
 } from "./actionTypes";
 
 export const storeToken = token => dispatch => {
@@ -28,4 +29,8 @@ export const setAlert = alert => dispatch => {
 
 export const removeAlert = () => dispatch => {
   return dispatch({ type: REMOVE_ALERT });
+};
+
+export const storeSocket = socket => dispatch => {
+  return dispatch({ type: SET_SOCKET, payload: socket });
 };
