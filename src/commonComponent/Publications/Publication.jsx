@@ -154,6 +154,21 @@ function Post({
       )
       .then(res => {
         setIsAlert(true);
+        axios
+          .put(
+            `${apiUrl}/posts/${postId}`,
+            {
+              display: false
+            },
+            config
+          )
+          .then(res => {
+            console.log(res);
+          })
+          .catch(err => {
+            console.log(err.message);
+            throw err;
+          });
       })
       .catch(err => {
         console.log(err.message);

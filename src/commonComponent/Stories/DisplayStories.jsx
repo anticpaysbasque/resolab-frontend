@@ -23,7 +23,7 @@ function DisplayStories({ classes, handleSnackBar }) {
           const imageStory = story.image;
           return (
             <>
-              {nowDate - storyDate < 86400000 && (
+              {nowDate - storyDate < 86400000 && story.display && (
                 <>
                   {imageStory ? (
                     <Storie
