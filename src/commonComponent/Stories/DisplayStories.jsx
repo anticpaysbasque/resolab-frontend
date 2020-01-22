@@ -27,12 +27,14 @@ function DisplayStories({ classes, handleSnackBar }) {
                 <>
                   {imageStory ? (
                     <Storie
+                      storyId={story.id}
                       classes={classes}
                       username={story.user.username}
                       image={`http://localhost:8089/media/${story.image.filePath}`}
                     />
                   ) : (
                     <Storie
+                      storyId={story.id}
                       classes={classes}
                       username={story.user.username}
                       image={img}
