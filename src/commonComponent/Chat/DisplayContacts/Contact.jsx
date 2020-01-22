@@ -17,6 +17,11 @@ import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 // import { last, get } from "lodash";
 import Messages from "../messages/Messages";
 import MessageInput from "../messages/MessageInput";
+import axios from "axios";
+import { connect } from "react-redux";
+import { orderBy } from "lodash";
+
+const chatUrl = process.env.REACT_APP_CHAT_URL;
 
 function Contact({
   receiver,
@@ -27,13 +32,32 @@ function Contact({
   activeChat,
   setActiveChat,
   sendTyping,
-  sendMessage
+  sendMessage,
+  token
 }) {
   const [chatVisibility, setChatVisibility] = useState(false);
   const [alert, setAlert] = useState(false);
   const [userChat, setUserChat] = useState(chat[0]);
   const [isNewMessage, setIsNewMessage] = useState(false);
   const [lastMessage, setLastMessage] = useState("");
+  const [fetchedMessages, setFetchedMessages] = useState([]);
+  const [senderId, setSenderId] = useState(user.id);
+  const [receiverId, setReceiverId] = useState(receiver.id);
+  const [isOnline, setIsOnline] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get(`${chatUrl}/userMessage/${senderId}/${receiverId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json"
+        }
+      })
+      .then(res => {
+        setFetchedMessages(orderBy(res.data, ["createdAt"], ["asc"]));
+        setLastMessage(res.data[res.data && res.data.length - 1].message);
+      });
+  }, []);
 
   useEffect(() => {
     console.log("chat update");
@@ -132,4 +156,10 @@ function Contact({
   );
 }
 
-export default Contact;
+const mapStateToProps = state => {
+  return {
+    token: state.authReducer.token
+  };
+};
+
+export default connect(mapStateToProps)(Contact);
