@@ -72,36 +72,48 @@ function DisplayPublications({ handleSnackBar, userId }) {
           {showUserPublications
             ? publications
                 .filter(publi => publi.user.id === userId)
-                .map(publication => (
-                  <Box m={2}>
-                    <Publication
-                      key={publication.id}
-                      description={publication.description}
-                      photo={publication.photo}
-                      classes={classes}
-                      handleSnackBar={handleSnackBar}
-                      postId={publication.id}
-                      comments={publication.comments}
-                      owner={publication.user}
-                      likes={publication.likes}
-                    />
-                  </Box>
-                ))
-            : publications.map(publication => (
-                <Box m={2}>
-                  <Publication
-                    key={publication.id}
-                    description={publication.description}
-                    photo={publication.photo}
-                    classes={classes}
-                    handleSnackBar={handleSnackBar}
-                    postId={publication.id}
-                    comments={publication.comments}
-                    owner={publication.user}
-                    likes={publication.likes}
-                  />
-                </Box>
-              ))}
+                .map(publication => {
+                  return (
+                    <>
+                      {publication.display && (
+                        <Box m={2}>
+                          <Publication
+                            key={publication.id}
+                            description={publication.description}
+                            photo={publication.photo}
+                            classes={classes}
+                            handleSnackBar={handleSnackBar}
+                            postId={publication.id}
+                            comments={publication.comments}
+                            owner={publication.user}
+                            likes={publication.likes}
+                          />
+                        </Box>
+                      )}
+                    </>
+                  );
+                })
+            : publications.map(publication => {
+                return (
+                  <>
+                    {publication.display && (
+                      <Box m={2}>
+                        <Publication
+                          key={publication.id}
+                          description={publication.description}
+                          photo={publication.photo}
+                          classes={classes}
+                          handleSnackBar={handleSnackBar}
+                          postId={publication.id}
+                          comments={publication.comments}
+                          owner={publication.user}
+                          likes={publication.likes}
+                        />
+                      </Box>
+                    )}
+                  </>
+                );
+              })}
         </Grid>
       </Grid>
     </BottomScrollListener>

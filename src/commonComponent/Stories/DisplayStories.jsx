@@ -23,16 +23,18 @@ function DisplayStories({ classes, handleSnackBar }) {
           const imageStory = story.image;
           return (
             <>
-              {nowDate - storyDate < 86400000 && (
+              {nowDate - storyDate < 86400000 && story.display && (
                 <>
                   {imageStory ? (
                     <Storie
+                      storyId={story.id}
                       classes={classes}
                       username={story.user.username}
                       image={`http://localhost:8089/media/${story.image.filePath}`}
                     />
                   ) : (
                     <Storie
+                      storyId={story.id}
                       classes={classes}
                       username={story.user.username}
                       image={img}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import {
@@ -62,12 +62,12 @@ function ModerationComponent({
   };
 
   const handleTakeInCharge = () => {
-    setIsTakenInCharge(!isTakenInCharge);
+    const takenInCharge = isTakenInCharge;
     axios
       .put(
         `${apiUrl}/alerts/${openAlert.id}`,
         {
-          takenCare: isTakenInCharge
+          takenCare: !takenInCharge
         },
         config
       )
@@ -75,6 +75,7 @@ function ModerationComponent({
         console.log(res);
       })
       .catch(err => console.log(err));
+    setIsTakenInCharge(!isTakenInCharge);
   };
 
   const handleResolved = () => {
