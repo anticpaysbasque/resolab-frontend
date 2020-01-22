@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { TextField, Grid } from "@material-ui/core";
 import { EmojiEmotions } from "@material-ui/icons";
+import axios from "axios";
 
 import EmojiPicker from "./EmojiPicker";
+
+const chatUrl = process.env.REACT_APP_CHAT_URL;
 
 export default class MessageInput extends Component {
   constructor(props) {
@@ -17,8 +20,31 @@ export default class MessageInput extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.sendMessage();
-    this.setState({ message: "" });
+
+    const { isOnline, receiverId, senderId } = this.props;
+    const { message } = this.state;
+
+    if (isOnline) {
+      this.sendMessage();
+      this.setState({ message: "" });
+    } else {
+      axios
+        .post(
+          `${chatUrl}/`,
+          { message, senderId, receiverId },
+          {
+            headers: {
+              Authorization: "Bearer " + sessionStorage.getItem("token"),
+              Accept: "application/json"
+            }
+          }
+        )
+        .then(res => {
+          console.log("message envoyé");
+          this.props.fetchDb();
+          this.setState({ message: "" });
+        });
+    }
   };
 
   sendMessage = () => {
@@ -30,11 +56,14 @@ export default class MessageInput extends Component {
   }
 
   sendTyping = () => {
-    this.lastUpdateTime = Date.now();
-    if (!this.state.isTyping) {
-      this.setState({ isTyping: true });
-      this.props.sendTyping(true);
-      this.startCheckingTyping();
+    const { isOnline } = this.props;
+    if (isOnline) {
+      this.lastUpdateTime = Date.now();
+      if (!this.state.isTyping) {
+        this.setState({ isTyping: true });
+        this.props.sendTyping(true);
+        this.startCheckingTyping();
+      }
     }
   };
 

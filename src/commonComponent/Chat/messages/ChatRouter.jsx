@@ -14,7 +14,8 @@ function ChatRouter({
   isOnline,
   activeChat,
   receiver,
-  socketReceiver
+  socketReceiver,
+  fetchDb
 }) {
   const [oldMessages, setOldMessages] = useState([]);
 
@@ -51,6 +52,9 @@ function ChatRouter({
         sendMessage={message => sendMessage(message)}
         sendTyping={isTyping => sendTyping(isTyping)}
         isOnline={isOnline}
+        senderId={user.id}
+        receiverId={receiver.id}
+        fetchDb={fetchDb}
       />
     </>
   );

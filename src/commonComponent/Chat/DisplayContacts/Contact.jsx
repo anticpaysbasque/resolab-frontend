@@ -49,7 +49,24 @@ function Contact({
   const [isOnline, setIsOnline] = useState(false);
 
   useEffect(() => {
-    axios
+    fetchDbMessages();
+  }, [receiver, user]);
+
+  useEffect(() => {
+    console.log("chat update");
+    setActiveChat(chat[0]);
+    setUserChat(chat[0]);
+  }, [chat[0]]);
+
+  useEffect(() => {
+    console.log("user connected");
+    find(connectedUsers, { id: receiver.id })
+      ? setIsOnline(true)
+      : setIsOnline(false);
+  }, [connectedUsers]);
+
+  const fetchDbMessages = async () => {
+    await axios
       .get(`${chatUrl}/userMessage/${senderId}/${receiverId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -68,21 +85,7 @@ function Contact({
         //         : ""
         // );
       });
-  }, [receiver, user]);
-
-  useEffect(() => {
-    console.log("chat update");
-    setActiveChat(chat[0]);
-    setUserChat(chat[0]);
-  }, [chat[0]]);
-
-  useEffect(() => {
-    console.log("user connected");
-
-    find(connectedUsers, { id: receiver.id })
-      ? setIsOnline(true)
-      : setIsOnline(false);
-  }, [connectedUsers]);
+  };
 
   const openChat = async () => {
     if (userChat === undefined) {
@@ -173,25 +176,8 @@ function Contact({
           isOnline={isOnline}
           activeChat={activeChat}
           receiver={receiver}
+          fetchDb={fetchDbMessages}
         />
-        {/* <CardContent>
-                    <Messages
-                        messages={activeChat && activeChat.messages}
-                        user={user}
-                        typingUsers={activeChat && activeChat.typingUsers}
-                    />
-                </CardContent>
-                <MessageInput
-                    sendMessage={message =>
-                        sendMessage(
-                            activeChat.id,
-                            socketReceiver.name,
-                            socketReceiver.id,
-                            message
-                        )
-                    }
-                    sendTyping={isTyping => sendTyping(activeChat.id, isTyping)}
-                /> */}
       </Card>
     </>
   );
