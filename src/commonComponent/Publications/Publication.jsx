@@ -142,23 +142,27 @@ function Post({
     }
   };
 
-  const handleClickAlert = () => {
-    axios
-      .post(
+  const handleClickAlert = async () => {
+    try {
+      const postAlert = axios.post(
         `${apiUrl}/alerts`,
-        {
-          user: `api/users/${userId}`,
-          post: `api/posts/${postId}`
-        },
+        { user: `api/users/${userId}`, post: `api/posts/${postId}` },
         config
-      )
-      .then(res => {
-        setIsAlert(true);
-      })
-      .catch(err => {
-        console.log(err.message);
-        throw err;
-      });
+      );
+
+      const putPost = axios.put(
+        `${apiUrl}/posts/${postId}`,
+        { display: false },
+        config
+      );
+
+      await Promise.all([postAlert, putPost]);
+
+      setIsAlert(true);
+    } catch (err) {
+      console.log(err.message);
+      throw err;
+    }
   };
 
   return (
