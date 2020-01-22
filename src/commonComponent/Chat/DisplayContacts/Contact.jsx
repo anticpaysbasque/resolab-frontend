@@ -45,7 +45,7 @@ function Contact({
     console.log("chat", userChat);
     if (userChat === undefined) {
       console.log("create chat");
-      await addChat(receiver.name);
+      await addChat(receiver.name, receiver.id);
       setChatVisibility(true);
     } else {
       console.log("switch to chat");
@@ -122,7 +122,9 @@ function Contact({
           />
         </CardContent>
         <MessageInput
-          sendMessage={message => sendMessage(activeChat.id, message)}
+          sendMessage={message =>
+            sendMessage(activeChat.id, receiver.name, receiver.id, message)
+          }
           sendTyping={isTyping => sendTyping(activeChat.id, isTyping)}
         />
       </Card>

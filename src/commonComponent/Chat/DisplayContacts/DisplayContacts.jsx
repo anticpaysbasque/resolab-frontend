@@ -12,13 +12,13 @@ export default class DisplayContacts extends Component {
 
   // handlesubmit used for search field
 
-  handleSubmit = e => {
-    e.preventDefault();
-    const { reciever } = this.state;
-    const { onSendPrivateMessage } = this.props;
-    onSendPrivateMessage(reciever);
-    this.setState({ reciever: "" });
-  };
+  // handleSubmit = e => {
+  //     e.preventDefault();
+  //     const { reciever } = this.state;
+  //     const { onSendPrivateMessage } = this.props;
+  //     onSendPrivateMessage(reciever);
+  //     this.setState({ reciever: "" });
+  // };
 
   render() {
     const {
@@ -58,19 +58,25 @@ export default class DisplayContacts extends Component {
                 user={user}
                 receiver={usr}
                 classes={classes}
-                addChat={receiver => this.props.onSendPrivateMessage(receiver)}
-                chat={chats.filter(
-                  chat =>
-                    (chat.users[0] === user.name &&
-                      chat.users[1] === usr.name) ||
-                    (chat.users[1] === user.name && chat.users[0] === usr.name)
-                )}
+                addChat={(receiverName, receiverId) =>
+                  this.props.onSendPrivateMessage(receiverName, receiverId)
+                }
+                chat={chats.filter(chat => {
+                  const user0 = chat.users[0];
+                  const user1 = chat.users[1];
+                  console.log(user0);
+                  console.log(user1);
+                  return (
+                    (user0 === user.name && user1 === usr.name) ||
+                    (user1 === user.name && user0 === usr.name)
+                  );
+                })}
                 setActiveChat={chat => this.props.setActiveChat(chat)}
                 sendTyping={(chatId, isTyping) =>
                   this.props.sendTyping(chatId, isTyping)
                 }
-                sendMessage={(chatId, message) =>
-                  this.props.sendMessage(chatId, message)
+                sendMessage={(chatId, receiver, receiverId, message) =>
+                  this.props.sendMessage(chatId, receiver, receiverId, message)
                 }
               />
             );
