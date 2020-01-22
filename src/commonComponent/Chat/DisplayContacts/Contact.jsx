@@ -20,11 +20,13 @@ import MessageInput from "../messages/MessageInput";
 import axios from "axios";
 import { connect } from "react-redux";
 import { orderBy, find } from "lodash";
+import ChatRouter from "../messages/ChatRouter";
 
 const chatUrl = process.env.REACT_APP_CHAT_URL;
 
 function Contact({
   receiver,
+  socketReceiver,
   classes,
   addChat,
   chat,
@@ -55,16 +57,18 @@ function Contact({
         }
       })
       .then(res => {
-        setFetchedMessages(
-          res.data && orderBy(res.data, ["createdAt"], ["asc"])
-        );
-        setLastMessage(
-          res.data.message
-            ? res.data[res.data && res.data.length - 1].message
-            : ""
-        );
+        setFetchedMessages(res.data);
+
+        // setLastMessage(
+        //     messagesFormated.message !== undefined
+        //         ? messagesFormated[
+        //               messagesFormated &&
+        //                   messagesFormated.length - 1
+        //           ].message
+        //         : ""
+        // );
       });
-  }, []);
+  }, [receiver, user]);
 
   useEffect(() => {
     console.log("chat update");
@@ -81,16 +85,15 @@ function Contact({
   }, [connectedUsers]);
 
   const openChat = async () => {
-    console.log("chat", userChat);
     if (userChat === undefined) {
       console.log("create chat");
-      await addChat(receiver.name, receiver.id);
+      isOnline && (await addChat(socketReceiver.name, socketReceiver.id));
       setChatVisibility(true);
     } else {
       console.log("switch to chat");
       setChatVisibility(true);
-      setActiveChat(chat[0]);
-      setUserChat(chat[0]);
+      isOnline && setActiveChat(chat[0]);
+      isOnline && setUserChat(chat[0]);
     }
     setIsNewMessage(false);
   };
@@ -114,9 +117,9 @@ function Contact({
         button
       >
         <ListItemAvatar>
-          <AccountCircleIcon />
+          <AccountCircleIcon style={isOnline ? { color: "lightgreen" } : {}} />
         </ListItemAvatar>
-        <ListItemText primary={receiver.name} secondary={lastMessage} />
+        <ListItemText primary={receiver.username} secondary={lastMessage} />
       </ListItem>
 
       <Card
@@ -134,7 +137,7 @@ function Contact({
           }
           title={
             <Typography className={classes.username}>
-              {`Discussion avec ${receiver.name}`}
+              {`Discussion avec ${receiver.username}`}
             </Typography>
           }
           action={
@@ -152,20 +155,43 @@ function Contact({
             </>
           }
         />
-
-        <CardContent>
-          <Messages
-            messages={activeChat && activeChat.messages}
-            user={user}
-            typingUsers={activeChat && activeChat.typingUsers}
-          />
-        </CardContent>
-        <MessageInput
+        <ChatRouter
+          messages={activeChat && activeChat.messages}
+          user={user}
+          socketReceiver={socketReceiver}
+          typingUsers={activeChat && activeChat.typingUsers}
           sendMessage={message =>
-            sendMessage(activeChat.id, receiver.name, receiver.id, message)
+            sendMessage(
+              activeChat.id,
+              socketReceiver.name,
+              socketReceiver.id,
+              message
+            )
           }
           sendTyping={isTyping => sendTyping(activeChat.id, isTyping)}
+          fetchedMessages={fetchedMessages}
+          isOnline={isOnline}
+          activeChat={activeChat}
+          receiver={receiver}
         />
+        {/* <CardContent>
+                    <Messages
+                        messages={activeChat && activeChat.messages}
+                        user={user}
+                        typingUsers={activeChat && activeChat.typingUsers}
+                    />
+                </CardContent>
+                <MessageInput
+                    sendMessage={message =>
+                        sendMessage(
+                            activeChat.id,
+                            socketReceiver.name,
+                            socketReceiver.id,
+                            message
+                        )
+                    }
+                    sendTyping={isTyping => sendTyping(activeChat.id, isTyping)}
+                /> */}
       </Card>
     </>
   );

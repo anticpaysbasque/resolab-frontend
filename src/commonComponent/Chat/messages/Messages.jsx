@@ -22,7 +22,13 @@ export default class Messages extends Component {
   }
 
   render() {
-    const { messages, user, typingUsers } = this.props;
+    const {
+      oldMessages,
+      newMessages,
+      user,
+      typingUsers,
+      isOnline
+    } = this.props;
     return (
       <div
         ref="container"
@@ -30,23 +36,45 @@ export default class Messages extends Component {
         style={{ height: "250px" }}
       >
         <div className="thread">
-          {messages !== undefined &&
-            messages.map(mes => {
+          {oldMessages &&
+            oldMessages.map(mes => {
               return (
                 <div
-                  key={mes.id}
-                  className={`message-container ${mes.sender === user.name &&
-                    "right"}`}
+                  key={mes && mes.id}
+                  className={
+                    mes &&
+                    `message-container ${mes.sender === user.name && "right"}`
+                  }
                 >
-                  <div className="time">{mes.time}</div>
+                  <div className="time">{mes && mes.time}</div>
                   <div className="data">
-                    <div className="message">{mes.message}</div>
-                    <div className="name">{mes.sender}</div>
+                    <div className="message">{mes && mes.message}</div>
+                    <div className="name">{mes && mes.sender}</div>
                   </div>
                 </div>
               );
             })}
-          {typingUsers !== undefined &&
+          {isOnline &&
+            newMessages &&
+            newMessages.map(mes => {
+              return (
+                <div
+                  key={mes && mes.id}
+                  className={
+                    mes &&
+                    `message-container ${mes.sender === user.name && "right"}`
+                  }
+                >
+                  <div className="time">{mes && mes.time}</div>
+                  <div className="data">
+                    <div className="message">{mes && mes.message}</div>
+                    <div className="name">{mes && mes.sender}</div>
+                  </div>
+                </div>
+              );
+            })}
+          {isOnline &&
+            typingUsers &&
             typingUsers.map(name => {
               return (
                 <div key={name} className="typing-user">
