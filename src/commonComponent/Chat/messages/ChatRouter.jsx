@@ -49,7 +49,7 @@ function ChatRouter({
       </CardContent>
       <MessageInput
         sendMessage={message => sendMessage(message)}
-        sendTyping={isTyping => sendTyping(activeChat.id, isTyping)}
+        sendTyping={isTyping => sendTyping(isTyping)}
         isOnline={isOnline}
       />
     </>

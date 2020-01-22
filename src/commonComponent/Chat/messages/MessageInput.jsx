@@ -37,6 +37,7 @@ export default class MessageInput extends Component {
       this.startCheckingTyping();
     }
   };
+
   addEmoji = e => {
     let emoji = e.native;
     this.setState({
