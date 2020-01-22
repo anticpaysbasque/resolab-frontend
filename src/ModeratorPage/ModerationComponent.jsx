@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import {
+  Box,
   Card,
   CardHeader,
+  CardContent,
   CardActions,
   Grid,
   Avatar,
@@ -14,6 +16,7 @@ import {
 } from "@material-ui/core";
 import PermIdentity from "@material-ui/icons/PermIdentity";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
+
 import ModerationContent from "./ModerationContent";
 import { removeAlert } from "../reducers/actions";
 
@@ -63,7 +66,11 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
   };
 
   return (
-    <Card className={classes.card} style={{ width: "45vw" }}>
+    <Card
+      className={classes.card}
+      style={{ width: "45vw" }}
+      style={{ textAlign: "center" }}
+    >
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
@@ -81,60 +88,62 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
           </IconButton>
         }
       />
-      <ModerationContent openAlert={openAlert} classes={classes} />
-      <Grid
-        container
-        items
-        xs={10}
-        display="flex"
-        direction="row"
-        alignItems="center"
-      >
-        <Paper padding={"5px"} elevation={1}>
-          <Typography>
-            Message laissé par {openAlert.user.username} concernant cette alerte
-            :
-          </Typography>
-          <Typography>"Hé j'ai un problème avec ce contenu!"</Typography>
-        </Paper>
-      </Grid>
-      <CardActions disableSpacing>
+      <CardContent>
+        <ModerationContent openAlert={openAlert} classes={classes} />
         <Grid
           container
-          item
-          xs={6}
-          direction="column"
-          alignItems="center"
-          style={{ padding: "16px" }}
+          items
+          xs={10}
+          display="flex"
+          direction="row"
+          style={{ margin: "auto", padding: "5px" }}
         >
-          <Typography>Je prend en charge ce problème</Typography>
-          <Switch
-            checked={isTakenInCharge}
-            onChange={handleTakeInCharge}
-            value={isTakenInCharge}
-            color="secondary"
-          />{" "}
+          <Paper padding={"5px"} elevation={1} style={{ textAlign: "center" }}>
+            <Typography>
+              Message laissé par {openAlert.user.username} concernant cette
+              alerte :
+            </Typography>
+            <Typography>"Hé j'ai un problème avec ce contenu!"</Typography>
+          </Paper>
         </Grid>
-        <Grid
-          container
-          item
-          xs={6}
-          direction="column"
-          alignItems="center"
-          style={{ padding: "16px" }}
-        >
-          <Typography>
-            Je marque ce problème comme résolu et je clos cette alerte
-            définitivement
-          </Typography>
-          <Switch
-            checked={isResolved}
-            onChange={handleResolved}
-            value={isResolved}
-            color="secondary"
-          />
-        </Grid>
-      </CardActions>
+        <CardActions disableSpacing>
+          <Grid
+            container
+            item
+            xs={6}
+            direction="column"
+            // alignItems="center"
+            style={{ padding: "16px" }}
+          >
+            <Typography>Je prend en charge ce problème</Typography>
+            <Switch
+              checked={isTakenInCharge}
+              onChange={handleTakeInCharge}
+              value={isTakenInCharge}
+              color="secondary"
+            />{" "}
+          </Grid>
+          <Grid
+            container
+            item
+            xs={6}
+            direction="column"
+            alignItems="center"
+            style={{ padding: "16px" }}
+          >
+            <Typography>
+              Je marque ce problème comme résolu et je clos cette alerte
+              définitivement
+            </Typography>
+            <Switch
+              checked={isResolved}
+              onChange={handleResolved}
+              value={isResolved}
+              color="secondary"
+            />
+          </Grid>
+        </CardActions>
+      </CardContent>
     </Card>
   );
 }

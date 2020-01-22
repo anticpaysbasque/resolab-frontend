@@ -5,11 +5,11 @@ import axios from "axios";
 
 import CommentNotification from "./CommentNotification";
 
-const apiUrl = process.env.REACT_APP_API_URL;
-
-function NotifyComments({ userId }) {
+function NotifyComments({ userId, setCount }) {
   const [userMessages, setUserMessages] = useState([]);
   const [commentsOnUserMessages, setCommentsOnUserMessages] = useState([]);
+
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchPosts = async (page, previousMessages) => {
     // retreiving all posts from database until there is no more post
@@ -70,6 +70,7 @@ function NotifyComments({ userId }) {
     // removing comments from user
     // comments = comments.filter(comment => comment.user.id !== userId);
     setCommentsOnUserMessages(comments.reverse());
+    setCount(commentsOnUserMessages.length + userMessages.length);
   }, [userMessages]);
 
   return (

@@ -4,11 +4,11 @@ import axios from "axios";
 
 import LikeNotification from "./LikeNotification";
 
-const apiUrl = process.env.REACT_APP_API_URL;
-
-function NotifyLikes({ userId }) {
+function NotifyLikes({ userId, setCount }) {
   const [userLikes, setUserLikes] = useState([]);
   const [likesForUser, setLikesForUser] = useState([]);
+
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchLikes = page => {
     // retreiving all posts from database until there is no more post
@@ -57,6 +57,8 @@ function NotifyLikes({ userId }) {
   useEffect(() => {
     setLikesForUser(userLikes.reverse().splice(0, 5));
   }, [userLikes]);
+
+  useEffect(() => setCount(likesForUser.length), [likesForUser]);
 
   return (
     <div>

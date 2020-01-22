@@ -1,37 +1,22 @@
-// import React, { useEffect, useState } from "react";
-// import { List } from "@material-ui/core";
-// import axios from "axios";
+import React, { useEffect } from "react";
+import { List } from "@material-ui/core";
 
-// import Contact from "./Chat/Contact";
+import Contact from "./Contact";
+import { useRecursiveGet } from "../hooks/useApi";
 
-// const apiUrl = process.env.REACT_APP_API_URL;
+function ContactsList({ classes }) {
+  const { datas, request } = useRecursiveGet("/users", 10000);
 
-// function ContactsList({ classes }) {
-//     const [contacts, setContacts] = useState([]);
+  useEffect(() => {
+    request();
+  }, []);
 
-//     useEffect(() => {
-//         const fetchDatas = async () => {
-//             const res = await axios.get(`${apiUrl}/users`, {
-//                 headers: {
-//                     Authorization: "Bearer " + sessionStorage.getItem("token"),
-//                     Accept: "application/json"
-//                 }
-//             });
-//             setContacts(res.data);
-//             setTimeout(() => {
-//                 fetchDatas();
-//             }, 10000);
-//         };
-//         fetchDatas();
-//     }, []);
-
-//     return (
-//         <List>
-//             {contacts.map(contact => (
-//                 <Contact contact={contact} classes={classes} />
-//             ))}
-//         </List>
-//     );
-// }
+  return (
+    <List>
+      {datas &&
+        datas.map(contact => <Contact contact={contact} classes={classes} />)}
+    </List>
+  );
+}
 
 // export default ContactsList;
