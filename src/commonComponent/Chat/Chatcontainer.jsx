@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import DisplayContacts from "./DisplayContacts/DisplayContacts";
 
 import {
@@ -12,8 +13,9 @@ import {
 } from "../../utils/Events";
 import { values } from "lodash";
 import { useSelector } from "react-redux";
+import { setConnectedUsers } from "../../reducers/actions";
 
-export default class ChatContainer extends Component {
+class ChatContainer extends Component {
   constructor(props) {
     super(props);
 
@@ -24,13 +26,9 @@ export default class ChatContainer extends Component {
     };
   }
 
-  // componentDidUpdate() {
-  //     const { users } = this.state;
-  //     users.forEach(user => {
-  //         this.sendOpenPrivateMessage(user);
-  //         console.log(user);
-  //     });
-  // }
+  componentDidUpdate() {
+    this.props.setConnectedUsers(this.state.users);
+  }
 
   componentDidMount() {
     const { socket } = this.props;
@@ -190,3 +188,16 @@ export default class ChatContainer extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setConnectedUsers: connectedUsers =>
+      dispatch(setConnectedUsers(connectedUsers))
+  };
+};
+
+const mapStateToProps = state => ({
+  connectedUsers: state.connectedUsersReducer.connectedUsers
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatContainer);
