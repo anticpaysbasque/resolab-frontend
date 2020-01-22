@@ -34,7 +34,7 @@ function DisplayPublications({ handleSnackBar, userId }) {
   const fetchPages = async lastPage => {
     let fetchedPublications = [];
     for (let page = 1; page <= lastPage; page++) {
-      const res = await axios.get(`${apiUrl}/posts?page=${page}`, {
+      const res = await axios.get(`${apiUrl}/posts?display=true&page=${page}`, {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("token"),
           Accept: "application/json"

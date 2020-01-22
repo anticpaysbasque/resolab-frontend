@@ -12,7 +12,9 @@ import {
   Typography,
   Switch,
   IconButton,
-  Paper
+  Paper,
+  Button,
+  CircularProgress
 } from "@material-ui/core";
 import PermIdentity from "@material-ui/icons/PermIdentity";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
@@ -22,14 +24,41 @@ import { removeAlert } from "../reducers/actions";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function ModerationComponent({ openAlert, classes, removeAlert }) {
-  const [isTakenInCharge, setIsTakenInCharge] = useState(openAlert.takenCare);
+function ModerationComponent({
+  openAlert,
+  classes,
+  unblockContent,
+  removeAlert,
+  id
+}) {
+  const [isBlocked, setIsBlocked] = useState(true);
+  const [isBlockedLoading, setIsBlockedLoading] = useState(false);
+  const [isTakenInCharge, setIsTakenInCharge] = useState(false);
   const [isResolved, setIsResolved] = useState(false);
+  const [isResolvedLoading, setIsResolvedLoading] = useState(false);
 
   const config = {
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("token")
     }
+  };
+
+  const handleBlocked = () => {
+    setIsBlockedLoading(true);
+    axios
+      .put(
+        `${apiUrl}/posts/${openAlert.id}`,
+        {
+          display: true
+        },
+        config
+      )
+      .then(res => {
+        setIsBlocked(!isBlocked);
+        console.log(res);
+      })
+      .catch(err => console.log(err))
+      .finally(() => setIsBlockedLoading(false));
   };
 
   const handleTakeInCharge = () => {
@@ -51,6 +80,7 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
 
   const handleResolved = () => {
     setIsResolved(!isResolved);
+    setIsResolvedLoading(true);
     axios
       .put(
         `${apiUrl}/alerts/${openAlert.id}`,
@@ -63,7 +93,8 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
         console.log(res);
         removeAlert();
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+      .finally(() => setIsResolvedLoading(false));
   };
 
   return (
@@ -104,47 +135,45 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
               Message laissé par {openAlert.user.username} concernant cette
               alerte :
             </Typography>
-            <Typography>"Hé j'ai un problème avec ce contenu!"</Typography>
+            <Typography>"Cette publication me pose problème."</Typography>
           </Paper>
         </Grid>
-        <CardActions disableSpacing>
-          <Grid
-            container
-            item
-            xs={6}
-            direction="column"
-            // alignItems="center"
-            style={{ padding: "16px" }}
-          >
-            <Typography>Je prend en charge ce problème</Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        <Grid container>
+          <Grid item xs={4}>
+            <Button
+              variant="contained"
+              startIcon={isBlockedLoading && <CircularProgress />}
+              disabled={isBlockedLoading}
+              color={isBlocked ? "secondary" : "primary"}
+              onClick={handleBlocked}
+            >
+              Débloquer le contenu
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography>Prise en charge du problème</Typography>
             <Switch
               checked={isTakenInCharge}
               onChange={handleTakeInCharge}
               value={isTakenInCharge}
               color="secondary"
-            />{" "}
-          </Grid>
-          <Grid
-            container
-            item
-            xs={6}
-            direction="column"
-            alignItems="center"
-            style={{ padding: "16px" }}
-          >
-            <Typography>
-              Je marque ce problème comme résolu et je clos cette alerte
-              définitivement
-            </Typography>
-            <Switch
-              checked={isResolved}
-              onChange={handleResolved}
-              value={isResolved}
-              color="secondary"
             />
           </Grid>
-        </CardActions>
-      </CardContent>
+          <Grid item xs={4}>
+            <Button
+              variant="contained"
+              startIcon={isResolvedLoading && <CircularProgress />}
+              disabled={isResolvedLoading}
+              color={isResolved ? "primary" : "secondary"}
+              onClick={handleResolved}
+            >
+              Problème résolu
+            </Button>
+          </Grid>
+        </Grid>
+      </CardActions>
     </Card>
   );
 }
