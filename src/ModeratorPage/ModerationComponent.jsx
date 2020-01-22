@@ -18,11 +18,18 @@ import PermIdentity from "@material-ui/icons/PermIdentity";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 
 import ModerationContent from "./ModerationContent";
+import TakeChargeSwitch from "./TakeChargeSwitch";
 import { removeAlert } from "../reducers/actions";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function ModerationComponent({ openAlert, classes, removeAlert }) {
+function ModerationComponent({
+  openAlert,
+  classes,
+  unblockContent,
+  removeAlert
+}) {
+  const [isBlocked, setIsBlocked] = useState(true);
   const [isTakenInCharge, setIsTakenInCharge] = useState(false);
   const [isResolved, setIsResolved] = useState(false);
 
@@ -30,6 +37,23 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("token")
     }
+  };
+
+  const handleBlocked = () => {
+    setIsBlocked(!isBlocked);
+    axios
+      .patch(
+        `${apiUrl}/post/{id}`,
+        {
+          unblockContent: true
+        },
+        config
+      )
+      .then(res => {
+        console.log(res);
+        // removeContent();
+      })
+      .catch(err => console.log(err));
   };
 
   const handleTakeInCharge = () => {
@@ -115,6 +139,13 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
             // alignItems="center"
             style={{ padding: "16px" }}
           >
+            <Typography>Je débloque le contenu</Typography>
+            <Switch
+              checked={isBlocked}
+              onChange={handleBlocked}
+              value={isBlocked}
+              color="secondary"
+            />{" "}
             <Typography>Je prend en charge ce problème</Typography>
             <Switch
               checked={isTakenInCharge}
