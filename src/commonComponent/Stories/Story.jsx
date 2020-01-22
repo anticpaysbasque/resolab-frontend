@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import { PermIdentity } from "@material-ui/icons";
-
+import { PermIdentity, Warning } from "@material-ui/icons";
+import { connect } from "react-redux";
 import {
   Card,
   CardActionArea,
@@ -13,11 +13,22 @@ import {
   Box,
   Modal,
   Backdrop,
-  Fade
+  Fade,
+  IconButton
 } from "@material-ui/core";
+import axios from "axios";
 
-function Storie({ classes, username, image }) {
+const apiUrl = process.env.REACT_APP_API_URL;
+
+function Storie({ classes, storyId, username, image, token, userId }) {
   const [open, setOpen] = useState(false);
+  const [isAlert, setIsAlert] = useState(false);
+
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -28,6 +39,40 @@ function Storie({ classes, username, image }) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleClickAlert = () => {
+    axios
+      .post(
+        `${apiUrl}/alerts`,
+        {
+          user: `api/users/${userId}`,
+          story: `api/stories/${storyId}`
+        },
+        config
+      )
+      .then(res => {
+        setIsAlert(true);
+        axios
+          .put(
+            `${apiUrl}/stories/${storyId}`,
+            {
+              display: false
+            },
+            config
+          )
+          .then(res => {
+            console.log(res);
+          })
+          .catch(err => {
+            console.log(err.message);
+            throw err;
+          });
+      })
+      .catch(err => {
+        console.log(err.message);
+        throw err;
+      });
   };
 
   return (
@@ -69,6 +114,15 @@ function Storie({ classes, username, image }) {
                       {username}
                     </Typography>
                   }
+                  action={
+                    <IconButton aria-label="settings">
+                      {isAlert ? (
+                        <Warning color="secondary" onClick={handleClickAlert} />
+                      ) : (
+                        <Warning color="disabled" onClick={handleClickAlert} />
+                      )}
+                    </IconButton>
+                  }
                 />
                 <CardMedia className={classes.media} image={image} />
               </div>
@@ -80,4 +134,11 @@ function Storie({ classes, username, image }) {
   );
 }
 
-export default Storie;
+const mapStateToProps = state => {
+  return {
+    userId: state.userReducer.id,
+    token: state.authReducer.token
+  };
+};
+
+export default connect(mapStateToProps)(Storie);
