@@ -19,7 +19,7 @@ import Messages from "../messages/Messages";
 import MessageInput from "../messages/MessageInput";
 import axios from "axios";
 import { connect } from "react-redux";
-import { orderBy } from "lodash";
+import { orderBy, find } from "lodash";
 
 const chatUrl = process.env.REACT_APP_CHAT_URL;
 
@@ -33,7 +33,8 @@ function Contact({
   setActiveChat,
   sendTyping,
   sendMessage,
-  token
+  token,
+  connectedUsers
 }) {
   const [chatVisibility, setChatVisibility] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -54,8 +55,14 @@ function Contact({
         }
       })
       .then(res => {
-        setFetchedMessages(orderBy(res.data, ["createdAt"], ["asc"]));
-        setLastMessage(res.data[res.data && res.data.length - 1].message);
+        setFetchedMessages(
+          res.data && orderBy(res.data, ["createdAt"], ["asc"])
+        );
+        setLastMessage(
+          res.data.message
+            ? res.data[res.data && res.data.length - 1].message
+            : ""
+        );
       });
   }, []);
 
@@ -64,6 +71,14 @@ function Contact({
     setActiveChat(chat[0]);
     setUserChat(chat[0]);
   }, [chat[0]]);
+
+  useEffect(() => {
+    console.log("user connected");
+
+    find(connectedUsers, { id: receiver.id })
+      ? setIsOnline(true)
+      : setIsOnline(false);
+  }, [connectedUsers]);
 
   const openChat = async () => {
     console.log("chat", userChat);
@@ -158,7 +173,8 @@ function Contact({
 
 const mapStateToProps = state => {
   return {
-    token: state.authReducer.token
+    token: state.authReducer.token,
+    connectedUsers: state.connectedUsersReducer.connectedUsers
   };
 };
 

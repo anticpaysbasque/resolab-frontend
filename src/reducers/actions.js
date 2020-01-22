@@ -4,7 +4,8 @@ import {
   LOG_OUT,
   SET_ALERT,
   REMOVE_ALERT,
-  SET_SOCKET
+  SET_SOCKET,
+  SET_CONNECTED_USERS
 } from "./actionTypes";
 
 export const storeToken = token => dispatch => {
@@ -33,4 +34,8 @@ export const removeAlert = () => dispatch => {
 
 export const storeSocket = socket => dispatch => {
   return dispatch({ type: SET_SOCKET, payload: socket });
+};
+
+export const setConnectedUsers = connectedUsers => dispatch => {
+  return dispatch({ type: SET_CONNECTED_USERS, payload: connectedUsers });
 };
