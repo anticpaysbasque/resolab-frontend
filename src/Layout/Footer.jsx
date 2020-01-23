@@ -7,18 +7,14 @@ import Link from "@material-ui/core/Link";
 import Favorite from "@material-ui/icons/Favorite";
 
 import { connect } from "react-redux";
-import "./Footer.css";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    minHeight: "50vh"
-  },
-
   footer: {
+    position: "fixed",
+    bottom: "0px",
+    width: "100%",
+    textAlign: "center",
     height: "3rem",
-    marginTop: "auto",
     backgroundColor:
       theme.palette.type === "dark"
         ? theme.palette.grey[800]
@@ -32,7 +28,7 @@ function StickyFooter({ isAuth }) {
   return (
     <>
       {!isAuth && (
-        <div className={classes.root}>
+        <div>
           <CssBaseline />
           <footer className={classes.footer}>
             <Container maxWidth="sm">
