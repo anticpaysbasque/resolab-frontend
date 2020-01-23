@@ -53,21 +53,6 @@ function Storie({ classes, storyId, username, image, token, userId }) {
       )
       .then(res => {
         setIsAlert(true);
-        axios
-          .put(
-            `${apiUrl}/stories/${storyId}`,
-            {
-              display: false
-            },
-            config
-          )
-          .then(res => {
-            console.log(res);
-          })
-          .catch(err => {
-            console.log(err.message);
-            throw err;
-          });
       })
       .catch(err => {
         console.log(err.message);
