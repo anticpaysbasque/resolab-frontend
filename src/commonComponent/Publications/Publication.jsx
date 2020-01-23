@@ -149,14 +149,7 @@ function Post({
         { user: `api/users/${userId}`, post: `api/posts/${postId}` },
         config
       );
-
-      const putPost = axios.put(
-        `${apiUrl}/posts/${postId}`,
-        { display: false },
-        config
-      );
-
-      await Promise.all([postAlert, putPost]);
+      await Promise.all([postAlert]);
 
       setIsAlert(true);
     } catch (err) {
