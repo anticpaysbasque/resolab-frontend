@@ -18,22 +18,20 @@ function HeaderIcons({ logOut, socket }) {
   };
 
   return (
-    <>
-      <Grid
-        container
-        spacing={5}
-        direction="row"
-        justify="space-around"
-        align-items="baseline"
-      >
-        <Fab color="default">
-          <Settings color="default" />
-        </Fab>
-        <Fab color="default">
-          <ExitToApp color="default" onClick={handleLogout} />
-        </Fab>
+    <Grid item xs={3} spacing={3}>
+      <Grid container justify="space-evenly">
+        <Grid item xs={3}>
+          <Fab color="default">
+            <Settings color="default" />
+          </Fab>
+        </Grid>
+        <Grid item xs={3}>
+          <Fab color="default">
+            <ExitToApp color="default" onClick={handleLogout} />
+          </Fab>
+        </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 }
 
