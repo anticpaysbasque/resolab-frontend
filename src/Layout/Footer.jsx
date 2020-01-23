@@ -6,6 +6,7 @@ import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import Favorite from "@material-ui/icons/Favorite";
 
+import { connect } from "react-redux";
 import "./Footer.css";
 
 const useStyles = makeStyles(theme => ({
@@ -25,27 +26,39 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function StickyFooter() {
+function StickyFooter({ isAuth }) {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <footer className={classes.footer}>
-        <Container maxWidth="sm">
-          <Typography variant="body1" className="footer">
-            <Link
-              color="inherit"
-              href="https://www.wildcodeschool.com/fr-FR/campus/biarritz"
-            >
-              <p>
-                Made with <Favorite color="Secondary" fontSize="small" /> by
-                Wild Code School Biarritz
-              </p>
-            </Link>
-          </Typography>
-        </Container>
-      </footer>
-    </div>
+    <>
+      {!isAuth && (
+        <div className={classes.root}>
+          <CssBaseline />
+          <footer className={classes.footer}>
+            <Container maxWidth="sm">
+              <Typography variant="body1" className="footer">
+                <Link
+                  color="inherit"
+                  href="https://www.wildcodeschool.com/fr-FR/campus/biarritz"
+                >
+                  <p>
+                    Made with <Favorite color="Secondary" fontSize="small" /> by
+                    Wild Code School Biarritz
+                  </p>
+                </Link>
+              </Typography>
+            </Container>
+          </footer>
+        </div>
+      )}
+    </>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    isAuth: state.authReducer.isAuth
+  };
+};
+
+export default connect(mapStateToProps)(StickyFooter);

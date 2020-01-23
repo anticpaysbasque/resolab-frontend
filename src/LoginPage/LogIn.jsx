@@ -16,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import VoidField from "./VoidField";
 import Loader from "./Loader";
 import DisplayError from "./DisplayError";
+import Footer from "../Layout/Footer";
 
 import { storeToken, setUser } from "../reducers/actions";
 
