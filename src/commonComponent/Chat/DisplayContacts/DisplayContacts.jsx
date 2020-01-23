@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { differenceBy } from "lodash";
+import { orderBy, findIndex } from "lodash";
 import axios from "axios";
+import { connect } from "react-redux";
 
-// import { createChatNameFromUsers } from "../../../utils/websocketsFactories";
 import Contact from "./Contact";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-export default class DisplayContacts extends Component {
+class DisplayContacts extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,9 +16,30 @@ export default class DisplayContacts extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     console.log("Display contacts mounts");
     this.fetchUsers(1, []);
+    setTimeout(this.retrieveOnlineUsers(this.props.connectedUsers), 500);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.connectedUsers !== prevProps.connectedUsers) {
+      this.retrieveOnlineUsers(this.props.connectedUsers);
+    }
+  }
+
+  retrieveOnlineUsers(usersArray) {
+    const { allUsers } = this.state;
+    const updatedUsers = allUsers.map(usr => {
+      let isOnline = false;
+      usersArray.some(connectUser => {
+        if (usr.id === connectUser.id) {
+          isOnline = true;
+        }
+      });
+      return { ...usr, isOnline };
+    });
+    this.setState({ allUsers: updatedUsers });
   }
 
   async fetchUsers(page, previousUsers) {
@@ -33,11 +54,9 @@ export default class DisplayContacts extends Component {
       })
       .then(async res => {
         const fetchedUsers = res.data;
-        console.log("fetch ", fetchedUsers);
         let allFetchedUsers = previousUsers.concat(
           fetchedUsers.filter(user => user.id !== this.props.user.id)
         );
-        console.log("new users ", allFetchedUsers);
         await axios
           .get(`${apiUrl}/users?page=${nextPage}`, {
             headers: {
@@ -49,7 +68,9 @@ export default class DisplayContacts extends Component {
             if (res.data.length !== 0) {
               this.fetchUsers(nextPage, allFetchedUsers);
             } else {
-              this.setState({ allUsers: allFetchedUsers });
+              this.setState({
+                allUsers: orderBy(allFetchedUsers)
+              });
             }
           });
       })
@@ -88,13 +109,16 @@ export default class DisplayContacts extends Component {
           }}
         >
           {allUsers &&
-            allUsers.map(usr => {
+            orderBy(allUsers, ["isOnline"], "desc").map(usr => {
               return (
                 <Contact
                   activeChat={activeChat}
                   key={usr.id}
                   user={user}
                   receiver={usr}
+                  retrieveOnlineUsers={userArray =>
+                    this.retrieveOnlineUsers(userArray)
+                  }
                   socketReceiver={users.find(rcvr => rcvr.id === usr.id)}
                   classes={classes}
                   addChat={(receiverName, receiverId) =>
@@ -128,3 +152,11 @@ export default class DisplayContacts extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    connectedUsers: state.connectedUsersReducer.connectedUsers
+  };
+};
+
+export default connect(mapStateToProps)(DisplayContacts);
