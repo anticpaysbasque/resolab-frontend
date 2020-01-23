@@ -13,7 +13,11 @@ function DisplayComments({ comments, classes }) {
               .slice(0)
               .reverse()
               .map(comment => (
-                <Comment comment={comment} classes={classes} />
+                <>
+                  {comment.display && (
+                    <Comment comment={comment} classes={classes} />
+                  )}
+                </>
               ))}
           </List>
         </>

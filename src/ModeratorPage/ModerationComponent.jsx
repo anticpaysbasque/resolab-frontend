@@ -70,6 +70,22 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
         .catch(err => console.log(err))
         .finally(() => setIsBlockedLoading(false));
     }
+    if (openAlert.comment) {
+      axios
+        .put(
+          `${apiUrl}/comments/${openAlert.comment.id}`,
+          {
+            display: true
+          },
+          config
+        )
+        .then(res => {
+          setIsBlocked(!isBlocked);
+          console.log(res);
+        })
+        .catch(err => console.log(err))
+        .finally(() => setIsBlockedLoading(false));
+    }
   };
 
   const handleTakeInCharge = () => {
