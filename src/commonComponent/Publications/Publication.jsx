@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Warning, PermIdentity, ChatBubbleOutline } from "@material-ui/icons";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import {
   Card,
@@ -30,7 +31,8 @@ function Post({
   comments,
   likes,
   owner,
-  token
+  token,
+  userIdPublication
 }) {
   const [displayCommentsPost, setDisplayComments] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -40,6 +42,7 @@ function Post({
   const [stateLikes, setStateLikes] = useState(likes);
   const [likesCount, setLikesCount] = useState(stateLikes.length);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isMyPublication, setIsMyPublication] = useState(false);
 
   const config = {
     headers: {
@@ -48,6 +51,9 @@ function Post({
   };
   useEffect(() => {
     stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
+    if (userId === userIdPublication) {
+      setIsMyPublication(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -158,6 +164,24 @@ function Post({
     }
   };
 
+  const handleIsMyPublication = () => {
+    axios
+      .put(
+        `${apiUrl}/posts/${postId}`,
+        {
+          display: false
+        },
+        config
+      )
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err.message);
+        throw err;
+      });
+  };
+
   return (
     <Card className={classes.card} style={{ width: "50vw" }}>
       <div className="scroll-post">
@@ -173,13 +197,20 @@ function Post({
             </Typography>
           }
           action={
-            <IconButton aria-label="settings">
-              {isAlert ? (
-                <Warning color="secondary" onClick={handleClickAlert} />
-              ) : (
-                <Warning color="disabled" onClick={handleClickAlert} />
-              )}
-            </IconButton>
+            <>
+              <IconButton aria-label="settings">
+                {isMyPublication && (
+                  <DeleteIcon onClick={handleIsMyPublication} />
+                )}
+              </IconButton>
+              <IconButton aria-label="settings">
+                {isAlert ? (
+                  <Warning color="secondary" onClick={handleClickAlert} />
+                ) : (
+                  <Warning color="disabled" onClick={handleClickAlert} />
+                )}
+              </IconButton>
+            </>
           }
         />
         <CardMedia className={classes.media} image={photo} />

@@ -30,6 +30,7 @@ function DisplayStories({ classes, handleSnackBar }) {
                       storyId={story.id}
                       classes={classes}
                       username={story.user.username}
+                      userIdStory={story.user.id}
                       image={`http://localhost:8089/media/${story.image.filePath}`}
                     />
                   ) : (
@@ -37,6 +38,7 @@ function DisplayStories({ classes, handleSnackBar }) {
                       storyId={story.id}
                       classes={classes}
                       username={story.user.username}
+                      userIdStory={story.user.id}
                       image={img}
                     />
                   )}
