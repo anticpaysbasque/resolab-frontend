@@ -87,6 +87,7 @@ function DisplayPublications({ handleSnackBar, userId }) {
                             comments={publication.comments}
                             owner={publication.user}
                             likes={publication.likes}
+                            userIdPublication={publication.user.id}
                           />
                         </Box>
                       )}
@@ -108,6 +109,7 @@ function DisplayPublications({ handleSnackBar, userId }) {
                           comments={publication.comments}
                           owner={publication.user}
                           likes={publication.likes}
+                          userIdPublication={publication.user.id}
                         />
                       </Box>
                     )}

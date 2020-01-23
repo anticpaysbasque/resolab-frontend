@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { PermIdentity, Warning } from "@material-ui/icons";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -21,16 +21,30 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function Storie({ classes, storyId, username, image, token, userId }) {
+function Storie({
+  classes,
+  storyId,
+  username,
+  image,
+  token,
+  userId,
+  userIdStory
+}) {
   const [open, setOpen] = useState(false);
   const [isAlert, setIsAlert] = useState(false);
-  const [isMyStory, setIsMyStory] = useState(true);
+  const [isMyStory, setIsMyStory] = useState(false);
 
   const config = {
     headers: {
       Authorization: "Bearer " + token
     }
   };
+
+  useEffect(() => {
+    if (userId === userIdStory) {
+      setIsMyStory(true);
+    }
+  }, []);
 
   const handleOpen = () => {
     setOpen(true);
