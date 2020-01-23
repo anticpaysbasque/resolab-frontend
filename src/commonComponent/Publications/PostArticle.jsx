@@ -129,7 +129,7 @@ function PostArticle({ id, token, handleSnackBar }) {
         <Button>
           <AddCircleOutlineIcon style={{ fontSize: 80 }} onClick={handleOpen} />
         </Button>
-        <p>Ajouter une nouvelle photo</p>
+        <p style={{ fontFamily: "Roboto" }}>Ajouter une nouvelle photo</p>
       </Box>
       <Modal
         aria-labelledby="transition-modal-title"

@@ -10,25 +10,12 @@ import "../Layout/Scroll.css";
 
 function Header({ isAuth }) {
   return (
-    <>
-      <div className="scroll-container">
-        <AppBar color="primary">
-          <Grid
-            container
-            direction="row"
-            justify="space-between"
-            alignItems="center"
-          >
-            <Grid container item xs={6} sm={10}>
-              <HeaderSite />
-            </Grid>
-            <Grid item xs={6} sm={2}>
-              {isAuth && <HeaderIcons />}
-            </Grid>
-          </Grid>
-        </AppBar>
-      </div>
-    </>
+    <AppBar color="primary" position="fixed">
+      <Grid container spacing={3} alignItems="center">
+        <HeaderSite />
+        {isAuth && <HeaderIcons />}
+      </Grid>
+    </AppBar>
   );
 }
 

@@ -56,7 +56,7 @@ export const useStyles = makeStyles(theme => ({
     }
   },
   sidebarCard: {
-    minWidth: 350,
+    maxWidth: 350,
     maxHeight: 350,
     margin: 8
   },
