@@ -45,20 +45,38 @@ function ModerationComponent({
 
   const handleBlocked = () => {
     setIsBlockedLoading(true);
-    axios
-      .put(
-        `${apiUrl}/posts/${openAlert.id}`,
-        {
-          display: true
-        },
-        config
-      )
-      .then(res => {
-        setIsBlocked(!isBlocked);
-        console.log(res);
-      })
-      .catch(err => console.log(err))
-      .finally(() => setIsBlockedLoading(false));
+    if (openAlert.post) {
+      axios
+        .put(
+          `${apiUrl}/posts/${openAlert.post.id}`,
+          {
+            display: true
+          },
+          config
+        )
+        .then(res => {
+          setIsBlocked(!isBlocked);
+          console.log(res);
+        })
+        .catch(err => console.log(err))
+        .finally(() => setIsBlockedLoading(false));
+    }
+    if (openAlert.story) {
+      axios
+        .put(
+          `${apiUrl}/stories/${openAlert.story.id}`,
+          {
+            display: true
+          },
+          config
+        )
+        .then(res => {
+          setIsBlocked(!isBlocked);
+          console.log(res);
+        })
+        .catch(err => console.log(err))
+        .finally(() => setIsBlockedLoading(false));
+    }
   };
 
   const handleTakeInCharge = () => {
