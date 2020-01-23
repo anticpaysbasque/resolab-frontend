@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import {
-  Box,
   Card,
   CardHeader,
   CardContent,
@@ -24,16 +23,10 @@ import { removeAlert } from "../reducers/actions";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function ModerationComponent({
-  openAlert,
-  classes,
-  unblockContent,
-  removeAlert,
-  id
-}) {
+function ModerationComponent({ openAlert, classes, removeAlert }) {
   const [isBlocked, setIsBlocked] = useState(true);
   const [isBlockedLoading, setIsBlockedLoading] = useState(false);
-  const [isTakenInCharge, setIsTakenInCharge] = useState(false);
+  const [isTakenInCharge, setIsTakenInCharge] = useState(openAlert.takenCare);
   const [isResolved, setIsResolved] = useState(false);
   const [isResolvedLoading, setIsResolvedLoading] = useState(false);
 
