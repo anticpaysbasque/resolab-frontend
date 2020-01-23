@@ -40,7 +40,10 @@ function ModerationContent({ classes, openAlert }) {
         </Typography>
 
         {openAlert.story.image && (
-          <CardMedia className={classes.media} image={openAlert.story.image} />
+          <CardMedia
+            className={classes.media}
+            image={`http://localhost:8089/media/${openAlert.story.image.filePath}`}
+          />
         )}
         <div className="separation-post-comment">
           <Typography>{openAlert.story.date}</Typography>

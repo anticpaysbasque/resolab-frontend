@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { List } from "@material-ui/core";
-import { orderBy } from "lodash";
+import { orderBy, filter } from "lodash";
 
 import Alert from "./Alert";
 import { useRecursiveGet } from "../hooks/useApi";
@@ -16,7 +16,8 @@ function AlertsList({ classes, setAlertCount }) {
   }, []);
 
   useEffect(() => {
-    datas && setAlertCount(datas.length);
+    const unresolvedAlerts = datas && filter(datas, ["resolved", false]);
+    datas && setAlertCount(unresolvedAlerts.length);
     const orderedAlerts = datas && orderBy(datas, ["takenCare"], ["asc"]);
     setOrderedAlerts(orderedAlerts);
   }, [datas]);
