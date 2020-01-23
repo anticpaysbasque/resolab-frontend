@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { PermIdentity, Warning } from "@material-ui/icons";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { connect } from "react-redux";
 import {
   Card,
@@ -23,6 +24,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 function Storie({ classes, storyId, username, image, token, userId }) {
   const [open, setOpen] = useState(false);
   const [isAlert, setIsAlert] = useState(false);
+  const [isMyStory, setIsMyStory] = useState(true);
 
   const config = {
     headers: {
@@ -53,6 +55,24 @@ function Storie({ classes, storyId, username, image, token, userId }) {
       )
       .then(res => {
         setIsAlert(true);
+      })
+      .catch(err => {
+        console.log(err.message);
+        throw err;
+      });
+  };
+
+  const handleIsMyStory = () => {
+    axios
+      .put(
+        `${apiUrl}/stories/${storyId}`,
+        {
+          display: false
+        },
+        config
+      )
+      .then(res => {
+        console.log(res);
       })
       .catch(err => {
         console.log(err.message);
@@ -100,13 +120,24 @@ function Storie({ classes, storyId, username, image, token, userId }) {
                     </Typography>
                   }
                   action={
-                    <IconButton aria-label="settings">
-                      {isAlert ? (
-                        <Warning color="secondary" onClick={handleClickAlert} />
-                      ) : (
-                        <Warning color="disabled" onClick={handleClickAlert} />
-                      )}
-                    </IconButton>
+                    <>
+                      <IconButton aria-label="settings">
+                        {isMyStory && <DeleteIcon onClick={handleIsMyStory} />}
+                      </IconButton>
+                      <IconButton aria-label="settings">
+                        {isAlert ? (
+                          <Warning
+                            color="secondary"
+                            onClick={handleClickAlert}
+                          />
+                        ) : (
+                          <Warning
+                            color="disabled"
+                            onClick={handleClickAlert}
+                          />
+                        )}
+                      </IconButton>
+                    </>
                   }
                 />
                 <CardMedia className={classes.media} image={image} />
