@@ -1,16 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 
 import {
   ListItem,
   ListItemText,
   Divider,
   Typography,
-  CardActions
+  CardActions,
+  IconButton
 } from "@material-ui/core";
+import { Warning } from "@material-ui/icons";
+import axios from "axios";
 
 import CommentLikes from "./LikeAComment";
 
-function Comment({ comment, classes }) {
+const apiUrl = process.env.REACT_APP_API_URL;
+
+function Comment({ comment, classes, token, userId }) {
+  const [isAlert, setIsAlert] = useState(false);
+
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  };
+
+  const handleClickAlert = () => {
+    axios
+      .post(
+        `${apiUrl}/alerts`,
+        {
+          user: `api/users/${userId}`,
+          comment: `api/comments/${comment.id}`
+        },
+        config
+      )
+      .then(res => {
+        setIsAlert(true);
+      })
+      .catch(err => {
+        console.log(err.message);
+        throw err;
+      });
+  };
+
   return (
     <>
       <ListItem alignItems="flex-start">
@@ -35,6 +68,13 @@ function Comment({ comment, classes }) {
         />
 
         <CardActions disableSpacing>
+          <IconButton aria-label="settings">
+            {isAlert ? (
+              <Warning color="secondary" onClick={handleClickAlert} />
+            ) : (
+              <Warning color="disabled" onClick={handleClickAlert} />
+            )}
+          </IconButton>
           <CommentLikes commentId={comment.id} />
         </CardActions>
       </ListItem>
@@ -43,4 +83,11 @@ function Comment({ comment, classes }) {
   );
 }
 
-export default Comment;
+const mapStateToProps = state => {
+  return {
+    userId: state.userReducer.id,
+    token: state.authReducer.token
+  };
+};
+
+export default connect(mapStateToProps)(Comment);
