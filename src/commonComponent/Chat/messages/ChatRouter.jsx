@@ -6,6 +6,7 @@ import { orderBy } from "lodash";
 
 function ChatRouter({
   messages,
+  privateMessages,
   user,
   typingUsers,
   sendMessage,
@@ -15,13 +16,13 @@ function ChatRouter({
   activeChat,
   receiver,
   socketReceiver,
-  fetchDb
+  fetchDb,
+  getLastMessage
 }) {
   const [oldMessages, setOldMessages] = useState([]);
 
   useEffect(() => {
     const orderedMessages = orderBy(fetchedMessages, ["createdAt"], ["asc"]);
-    console.log(receiver.username, orderedMessages);
 
     const messagesFormated = orderedMessages.map(mes => {
       return {
@@ -33,9 +34,16 @@ function ChatRouter({
         sender: mes.sender_id === user.id ? user.name : receiver.username
       };
     });
-    console.log(receiver.username, messagesFormated);
     setOldMessages(messagesFormated);
   }, [fetchedMessages]);
+
+  useEffect(() => {
+    if (privateMessages !== undefined && privateMessages.length) {
+      getLastMessage(privateMessages);
+    } else {
+      oldMessages.length > 0 && getLastMessage(oldMessages);
+    }
+  });
 
   return (
     <>

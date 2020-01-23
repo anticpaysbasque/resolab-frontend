@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { differenceBy } from "lodash";
+import { orderBy, findIndex } from "lodash";
 import axios from "axios";
+import { connect } from "react-redux";
 
-// import { createChatNameFromUsers } from "../../../utils/websocketsFactories";
 import Contact from "./Contact";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-export default class DisplayContacts extends Component {
+class DisplayContacts extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +21,8 @@ export default class DisplayContacts extends Component {
     this.fetchUsers(1, []);
   }
 
+  componentDidUpdate() {}
+
   async fetchUsers(page, previousUsers) {
     // retreiving all users from database until there is no more post
     const nextPage = page + 1;
@@ -33,11 +35,9 @@ export default class DisplayContacts extends Component {
       })
       .then(async res => {
         const fetchedUsers = res.data;
-        console.log("fetch ", fetchedUsers);
         let allFetchedUsers = previousUsers.concat(
           fetchedUsers.filter(user => user.id !== this.props.user.id)
         );
-        console.log("new users ", allFetchedUsers);
         await axios
           .get(`${apiUrl}/users?page=${nextPage}`, {
             headers: {
@@ -49,7 +49,9 @@ export default class DisplayContacts extends Component {
             if (res.data.length !== 0) {
               this.fetchUsers(nextPage, allFetchedUsers);
             } else {
-              this.setState({ allUsers: allFetchedUsers });
+              this.setState({
+                allUsers: orderBy(allFetchedUsers)
+              });
             }
           });
       })
@@ -128,3 +130,11 @@ export default class DisplayContacts extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    connectedUsers: state.connectedUserReducer.connectedUsers
+  };
+};
+
+export default connect(mapStateToProps)(DisplayContacts);

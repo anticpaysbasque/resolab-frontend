@@ -8,18 +8,18 @@ import {
   Avatar,
   CardContent,
   IconButton,
-  Typography
+  Typography,
+  Badge
 } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ForumIcon from "@material-ui/icons/Forum";
 import { Warning } from "@material-ui/icons";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
-// import { last, get } from "lodash";
 import Messages from "../messages/Messages";
 import MessageInput from "../messages/MessageInput";
 import axios from "axios";
 import { connect } from "react-redux";
-import { orderBy, find } from "lodash";
+import { orderBy, find, last } from "lodash";
 import ChatRouter from "../messages/ChatRouter";
 
 const chatUrl = process.env.REACT_APP_CHAT_URL;
@@ -42,6 +42,7 @@ function Contact({
   const [alert, setAlert] = useState(false);
   const [userChat, setUserChat] = useState(chat[0]);
   const [isNewMessage, setIsNewMessage] = useState(false);
+  const [newMessagesCount, setNewMessagesCount] = useState(0);
   const [lastMessage, setLastMessage] = useState("");
   const [fetchedMessages, setFetchedMessages] = useState([]);
   const [senderId, setSenderId] = useState(user.id);
@@ -65,6 +66,16 @@ function Contact({
       : setIsOnline(false);
   }, [connectedUsers]);
 
+  const getLastMessage = messages => {
+    const lastMes = last(messages);
+    console.log("last message", lastMes);
+    if (lastMes !== lastMessage) {
+      lastMessage !== "" && setNewMessagesCount(newMessagesCount + 1);
+      lastMessage !== "" && setIsNewMessage(true);
+      setLastMessage(lastMes);
+    }
+  };
+
   const fetchDbMessages = async () => {
     await axios
       .get(`${chatUrl}/userMessage/${senderId}/${receiverId}`, {
@@ -75,15 +86,6 @@ function Contact({
       })
       .then(res => {
         setFetchedMessages(res.data);
-
-        // setLastMessage(
-        //     messagesFormated.message !== undefined
-        //         ? messagesFormated[
-        //               messagesFormated &&
-        //                   messagesFormated.length - 1
-        //           ].message
-        //         : ""
-        // );
       });
   };
 
@@ -99,6 +101,7 @@ function Contact({
       isOnline && setUserChat(chat[0]);
     }
     setIsNewMessage(false);
+    setNewMessagesCount(0);
   };
 
   const closeChat = () => {
@@ -120,9 +123,21 @@ function Contact({
         button
       >
         <ListItemAvatar>
-          <AccountCircleIcon style={isOnline ? { color: "lightgreen" } : {}} />
+          <Badge
+            badgeContent={
+              isNewMessage && !chatVisibility ? newMessagesCount : 0
+            }
+            color="primary"
+          >
+            <AccountCircleIcon
+              style={isOnline ? { color: "lightgreen" } : {}}
+            />
+          </Badge>
         </ListItemAvatar>
-        <ListItemText primary={receiver.username} secondary={lastMessage} />
+        <ListItemText
+          primary={receiver.username}
+          secondary={lastMessage && lastMessage.message}
+        />
       </ListItem>
 
       <Card
@@ -160,6 +175,7 @@ function Contact({
         />
         <ChatRouter
           messages={activeChat && activeChat.messages}
+          privateMessages={chat[0] && chat[0].messages}
           user={user}
           socketReceiver={socketReceiver}
           typingUsers={activeChat && activeChat.typingUsers}
@@ -177,6 +193,7 @@ function Contact({
           activeChat={activeChat}
           receiver={receiver}
           fetchDb={fetchDbMessages}
+          getLastMessage={message => getLastMessage(message)}
         />
       </Card>
     </>
