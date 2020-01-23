@@ -16,26 +16,30 @@ class DisplayContacts extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     console.log("Display contacts mounts");
     this.fetchUsers(1, []);
+    setTimeout(this.retrieveOnlineUsers(this.props.connectedUsers), 500);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.connectedUsers !== prevProps.connectedUsers) {
-      const { connectedUsers } = this.props;
-      const { allUsers } = this.state;
-      const updatedUsers = allUsers.map(usr => {
-        let isOnline = false;
-        connectedUsers.some(connectUser => {
-          if (usr.id === connectUser.id) {
-            isOnline = true;
-          }
-        });
-        return { ...usr, isOnline };
-      });
-      this.setState({ allUsers: updatedUsers });
+      this.retrieveOnlineUsers(this.props.connectedUsers);
     }
+  }
+
+  retrieveOnlineUsers(usersArray) {
+    const { allUsers } = this.state;
+    const updatedUsers = allUsers.map(usr => {
+      let isOnline = false;
+      usersArray.some(connectUser => {
+        if (usr.id === connectUser.id) {
+          isOnline = true;
+        }
+      });
+      return { ...usr, isOnline };
+    });
+    this.setState({ allUsers: updatedUsers });
   }
 
   async fetchUsers(page, previousUsers) {
@@ -112,6 +116,9 @@ class DisplayContacts extends Component {
                   key={usr.id}
                   user={user}
                   receiver={usr}
+                  retrieveOnlineUsers={userArray =>
+                    this.retrieveOnlineUsers(userArray)
+                  }
                   socketReceiver={users.find(rcvr => rcvr.id === usr.id)}
                   classes={classes}
                   addChat={(receiverName, receiverId) =>

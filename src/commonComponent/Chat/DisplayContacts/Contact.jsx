@@ -36,7 +36,8 @@ function Contact({
   sendTyping,
   sendMessage,
   token,
-  connectedUsers
+  connectedUsers,
+  retrieveOnlineUsers
 }) {
   const [chatVisibility, setChatVisibility] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -64,6 +65,7 @@ function Contact({
     find(connectedUsers, { id: receiver.id })
       ? setIsOnline(true)
       : setIsOnline(false);
+    retrieveOnlineUsers(connectedUsers);
   }, [connectedUsers]);
 
   const getLastMessage = messages => {
@@ -91,13 +93,14 @@ function Contact({
   const openChat = async () => {
     if (userChat === undefined) {
       console.log("create chat");
-      isOnline && (await addChat(socketReceiver.name, socketReceiver.id));
+      receiver.isOnline &&
+        (await addChat(socketReceiver.name, socketReceiver.id));
       setChatVisibility(true);
     } else {
       console.log("switch to chat");
       setChatVisibility(true);
-      isOnline && setActiveChat(chat[0]);
-      isOnline && setUserChat(chat[0]);
+      receiver.isOnline && setActiveChat(chat[0]);
+      receiver.isOnline && setUserChat(chat[0]);
     }
     setIsNewMessage(false);
     setNewMessagesCount(0);
@@ -129,7 +132,7 @@ function Contact({
             color="primary"
           >
             <AccountCircleIcon
-              style={isOnline ? { color: "lightgreen" } : {}}
+              style={receiver.isOnline ? { color: "lightgreen" } : {}}
             />
           </Badge>
         </ListItemAvatar>
@@ -188,7 +191,7 @@ function Contact({
           }
           sendTyping={isTyping => sendTyping(activeChat.id, isTyping)}
           fetchedMessages={fetchedMessages}
-          isOnline={isOnline}
+          isOnline={receiver.isOnline}
           activeChat={activeChat}
           receiver={receiver}
           fetchDb={fetchDbMessages}
