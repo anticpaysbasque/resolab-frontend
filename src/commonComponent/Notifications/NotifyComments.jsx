@@ -24,11 +24,9 @@ function NotifyComments({ userId, setCount }) {
       })
       .then(async res => {
         const fetchedMessages = res.data;
-        console.log("fetch ", fetchedMessages);
         messages = messages.concat(
           fetchedMessages.filter(post => post.user.id === userId)
         );
-        console.log("new messages ", messages);
         await axios
           .get(`${apiUrl}/posts?page=${nextPage}`, {
             headers: {

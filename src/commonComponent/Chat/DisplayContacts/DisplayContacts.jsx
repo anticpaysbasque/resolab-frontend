@@ -21,7 +21,22 @@ class DisplayContacts extends Component {
     this.fetchUsers(1, []);
   }
 
-  componentDidUpdate() {}
+  componentDidUpdate(prevProps) {
+    if (this.props.connectedUsers !== prevProps.connectedUsers) {
+      const { connectedUsers } = this.props;
+      const { allUsers } = this.state;
+      const updatedUsers = allUsers.map(usr => {
+        let isOnline = false;
+        connectedUsers.some(connectUser => {
+          if (usr.id === connectUser.id) {
+            isOnline = true;
+          }
+        });
+        return { ...usr, isOnline };
+      });
+      this.setState({ allUsers: updatedUsers });
+    }
+  }
 
   async fetchUsers(page, previousUsers) {
     // retreiving all users from database until there is no more post
@@ -90,7 +105,7 @@ class DisplayContacts extends Component {
           }}
         >
           {allUsers &&
-            allUsers.map(usr => {
+            orderBy(allUsers, ["isOnline"], "desc").map(usr => {
               return (
                 <Contact
                   activeChat={activeChat}
@@ -133,7 +148,7 @@ class DisplayContacts extends Component {
 
 const mapStateToProps = state => {
   return {
-    connectedUsers: state.connectedUserReducer.connectedUsers
+    connectedUsers: state.connectedUsersReducer.connectedUsers
   };
 };
 

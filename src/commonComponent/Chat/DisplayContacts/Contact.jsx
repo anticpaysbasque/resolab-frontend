@@ -68,7 +68,6 @@ function Contact({
 
   const getLastMessage = messages => {
     const lastMes = last(messages);
-    console.log("last message", lastMes);
     if (lastMes !== lastMessage) {
       lastMessage !== "" && setNewMessagesCount(newMessagesCount + 1);
       lastMessage !== "" && setIsNewMessage(true);
