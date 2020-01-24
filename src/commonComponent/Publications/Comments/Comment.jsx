@@ -37,6 +37,20 @@ function Comment({ comment, classes, token, userId }) {
       )
       .then(res => {
         setIsAlert(true);
+        axios
+          .put(
+            `api/comments/${comment.id}`,
+            {
+              display: false
+            },
+            config
+          )
+          .then(res => {
+            console.log(res);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       })
       .catch(err => {
         console.log(err.message);
