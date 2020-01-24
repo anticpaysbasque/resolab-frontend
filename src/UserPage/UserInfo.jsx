@@ -16,7 +16,7 @@ function UserInfo({ classes, username, firstName, lastName, classroom }) {
 
   useEffect(() => {
     axios
-      .get(`${baseUrl}/${classroom}`, {
+      .get(`${baseUrl}${classroom}`, {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("token"),
           Accept: "application/json"
