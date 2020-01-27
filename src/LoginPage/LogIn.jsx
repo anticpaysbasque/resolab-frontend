@@ -41,6 +41,8 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
   let history = useHistory();
 
   useEffect(() => {
+    console.log(roles[0]);
+
     if (isAuth) {
       switch (roles[0]) {
         case "ROLE_STUDENT":
@@ -70,6 +72,7 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
           password: password
         });
         storeToken(postRes.data.token);
+
         const getRes = await Axios.get(`${apiUrl}/users`, {
           headers: {
             Authorization: "Bearer " + postRes.data.token,
