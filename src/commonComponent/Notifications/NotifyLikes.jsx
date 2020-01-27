@@ -4,7 +4,7 @@ import axios from "axios";
 
 import LikeNotification from "./LikeNotification";
 
-function NotifyLikes({ userId, setCount }) {
+function NotifyLikes({ userId, setCount, token }) {
   const [userLikes, setUserLikes] = useState([]);
   const [likesForUser, setLikesForUser] = useState([]);
 
@@ -17,7 +17,7 @@ function NotifyLikes({ userId, setCount }) {
     axios
       .get(`${apiUrl}/likes?page=${page}`, {
         headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          Authorization: "Bearer " + token,
           Accept: "application/json"
         }
       })
@@ -36,7 +36,7 @@ function NotifyLikes({ userId, setCount }) {
         axios
           .get(`${apiUrl}/likes?page=${nextPage}`, {
             headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("token"),
+              Authorization: "Bearer " + token,
               Accept: "application/json"
             }
           })
@@ -68,8 +68,12 @@ function NotifyLikes({ userId, setCount }) {
     </div>
   );
 }
+
 const mapStateToProps = state => {
-  return { userId: state.userReducer.id };
+  return {
+    userId: state.userReducer.id,
+    token: state.authReducer.token
+  };
 };
 
 export default connect(mapStateToProps)(NotifyLikes);

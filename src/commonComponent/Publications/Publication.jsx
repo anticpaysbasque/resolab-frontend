@@ -87,7 +87,7 @@ function Post({
           },
           {
             headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("token"),
+              Authorization: "Bearer " + token,
               Accept: "application/json"
             }
           }

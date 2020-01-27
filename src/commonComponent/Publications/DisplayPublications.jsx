@@ -10,7 +10,7 @@ import useInterval from "../../useInterval";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function DisplayPublications({ handleSnackBar, userId }) {
+function DisplayPublications({ handleSnackBar, userId, token }) {
   const [publications, setPublications] = useState([]);
   const [showUserPublications, setShowUserPublications] = useState(false);
   const [lastPageToFetch, setLastPageToFetch] = useState(1);
@@ -36,7 +36,7 @@ function DisplayPublications({ handleSnackBar, userId }) {
     for (let page = 1; page <= lastPage; page++) {
       const res = await axios.get(`${apiUrl}/posts?display=true&page=${page}`, {
         headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          Authorization: "Bearer " + token,
           Accept: "application/json"
         }
       });

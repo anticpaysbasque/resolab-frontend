@@ -5,7 +5,7 @@ import axios from "axios";
 
 import CommentNotification from "./CommentNotification";
 
-function NotifyComments({ userId, setCount }) {
+function NotifyComments({ userId, setCount, token }) {
   const [userMessages, setUserMessages] = useState([]);
   const [commentsOnUserMessages, setCommentsOnUserMessages] = useState([]);
 
@@ -18,7 +18,7 @@ function NotifyComments({ userId, setCount }) {
     await axios
       .get(`${apiUrl}/posts?page=${page}`, {
         headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          Authorization: "Bearer " + token,
           Accept: "application/json"
         }
       })
@@ -30,7 +30,7 @@ function NotifyComments({ userId, setCount }) {
         await axios
           .get(`${apiUrl}/posts?page=${nextPage}`, {
             headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("token"),
+              Authorization: "Bearer " + token,
               Accept: "application/json"
             }
           })
@@ -85,7 +85,10 @@ function NotifyComments({ userId, setCount }) {
 }
 
 const mapStateToProps = state => {
-  return { userId: state.userReducer.id };
+  return {
+    userId: state.userReducer.id,
+    token: state.authReducer.token
+  };
 };
 
 export default connect(mapStateToProps)(NotifyComments);

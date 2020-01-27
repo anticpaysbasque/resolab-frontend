@@ -19,11 +19,8 @@ import img from "../../Assets/add.png";
 import WebcamComponent from "../WebcamComponent";
 
 const apiUrl = process.env.REACT_APP_API_URL;
-const mapStateToProps = state => ({
-  id: state.userReducer.id
-});
 
-function PostStorie({ id, classes, handleSnackBar }) {
+function PostStorie({ id, classes, handleSnackBar, token }) {
   const [open, setOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const [image, setImage] = useState("");
@@ -58,7 +55,7 @@ function PostStorie({ id, classes, handleSnackBar }) {
     axios
       .post(`${apiUrl}/media_objects`, formData, {
         headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          Authorization: "Bearer " + token,
           Accept: "application/json"
         }
       })
@@ -72,7 +69,7 @@ function PostStorie({ id, classes, handleSnackBar }) {
           },
           {
             headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("token"),
+              Authorization: "Bearer " + token,
               Accept: "application/json"
             }
           }
@@ -165,5 +162,10 @@ function PostStorie({ id, classes, handleSnackBar }) {
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  id: state.userReducer.id,
+  token: state.authReducer.token
+});
 
 export default connect(mapStateToProps)(PostStorie);

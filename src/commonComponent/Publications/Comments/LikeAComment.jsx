@@ -7,7 +7,7 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function CommentLikes({ commentId, userId }) {
+function CommentLikes({ commentId, userId, token }) {
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState([]);
   const [likesCount, setLikesCount] = useState(0);
@@ -17,7 +17,7 @@ function CommentLikes({ commentId, userId }) {
     axios
       .get(`${apiUrl}/likes?comment.id=${commentId}`, {
         headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          Authorization: "Bearer " + token,
           Accept: "application/json"
         }
       })
@@ -39,7 +39,7 @@ function CommentLikes({ commentId, userId }) {
       axios
         .delete(`${apiUrl}/likes/${userLike.id}`, {
           headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("token"),
+            Authorization: "Bearer " + token,
             Accept: "application/json"
           }
         })
@@ -47,7 +47,7 @@ function CommentLikes({ commentId, userId }) {
           axios
             .get(`${apiUrl}/likes?comment.id=${commentId}`, {
               headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("token"),
+                Authorization: "Bearer " + token,
                 Accept: "application/json"
               }
             })
@@ -70,7 +70,7 @@ function CommentLikes({ commentId, userId }) {
           },
           {
             headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("token"),
+              Authorization: "Bearer " + token,
               Accept: "application/json"
             }
           }
@@ -79,7 +79,7 @@ function CommentLikes({ commentId, userId }) {
           axios
             .get(`${apiUrl}/likes?comment.id=${commentId}`, {
               headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("token"),
+                Authorization: "Bearer " + token,
                 Accept: "application/json"
               }
             })
@@ -117,7 +117,8 @@ function CommentLikes({ commentId, userId }) {
 
 const mapstateToProps = state => {
   return {
-    userId: state.userReducer.id
+    userId: state.userReducer.id,
+    token: state.authReducer.token
   };
 };
 
