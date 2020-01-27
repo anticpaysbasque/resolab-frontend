@@ -18,6 +18,13 @@ function DisplayPublications({ handleSnackBar, userId, token }) {
 
   const classes = useStyles();
 
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
+    }
+  };
+
   //  sets the interval for fetching new posts using custom hook
   useInterval(() => {
     setTimerCount(timerCount + 1);
@@ -34,12 +41,10 @@ function DisplayPublications({ handleSnackBar, userId, token }) {
   const fetchPages = async lastPage => {
     let fetchedPublications = [];
     for (let page = 1; page <= lastPage; page++) {
-      const res = await axios.get(`${apiUrl}/posts?display=true&page=${page}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-          Accept: "application/json"
-        }
-      });
+      const res = await axios.get(
+        `${apiUrl}/posts?display=true&page=${page}`,
+        config
+      );
       fetchedPublications = fetchedPublications.concat(res.data);
     }
     return fetchedPublications;

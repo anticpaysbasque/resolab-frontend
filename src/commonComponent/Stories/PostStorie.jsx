@@ -25,6 +25,13 @@ function PostStorie({ id, classes, handleSnackBar, token }) {
   const [previewImage, setPreviewImage] = useState(null);
   const [image, setImage] = useState("");
 
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
+    }
+  };
+
   useEffect(() => {
     if (image) {
       let reader = new FileReader();
@@ -53,12 +60,7 @@ function PostStorie({ id, classes, handleSnackBar, token }) {
     const formData = new FormData();
     formData.append("file", image);
     axios
-      .post(`${apiUrl}/media_objects`, formData, {
-        headers: {
-          Authorization: "Bearer " + token,
-          Accept: "application/json"
-        }
-      })
+      .post(`${apiUrl}/media_objects`, formData, config)
       .then(res => {
         console.log(res);
         return axios.post(
@@ -67,12 +69,7 @@ function PostStorie({ id, classes, handleSnackBar, token }) {
             image: `/api/media_objects/${res.data.id}`,
             user: `/api/users/${id}`
           },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-              Accept: "application/json"
-            }
-          }
+          config
         );
       })
       .then(res => {

@@ -32,7 +32,8 @@ function ModerationComponent({ openAlert, classes, removeAlert, token }) {
 
   const config = {
     headers: {
-      Authorization: "Bearer " + token
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
     }
   };
 

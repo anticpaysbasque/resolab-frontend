@@ -8,6 +8,13 @@ function NotifyLikes({ userId, setCount, token }) {
   const [userLikes, setUserLikes] = useState([]);
   const [likesForUser, setLikesForUser] = useState([]);
 
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
+    }
+  };
+
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchLikes = page => {
@@ -15,12 +22,7 @@ function NotifyLikes({ userId, setCount, token }) {
     const nextPage = page + 1;
     let newUserLikes = [];
     axios
-      .get(`${apiUrl}/likes?page=${page}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-          Accept: "application/json"
-        }
-      })
+      .get(`${apiUrl}/likes?page=${page}`, config)
       .then(res => {
         const fetchedLikes = res.data;
 
@@ -33,18 +35,11 @@ function NotifyLikes({ userId, setCount, token }) {
         setUserLikes(newUserLikes);
       })
       .then(
-        axios
-          .get(`${apiUrl}/likes?page=${nextPage}`, {
-            headers: {
-              Authorization: "Bearer " + token,
-              Accept: "application/json"
-            }
-          })
-          .then(res => {
-            if (res.data.length !== 0) {
-              fetchLikes(nextPage);
-            }
-          })
+        axios.get(`${apiUrl}/likes?page=${nextPage}`, config).then(res => {
+          if (res.data.length !== 0) {
+            fetchLikes(nextPage);
+          }
+        })
       )
 
       .catch(err => console.log("error", err));
