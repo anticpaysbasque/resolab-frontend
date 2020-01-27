@@ -1,7 +1,21 @@
 import React from "react";
-import { Typography, CardMedia } from "@material-ui/core";
+import {
+  Typography,
+  CardMedia,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  Avatar,
+  IconButton,
+  Divider
+} from "@material-ui/core";
+import { PermIdentity, ChatBubbleOutline } from "@material-ui/icons";
+import { connect } from "react-redux";
 
-function ModerationContent({ classes, openAlert }) {
+import DisplayCommentsPostsAlerts from "./DisplayCommentsPostsAlerts";
+
+function ModerationContent({ classes, openAlert, token }) {
   if (openAlert.post) {
     return (
       <>
@@ -20,15 +34,12 @@ function ModerationContent({ classes, openAlert }) {
   }
   if (openAlert.comment) {
     return (
-      <>
-        <Typography>
-          {openAlert.user.username} a lancé une alerte sur le commentaire de{" "}
-          {openAlert.comment.user.username} :
-        </Typography>
-
-        <Typography>"{openAlert.comment.content}"</Typography>
-        <Typography>{openAlert.comment.createdAt}</Typography>
-      </>
+      <DisplayCommentsPostsAlerts
+        openAlert={openAlert}
+        comment={openAlert.comment}
+        classes={classes}
+        token={token}
+      />
     );
   }
   if (openAlert.story) {
@@ -61,4 +72,11 @@ function ModerationContent({ classes, openAlert }) {
   }
 }
 
-export default ModerationContent;
+const mapStateToProps = state => {
+  return {
+    userId: state.userReducer.id,
+    token: state.authReducer.token
+  };
+};
+
+export default connect(mapStateToProps)(ModerationContent);
