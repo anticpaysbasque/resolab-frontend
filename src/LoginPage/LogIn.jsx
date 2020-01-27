@@ -16,7 +16,7 @@ import { useHistory } from "react-router-dom";
 import VoidField from "./VoidField";
 import Loader from "./Loader";
 import DisplayError from "./DisplayError";
-import Footer from "../Layout/Footer";
+import { decode } from "jsonwebtoken";
 
 import { storeToken, setUser } from "../reducers/actions";
 
@@ -72,17 +72,19 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
           password: password
         });
         storeToken(postRes.data.token);
+        const decodedToken = decode(postRes.data.token);
+        console.log(decodedToken);
 
-        const getRes = await Axios.get(`${apiUrl}/users`, {
+        const getRes = await Axios.get(`${apiUrl}/users/${decodedToken.id}`, {
           headers: {
             Authorization: "Bearer " + postRes.data.token,
             Accept: "application/json"
           }
         });
-        const userList = getRes.data;
-        const userData = userList.filter(user => user.username === login);
-        setUserRole(userData[0].roles[0]);
-        setUser(userData[0]);
+        const userData = getRes.data;
+        console.log(userData);
+        setUserRole(userData.roles[0]);
+        setUser(userData);
         setIsLoading(false);
       } catch (err) {
         console.log(err);
