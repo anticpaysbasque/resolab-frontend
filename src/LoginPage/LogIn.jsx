@@ -41,8 +41,6 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
   let history = useHistory();
 
   useEffect(() => {
-    console.log(roles[0]);
-
     if (isAuth) {
       switch (roles[0]) {
         case "ROLE_STUDENT":
@@ -63,7 +61,8 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
     }
   }, [roles]);
 
-  const handleLogin = async () => {
+  const handleLogin = async e => {
+    e.preventDefault();
     if (login.length > 0 || password.length > 0) {
       try {
         setIsLoading(true);
@@ -83,7 +82,7 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
         });
         const userData = getRes.data;
         console.log(userData);
-        setUserRole(userData.roles[0]);
+        setUserRole(decodedToken.roles);
         setUser(userData);
         setIsLoading(false);
       } catch (err) {
@@ -104,49 +103,47 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
           Connecte toi à Résolab
         </Grid>
       </Grid>
-      <Grid container direction="row" justify="center" alignItems="center">
-        <FormControl className={classes.margin} required>
-          <InputLabel htmlFor="userLogin">Ton nom d'utilisateur</InputLabel>
-          <Input
-            id="userLogin"
-            error={isLogginError}
-            startAdornment={
-              <InputAdornment position="start">
-                <Person />
-              </InputAdornment>
-            }
-            value={login}
-            onChange={e => setLogin(e.target.value)}
-          />
-        </FormControl>
-      </Grid>
-      <Grid container direction="row" justify="center" alignItems="center">
-        <FormControl className={classes.margin} required>
-          <InputLabel htmlFor="password">Ton mot de passe</InputLabel>
-          <Input
-            id="password"
-            type="password"
-            error={isPasswordError}
-            startAdornment={
-              <InputAdornment position="start">
-                <VpnKey />
-              </InputAdornment>
-            }
-            value={password}
-            required
-            onChange={e => setPassword(e.target.value)}
-          />
-        </FormControl>
-      </Grid>
-      <Grid container direction="row" justify="center" alignItems="center">
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => handleLogin()}
-        >
-          Se connecter
-        </Button>
-      </Grid>
+      <form onSubmit={e => handleLogin(e)}>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <FormControl className={classes.margin} required>
+            <InputLabel htmlFor="userLogin">Ton nom d'utilisateur</InputLabel>
+            <Input
+              id="userLogin"
+              error={isLogginError}
+              startAdornment={
+                <InputAdornment position="start">
+                  <Person />
+                </InputAdornment>
+              }
+              value={login}
+              onChange={e => setLogin(e.target.value)}
+            />
+          </FormControl>
+        </Grid>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <FormControl className={classes.margin} required>
+            <InputLabel htmlFor="password">Ton mot de passe</InputLabel>
+            <Input
+              id="password"
+              type="password"
+              error={isPasswordError}
+              startAdornment={
+                <InputAdornment position="start">
+                  <VpnKey />
+                </InputAdornment>
+              }
+              value={password}
+              required
+              onChange={e => setPassword(e.target.value)}
+            />
+          </FormControl>
+        </Grid>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Button variant="contained" color="primary" type="submit">
+            Se connecter
+          </Button>
+        </Grid>
+      </form>
       <Grid
         container
         direction="row"
