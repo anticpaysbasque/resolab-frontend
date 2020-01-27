@@ -49,7 +49,7 @@ function UserInfo({
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <Typography>
-          {username} <br /> Ta classe : {userClassroom}
+          {username} <br /> Ta classe : {userClassroom} <br /> Ton école :
         </Typography>
       </ExpansionPanelDetails>
     </ExpansionPanel>
@@ -60,7 +60,7 @@ const mapStateToProps = state => {
   return {
     username: state.userReducer.username,
     firstName: state.userReducer.firstname,
-    lastName: state.userReducer.lastName,
+    lastName: state.userReducer.lastname,
     classroom: state.userReducer.classroom,
     token: state.authReducer.token
   };
