@@ -23,7 +23,7 @@ import { removeAlert } from "../reducers/actions";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function ModerationComponent({ openAlert, classes, removeAlert }) {
+function ModerationComponent({ openAlert, classes, removeAlert, token }) {
   const [isBlocked, setIsBlocked] = useState(true);
   const [isBlockedLoading, setIsBlockedLoading] = useState(false);
   const [isTakenInCharge, setIsTakenInCharge] = useState(openAlert.takenCare);
@@ -32,7 +32,8 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
 
   const config = {
     headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("token")
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
     }
   };
 
@@ -212,7 +213,8 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => ({
-  openAlert: state.alertReducer.alert
+  openAlert: state.alertReducer.alert,
+  token: state.authReducer.token
 });
 
 export default connect(

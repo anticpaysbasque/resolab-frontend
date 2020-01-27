@@ -11,17 +11,26 @@ import axios from "axios";
 
 const baseUrl = process.env.REACT_APP_MEDIA_URL;
 
-function UserInfo({ classes, username, firstName, lastName, classroom }) {
+function UserInfo({
+  classes,
+  username,
+  firstName,
+  lastName,
+  classroom,
+  token
+}) {
   const [userClassroom, setuserClassroom] = useState("");
+
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
+    }
+  };
 
   useEffect(() => {
     axios
-      .get(`${baseUrl}${classroom}`, {
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
-          Accept: "application/json"
-        }
-      })
+      .get(`${baseUrl}${classroom}`, config)
       .then(res => setuserClassroom(res.data.name));
   });
 
@@ -52,7 +61,8 @@ const mapStateToProps = state => {
     username: state.userReducer.username,
     firstName: state.userReducer.firstname,
     lastName: state.userReducer.lastName,
-    classroom: state.userReducer.classroom
+    classroom: state.userReducer.classroom,
+    token: state.authReducer.token
   };
 };
 
