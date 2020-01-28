@@ -19,7 +19,7 @@ import PermIdentity from "@material-ui/icons/PermIdentity";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 
 import ModerationContent from "./ModerationContent";
-import { removeAlert } from "../reducers/actions";
+import { removeAlert, setAlert } from "../reducers/actions";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -27,6 +27,7 @@ function ModerationComponent({
   openAlert,
   classes,
   removeAlert,
+  setAlert,
   token,
   userId
 }) {
@@ -57,6 +58,17 @@ function ModerationComponent({
         .then(res => {
           setIsBlocked(!isBlocked);
           console.log(res);
+          axios
+            .get(`${apiUrl}/alerts/${openAlert.id}`, config)
+            .then(res => {
+              const updatedAlert = res.data;
+              console.log(updatedAlert);
+              setAlert(updatedAlert);
+            })
+            .catch(err => {
+              console.log(err.message);
+              throw err;
+            });
         })
         .catch(err => console.log(err))
         .finally(() => setIsBlockedLoading(false));
@@ -73,6 +85,17 @@ function ModerationComponent({
         .then(res => {
           setIsBlocked(!isBlocked);
           console.log(res);
+          axios
+            .get(`${apiUrl}/alerts/${openAlert.id}`, config)
+            .then(res => {
+              const updatedAlert = res.data;
+              console.log(updatedAlert);
+              setAlert(updatedAlert);
+            })
+            .catch(err => {
+              console.log(err.message);
+              throw err;
+            });
         })
         .catch(err => console.log(err))
         .finally(() => setIsBlockedLoading(false));
@@ -89,6 +112,17 @@ function ModerationComponent({
         .then(res => {
           setIsBlocked(!isBlocked);
           console.log(res);
+          axios
+            .get(`${apiUrl}/alerts/${openAlert.id}`, config)
+            .then(res => {
+              const updatedAlert = res.data;
+              console.log(updatedAlert);
+              setAlert(updatedAlert);
+            })
+            .catch(err => {
+              console.log(err.message);
+              throw err;
+            });
         })
         .catch(err => console.log(err))
         .finally(() => setIsBlockedLoading(false));
@@ -107,6 +141,17 @@ function ModerationComponent({
       )
       .then(res => {
         console.log(res);
+        axios
+          .get(`${apiUrl}/alerts/${openAlert.id}`, config)
+          .then(res => {
+            const updatedAlert = res.data;
+            console.log(updatedAlert);
+            setAlert(updatedAlert);
+          })
+          .catch(err => {
+            console.log(err.message);
+            throw err;
+          });
       })
       .catch(err => console.log(err));
     setIsTakenInCharge(true);
@@ -199,15 +244,23 @@ function ModerationComponent({
           ) : userId === openAlert.moderator.id ? (
             <>
               <Grid item xs={4}>
-                <Button
-                  variant="contained"
-                  startIcon={isBlockedLoading && <CircularProgress />}
-                  disabled={isBlockedLoading}
-                  color={isBlocked ? "secondary" : "primary"}
-                  onClick={handleBlocked}
-                >
-                  Débloquer le contenu
-                </Button>
+                {(openAlert.post && openAlert.post.display === false) ||
+                (openAlert.comment && openAlert.comment.display === false) ||
+                (openAlert.story && openAlert.story.display === false) ? (
+                  <Button
+                    variant="contained"
+                    startIcon={isBlockedLoading && <CircularProgress />}
+                    disabled={isBlockedLoading}
+                    color={"secondary"}
+                    onClick={handleBlocked}
+                  >
+                    Débloquer le contenu
+                  </Button>
+                ) : (
+                  <Button variant="contained" disabled>
+                    Débloquer le contenu
+                  </Button>
+                )}
               </Grid>
               <Grid item xs={4}></Grid>
               <Grid item xs={4}>
@@ -246,7 +299,8 @@ function ModerationComponent({
 
 const mapDispatchToProps = dispatch => {
   return {
-    removeAlert: () => dispatch(removeAlert())
+    removeAlert: () => dispatch(removeAlert()),
+    setAlert: alert => dispatch(setAlert(alert))
   };
 };
 
