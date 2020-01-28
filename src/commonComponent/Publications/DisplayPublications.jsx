@@ -6,15 +6,19 @@ import { useStyles } from "../useStyles";
 import Publication from "./Publication";
 import axios from "axios";
 
+import DisplayPublicationsOfMyClasse from "./DisplayPublicationsOfMyClasse";
 import useInterval from "../../useInterval";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function DisplayPublications({ handleSnackBar, userId, token }) {
+function DisplayPublications({ handleSnackBar, userId, roles, token }) {
   const [publications, setPublications] = useState([]);
   const [showUserPublications, setShowUserPublications] = useState(false);
   const [lastPageToFetch, setLastPageToFetch] = useState(1);
   const [timerCount, setTimerCount] = useState(0);
+  const [userRoles, serUserRoles] = useState(roles);
+
+  const isRestricted = true;
 
   const classes = useStyles();
 
@@ -74,32 +78,10 @@ function DisplayPublications({ handleSnackBar, userId, token }) {
           </Grid>
         </Grid>
         <Grid>
-          {showUserPublications
-            ? publications
-                .filter(publi => publi.user.id === userId)
-                .map(publication => {
-                  return (
-                    <>
-                      {publication.display && (
-                        <Box m={2}>
-                          <Publication
-                            key={publication.id}
-                            description={publication.description}
-                            photo={publication.photo}
-                            classes={classes}
-                            handleSnackBar={handleSnackBar}
-                            postId={publication.id}
-                            comments={publication.comments}
-                            owner={publication.user}
-                            likes={publication.likes}
-                            userIdPublication={publication.user.id}
-                          />
-                        </Box>
-                      )}
-                    </>
-                  );
-                })
-            : publications.map(publication => {
+          {showUserPublications ? (
+            publications
+              .filter(publi => publi.user.id === userId)
+              .map(publication => {
                 return (
                   <>
                     {publication.display && (
@@ -120,7 +102,33 @@ function DisplayPublications({ handleSnackBar, userId, token }) {
                     )}
                   </>
                 );
-              })}
+              })
+          ) : userRoles[0] === "ROLE_STUDENT" && isRestricted ? (
+            <DisplayPublicationsOfMyClasse publications={publications} />
+          ) : (
+            publications.map(publication => {
+              return (
+                <>
+                  {publication.display && (
+                    <Box m={2}>
+                      <Publication
+                        key={publication.id}
+                        description={publication.description}
+                        photo={publication.photo}
+                        classes={classes}
+                        handleSnackBar={handleSnackBar}
+                        postId={publication.id}
+                        comments={publication.comments}
+                        owner={publication.user}
+                        likes={publication.likes}
+                        userIdPublication={publication.user.id}
+                      />
+                    </Box>
+                  )}
+                </>
+              );
+            })
+          )}
         </Grid>
       </Grid>
     </BottomScrollListener>
@@ -130,6 +138,7 @@ function DisplayPublications({ handleSnackBar, userId, token }) {
 const mapStateToProps = state => {
   return {
     userId: state.userReducer.id,
+    roles: state.userReducer.roles,
     token: state.authReducer.token
   };
 };
