@@ -23,7 +23,13 @@ import { removeAlert } from "../reducers/actions";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function ModerationComponent({ openAlert, classes, removeAlert, token }) {
+function ModerationComponent({
+  openAlert,
+  classes,
+  removeAlert,
+  token,
+  userId
+}) {
   const [isBlocked, setIsBlocked] = useState(true);
   const [isBlockedLoading, setIsBlockedLoading] = useState(false);
   const [isTakenInCharge, setIsTakenInCharge] = useState(openAlert.takenCare);
@@ -90,12 +96,12 @@ function ModerationComponent({ openAlert, classes, removeAlert, token }) {
   };
 
   const handleTakeInCharge = () => {
-    const takenInCharge = isTakenInCharge;
     axios
       .put(
         `${apiUrl}/alerts/${openAlert.id}`,
         {
-          takenCare: !takenInCharge
+          takenCare: true,
+          moderator: `/api/users/${userId}`
         },
         config
       )
@@ -103,7 +109,7 @@ function ModerationComponent({ openAlert, classes, removeAlert, token }) {
         console.log(res);
       })
       .catch(err => console.log(err));
-    setIsTakenInCharge(!isTakenInCharge);
+    setIsTakenInCharge(true);
   };
 
   const handleResolved = () => {
@@ -169,37 +175,69 @@ function ModerationComponent({ openAlert, classes, removeAlert, token }) {
       </CardContent>
       <CardActions disableSpacing>
         <Grid container>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              startIcon={isBlockedLoading && <CircularProgress />}
-              disabled={isBlockedLoading}
-              color={isBlocked ? "secondary" : "primary"}
-              onClick={handleBlocked}
-            >
-              Débloquer le contenu
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography>Prise en charge du problème</Typography>
-            <Switch
-              checked={isTakenInCharge}
-              onChange={handleTakeInCharge}
-              value={isTakenInCharge}
-              color="secondary"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              startIcon={isResolvedLoading && <CircularProgress />}
-              disabled={isResolvedLoading}
-              color={isResolved ? "primary" : "secondary"}
-              onClick={handleResolved}
-            >
-              Problème résolu
-            </Button>
-          </Grid>
+          {openAlert.takenCare === false ? (
+            <>
+              <Grid item xs={4}></Grid>
+              <Grid item xs={4}>
+                <Typography
+                  style={{
+                    color: "#ff5722",
+                    fontWeight: "1000"
+                  }}
+                >
+                  Prise en charge du problème
+                </Typography>
+                <Switch
+                  checked={isTakenInCharge}
+                  onChange={handleTakeInCharge}
+                  value={isTakenInCharge}
+                  color="secondary"
+                />
+              </Grid>
+              <Grid item xs={4}></Grid>
+            </>
+          ) : userId === openAlert.moderator.id ? (
+            <>
+              <Grid item xs={4}>
+                <Button
+                  variant="contained"
+                  startIcon={isBlockedLoading && <CircularProgress />}
+                  disabled={isBlockedLoading}
+                  color={isBlocked ? "secondary" : "primary"}
+                  onClick={handleBlocked}
+                >
+                  Débloquer le contenu
+                </Button>
+              </Grid>
+              <Grid item xs={4}></Grid>
+              <Grid item xs={4}>
+                <Button
+                  variant="contained"
+                  startIcon={isResolvedLoading && <CircularProgress />}
+                  disabled={isResolvedLoading}
+                  color={isResolved ? "primary" : "secondary"}
+                  onClick={handleResolved}
+                >
+                  Problème résolu
+                </Button>
+              </Grid>
+            </>
+          ) : (
+            <>
+              <Grid item xs={4}></Grid>
+              <Grid item xs={4}>
+                <Typography
+                  style={{
+                    color: "#ff5722",
+                    fontWeight: "1000"
+                  }}
+                >
+                  {openAlert.moderator.username} a pris en charge cette alerte
+                </Typography>
+              </Grid>
+              <Grid item xs={4}></Grid>
+            </>
+          )}
         </Grid>
       </CardActions>
     </Card>
@@ -214,7 +252,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => ({
   openAlert: state.alertReducer.alert,
-  token: state.authReducer.token
+  token: state.authReducer.token,
+  userId: state.userReducer.id
 });
 
 export default connect(

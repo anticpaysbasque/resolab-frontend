@@ -1,16 +1,5 @@
 import React from "react";
-import {
-  Typography,
-  CardMedia,
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  Avatar,
-  IconButton,
-  Divider
-} from "@material-ui/core";
-import { PermIdentity, ChatBubbleOutline } from "@material-ui/icons";
+import { Typography, CardMedia } from "@material-ui/core";
 import { connect } from "react-redux";
 
 import DisplayCommentsPostsAlerts from "./DisplayCommentsPostsAlerts";
