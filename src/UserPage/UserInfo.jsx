@@ -3,7 +3,8 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
-  Typography
+  Typography,
+  Grid
 } from "@material-ui/core";
 import { Face, ExpandMore } from "@material-ui/icons";
 import { connect } from "react-redux";
@@ -15,7 +16,7 @@ function UserInfo({
   classes,
   username,
   firstName,
-  lastName,
+  lastname,
   classroom,
   token
 }) {
@@ -44,13 +45,17 @@ function UserInfo({
       >
         <Face className={classes.sidebarCardHeaderElements} />
         <Typography className={classes.sidebarCardHeaderElements}>
-          {firstName} {lastName}
+          {firstName} {lastname}
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <Typography>
-          {username} <br /> Ta classe : {userClassroom} <br /> Ton école :
-        </Typography>
+        <Grid>
+          <Typography>{username}</Typography>
+          <Typography>
+            Ton établissement scolaire : {classroom.school.name}
+          </Typography>
+          <Typography>Ta classe : {classroom.name}</Typography>
+        </Grid>
       </ExpansionPanelDetails>
     </ExpansionPanel>
   );
@@ -60,7 +65,7 @@ const mapStateToProps = state => {
   return {
     username: state.userReducer.username,
     firstName: state.userReducer.firstname,
-    lastName: state.userReducer.lastname,
+    lastname: state.userReducer.lastname,
     classroom: state.userReducer.classroom,
     token: state.authReducer.token
   };
