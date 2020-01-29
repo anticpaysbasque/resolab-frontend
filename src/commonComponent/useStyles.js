@@ -86,5 +86,14 @@ export const useStyles = makeStyles(theme => ({
     left: "0px",
     zIndex: "100",
     visibility: "hidden"
+  },
+  footerModal: {
+    id: "transition-modal-title",
+    textAlign: "center",
+    p: 4,
+    fontSize: 24,
+    fontWeight: "fontWeightBold",
+    display: "flex",
+    flexDirection: "row"
   }
 }));

@@ -3,14 +3,16 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
 import Favorite from "@material-ui/icons/Favorite";
-import Box from "@material-ui/core/Box";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-
+import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
+
+import gitlogo from "../Assets/github-gradient.png";
+import linkedinlogo from "../Assets/linkedin-gradient.png";
+import DeveloperInfo from "../commonComponent/DeveloperInfo";
 
 const useStyles = makeStyles(theme => ({
   footer: {
@@ -24,6 +26,11 @@ const useStyles = makeStyles(theme => ({
         ? theme.palette.grey[800]
         : theme.palette.grey[200]
   },
+  hover: {
+    "&:hover": {
+      cursor: "pointer"
+    }
+  },
   modal: {
     display: "flex",
     alignItems: "center",
@@ -33,12 +40,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3)
+    padding: theme.spacing(2, 4, 3),
+    width: "70vw"
   },
   root: {
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
-      width: 800,
+      width: "800",
       display: "flex"
     }
   }
@@ -47,6 +55,42 @@ const useStyles = makeStyles(theme => ({
 function StickyFooter({ isAuth }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [developers] = useState([
+    {
+      name: "Stéphane Lavaud",
+      linkedin: "",
+      github: "",
+      picture:
+        "https://www.jeuxactu.com/datas/jeux/b/o/bob-l-eponge-bataille-pour-bikini-bottom-rehydrate/vn/bob-l-eponge-bataille-p-5cf7dcdf9da2f.jpg"
+    },
+    {
+      name: "Clara Desperben",
+      linkedin: "",
+      github: "",
+      picture: "https://risibank.fr/cache/stickers/d163/16370-full.jpg"
+    },
+    {
+      name: "Angélique Wons",
+      linkedin: "",
+      github: "",
+      picture:
+        "https://yt3.ggpht.com/a/AGF-l78XxcqFiL60BYCbtsnLyLcf-DkydeJHN0JK3Q=s900-c-k-c0xffffffff-no-rj-mo"
+    },
+    {
+      name: "Monia Polus",
+      linkedin: "",
+      github: "",
+      picture:
+        "https://www.netclipart.com/pp/m/391-3918324_vaporwave-aesthetic-patrickstar-patrick-spongebob-patrick-bob-l.png"
+    },
+    {
+      name: "Anne-Claire Nanot",
+      linkedin: "",
+      github: "",
+      picture:
+        "https://nick-intl.mtvnimages.com/uri/mgid:file:gsp:kids-assets:/nick/properties/spongebob-squarepants/characters/gary-character-web-desktop.png?height=0&width=480&matte=true&crop=false"
+    }
+  ]);
 
   const handleOpenModal = () => {
     setOpen(true);
@@ -62,15 +106,15 @@ function StickyFooter({ isAuth }) {
         <div>
           <CssBaseline />
           <footer className={classes.footer}>
-            <Container maxWidth="sm">
-              <Button onClick={handleOpenModal}>
-                <Typography variant="body1" className="footer">
-                  <p>
-                    Made with <Favorite color="Secondary" fontSize="small" /> by
-                    Wild Code School Biarritz
-                  </p>
-                </Typography>
-              </Button>
+            <Container
+              maxWidth="sm"
+              onClick={handleOpenModal}
+              className={classes.hover}
+            >
+              <Typography variant="body1" className="footer">
+                Made with <Favorite color="Secondary" fontSize="small" /> by
+                Wild Code School Biarritz
+              </Typography>
             </Container>
             <Modal
               aria-labelledby="transition-modal-title"
@@ -85,34 +129,17 @@ function StickyFooter({ isAuth }) {
               }}
             >
               <Fade in={open}>
-                <div className={classes.paper}>
-                  <Box
-                    id="transition-modal-title"
-                    textAlign="center"
-                    p={4}
-                    fontSize={24}
-                    fontWeight="fontWeightBold"
-                  >
-                    <Typography>À propos de nous</Typography>
-                  </Box>
-                  <Box
-                    id="transition-modal-title"
-                    textAlign="center"
-                    p={4}
-                    fontSize={24}
-                    fontWeight="fontWeightBold"
-                    style={{
-                      dispay: "flex",
-                      flexDirection: "row"
-                    }}
-                  >
-                    <Typography>1</Typography>
-                    <Typography>2</Typography>
-                    <Typography>3</Typography>
-                  </Box>
-                  <Typography>4</Typography>
-                  <Typography>5</Typography>
-                </div>
+                <Grid
+                  container
+                  className={classes.paper}
+                  direction="row"
+                  justify="center"
+                  alignItems="center"
+                >
+                  {developers.map(dev => {
+                    return <DeveloperInfo {...dev} />;
+                  })}
+                </Grid>
               </Fade>
             </Modal>
           </footer>
