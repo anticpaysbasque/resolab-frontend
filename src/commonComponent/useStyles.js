@@ -95,5 +95,10 @@ export const useStyles = makeStyles(theme => ({
     fontWeight: "fontWeightBold",
     display: "flex",
     flexDirection: "row"
+  },
+
+  dividerAlert: {
+    marginTop: 16,
+    marginBottom: 16
   }
 }));

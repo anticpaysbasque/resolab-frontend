@@ -10,13 +10,29 @@ import useInterval from "../../useInterval";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function DisplayPublications({ handleSnackBar, userId }) {
+function DisplayPublications({
+  handleSnackBar,
+  userId,
+  roles,
+  classroomId,
+  token
+}) {
   const [publications, setPublications] = useState([]);
   const [showUserPublications, setShowUserPublications] = useState(false);
   const [lastPageToFetch, setLastPageToFetch] = useState(1);
   const [timerCount, setTimerCount] = useState(0);
+  const [userRoles, serUserRoles] = useState(roles);
+
+  const isRestricted = true;
 
   const classes = useStyles();
+
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
+    }
+  };
 
   //  sets the interval for fetching new posts using custom hook
   useInterval(() => {
@@ -34,12 +50,10 @@ function DisplayPublications({ handleSnackBar, userId }) {
   const fetchPages = async lastPage => {
     let fetchedPublications = [];
     for (let page = 1; page <= lastPage; page++) {
-      const res = await axios.get(`${apiUrl}/posts?display=true&page=${page}`, {
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
-          Accept: "application/json"
-        }
-      });
+      const res = await axios.get(
+        `${apiUrl}/posts?display=true&page=${page}`,
+        config
+      );
       fetchedPublications = fetchedPublications.concat(res.data);
     }
     return fetchedPublications;
@@ -94,6 +108,35 @@ function DisplayPublications({ handleSnackBar, userId }) {
                     </>
                   );
                 })
+            : userRoles[0] === "ROLE_STUDENT" && isRestricted
+            ? publications
+                .filter(publi =>
+                  publi.user.classRoom
+                    ? publi.user.classRoom.id === classroomId
+                    : true
+                )
+                .map(publication => {
+                  return (
+                    <>
+                      {publication.display && (
+                        <Box m={2}>
+                          <Publication
+                            key={publication.id}
+                            description={publication.description}
+                            photo={publication.photo}
+                            classes={classes}
+                            handleSnackBar={handleSnackBar}
+                            postId={publication.id}
+                            comments={publication.comments}
+                            owner={publication.user}
+                            likes={publication.likes}
+                            userIdPublication={publication.user.id}
+                          />
+                        </Box>
+                      )}
+                    </>
+                  );
+                })
             : publications.map(publication => {
                 return (
                   <>
@@ -125,6 +168,8 @@ function DisplayPublications({ handleSnackBar, userId }) {
 const mapStateToProps = state => {
   return {
     userId: state.userReducer.id,
+    roles: state.userReducer.roles,
+    classroomId: state.userReducer.classroom.id,
     token: state.authReducer.token
   };
 };

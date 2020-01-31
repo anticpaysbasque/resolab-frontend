@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Warning, PermIdentity, ChatBubbleOutline } from "@material-ui/icons";
+import { filter } from "lodash";
+import {
+  Warning,
+  PermIdentity,
+  ChatBubbleOutline,
+  Filter
+} from "@material-ui/icons";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import {
@@ -43,18 +49,26 @@ function Post({
   const [likesCount, setLikesCount] = useState(stateLikes.length);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [isMyPublication, setIsMyPublication] = useState(false);
+  const [commentsCount, setCommentsCounts] = useState(comments.length);
 
   const config = {
     headers: {
-      Authorization: "Bearer " + token
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
     }
   };
+
   useEffect(() => {
     stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
     if (userId === userIdPublication) {
       setIsMyPublication(true);
     }
   }, []);
+
+  useEffect(() => {
+    const displayComments = comments && filter(comments, "display");
+    comments && setCommentsCounts(displayComments);
+  }, [comments]);
 
   useEffect(() => {
     setLikesCount(stateLikes.length);
@@ -73,12 +87,7 @@ function Post({
             post: `/api/posts/${postId}`,
             user: `/api/users/${userId}`
           },
-          {
-            headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("token"),
-              Accept: "application/json"
-            }
-          }
+          config
         )
         .then(res => {
           setInputValue("");
@@ -232,7 +241,7 @@ function Post({
           <IconButton aria-label="add to favorites">
             <ChatBubbleOutline onClick={handleDisplayComments} />
           </IconButton>
-          {comments.length}
+          {commentsCount.length}
         </CardActions>
         {displayCommentsPost && (
           <>
