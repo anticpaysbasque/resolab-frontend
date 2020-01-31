@@ -110,7 +110,11 @@ function DisplayPublications({
                 })
             : userRoles[0] === "ROLE_STUDENT" && isRestricted
             ? publications
-                .filter(publi => publi.user.classRoom.id === classroomId)
+                .filter(publi =>
+                  publi.user.classRoom
+                    ? publi.user.classRoom.id === classroomId
+                    : true
+                )
                 .map(publication => {
                   return (
                     <>
