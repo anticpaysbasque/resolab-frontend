@@ -169,7 +169,9 @@ const mapStateToProps = state => {
   return {
     userId: state.userReducer.id,
     roles: state.userReducer.roles,
-    classroomId: state.userReducer.classroom.id,
+    classroomId: state.userReducer.classroom
+      ? state.userReducer.classroom.id
+      : null,
     token: state.authReducer.token
   };
 };
