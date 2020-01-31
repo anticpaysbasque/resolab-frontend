@@ -87,6 +87,16 @@ export const useStyles = makeStyles(theme => ({
     zIndex: "100",
     visibility: "hidden"
   },
+  footerModal: {
+    id: "transition-modal-title",
+    textAlign: "center",
+    p: 4,
+    fontSize: 24,
+    fontWeight: "fontWeightBold",
+    display: "flex",
+    flexDirection: "row"
+  },
+
   dividerAlert: {
     marginTop: 16,
     marginBottom: 16
