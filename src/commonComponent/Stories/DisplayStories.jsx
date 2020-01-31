@@ -96,7 +96,9 @@ function DisplayStories({ classes, handleSnackBar, roles, classroomId }) {
 const mapStateToProps = state => {
   return {
     roles: state.userReducer.roles,
-    classroomId: state.userReducer.classroom.id
+    classroomId: state.userReducer.classroom
+      ? state.userReducer.classroom.id
+      : null
   };
 };
 

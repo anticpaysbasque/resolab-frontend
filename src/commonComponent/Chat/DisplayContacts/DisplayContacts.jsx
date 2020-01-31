@@ -32,6 +32,7 @@ class DisplayContacts extends Component {
 
   retrieveOnlineUsers(usersArray) {
     const { allUsers } = this.state;
+    const { userInfos } = this.props;
     const updatedUsers = allUsers.map(usr => {
       let isOnline = false;
       usersArray.some(connectUser => {
@@ -41,8 +42,16 @@ class DisplayContacts extends Component {
       });
       return { ...usr, isOnline };
     });
-    const filteredusers = {};
-    this.setState({ allUsers: updatedUsers });
+    const filtereduUsers =
+      userInfos.isRestricted && userInfos.role[0] === "ROLE_STUDENT"
+        ? updatedUsers.filter(
+            user =>
+              user.role[0] !== "ROLE_STUDENT" ||
+              user.classroom.id === userInfos.classroom.id
+          )
+        : updatedUsers;
+
+    this.setState({ allUsers: filtereduUsers });
   }
 
   async fetchUsers(page, previousUsers) {
@@ -101,17 +110,6 @@ class DisplayContacts extends Component {
           onChange={e => this.setState({ searchUser: e.target.value })}
         />
 
-        {/* <form onSubmit={this.handleSubmit} className="search">
-          <input
-            placeholder="Search"
-            type="text"
-            value={reciever}
-            onChange={e => {
-              this.setState({ reciever: e.target.value });
-            }}
-          />
-          <div className="plus"></div>
-        </form> */}
         <div
           className="users"
           ref="users"
@@ -169,7 +167,8 @@ class DisplayContacts extends Component {
 const mapStateToProps = state => {
   return {
     connectedUsers: state.connectedUsersReducer.connectedUsers,
-    token: state.authReducer.token
+    token: state.authReducer.token,
+    userInfos: state.userReducer
   };
 };
 
