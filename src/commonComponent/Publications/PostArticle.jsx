@@ -105,7 +105,7 @@ function PostArticle({ id, token, handleSnackBar }) {
         setPreviewImage(null);
         setImage(null);
         setDescription("");
-        return handleSnackBar("Ta publication a bien été postée");
+        return handleSnackBar("Ta publication a bien été postée", "success");
       })
       .catch(err => console.log(err))
       .finally(() => handleClose());
@@ -157,7 +157,10 @@ function PostArticle({ id, token, handleSnackBar }) {
                   <img
                     src={previewImage}
                     alt=""
-                    style={{ maxHeight: "50vh", width: "auto" }}
+                    style={{
+                      maxHeight: "50vh",
+                      width: "auto"
+                    }}
                   />
                 ) : (
                   <WebcamComponent setImage={setImage} />

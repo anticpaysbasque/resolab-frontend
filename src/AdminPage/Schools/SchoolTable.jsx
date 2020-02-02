@@ -11,6 +11,7 @@ function SchoolTable({ token, refresh, schools }) {
   const [schoolsList, setSchoolsList] = useState({});
   const [classroomsList, setClassroomsList] = useState({});
   const [snackBarColor, setSnackBarColor] = useState("success");
+
   const config = {
     headers: {
       Authorization: "Bearer " + token,
@@ -18,9 +19,10 @@ function SchoolTable({ token, refresh, schools }) {
     }
   };
 
-  const handleSnackBar = message => {
+  const handleSnackBar = (message, color) => {
     setSnackBarNotification(true);
     setSnackbarMessage(message);
+    color ? setSnackBarColor(color) : setSnackBarColor("succes");
   };
 
   const handleDelete = id => {
@@ -30,7 +32,7 @@ function SchoolTable({ token, refresh, schools }) {
         handleSnackBar("L'établissement a été supprimé");
         refresh();
       })
-      .catch(err => console.log(err));
+      .catch(err => handleSnackBar("Il y a eu un problème", "error"));
   };
 
   const handleUpdate = (id, payload) => {
@@ -40,7 +42,7 @@ function SchoolTable({ token, refresh, schools }) {
         handleSnackBar("L'établissement a été modifié");
         refresh();
       })
-      .catch(err => console.log(err));
+      .catch(err => handleSnackBar("Il y a eu un problème", "error"));
   };
 
   const handleCreate = payload => {
@@ -50,7 +52,7 @@ function SchoolTable({ token, refresh, schools }) {
         handleSnackBar("L'établissement a été créé");
         refresh();
       })
-      .catch(err => console.log(err));
+      .catch(err => handleSnackBar("Il y a eu un problème", "error"));
   };
 
   return (
