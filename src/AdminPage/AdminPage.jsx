@@ -1,36 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Tabs, Tab, Typography, Box } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+import axios from "axios";
 
+import TabPanel from "./TabPanel";
 import Layout from "../Layout/Layout";
 import CreateUser from "./Users/CreateUser";
+import UserTable from "./Users/UserTable";
 
 const apiUrl = process.env.REACT_APP_API_URL;
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </Typography>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
-};
 
 function a11yProps(index) {
   return {
@@ -51,9 +31,59 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function AdminPage() {
+function AdminPage({ token }) {
+  const [allUsers, setAllUsers] = useState({});
+  const [allSchools, setAllSchools] = useState({});
+  const [allClassrooms, setAllClassrooms] = useState({});
+
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
+    }
+  };
+
+  const fetchRessource = async (
+    page,
+    previousRessourceData,
+    ressource,
+    setData
+  ) => {
+    // retreiving all ressources from database until it finds an empty page
+    const nextPage = page + 1;
+    let ressourceData = previousRessourceData;
+    await axios
+      .get(`${apiUrl}${ressource}?page=${page}`, config)
+      .then(async res => {
+        const fetchedRessourceData = res.data;
+        ressourceData = ressourceData.concat(fetchedRessourceData);
+        await axios
+          .get(`${apiUrl}${ressource}?page=${nextPage}`, config)
+          .then(res => {
+            if (res.data.length !== 0) {
+              fetchRessource(nextPage, ressourceData, ressource);
+            } else {
+              setData(ressourceData);
+            }
+          });
+      })
+
+      .catch(err => console.log("error", err));
+  };
+
   const history = useHistory();
 
+  const fetchAll = () => {
+    console.log("fetch all");
+    fetchRessource(1, [], "/schools", setAllSchools);
+    fetchRessource(1, [], "/users", setAllUsers);
+    fetchRessource(1, [], "/class_rooms", setAllClassrooms);
+  };
+
+  useEffect(() => {
+    // retrieving all the data
+    fetchAll();
+  }, []);
   const handleExit = () => {
     history.push("/moderator");
   };
@@ -84,10 +114,16 @@ export default function AdminPage() {
           <Button onClick={() => handleExit()}>Retour</Button>
         </Tabs>
         <TabPanel value={value} index={0}>
-          <CreateUser />
+          <CreateUser schools={allSchools} classrooms={allClassrooms} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item Two
+          <UserTable
+            users={allUsers}
+            token={token}
+            refresh={() => fetchAll()}
+            schools={allSchools}
+            classrooms={allClassrooms}
+          />
         </TabPanel>
         <TabPanel value={value} index={2}>
           Item Three
@@ -105,3 +141,9 @@ export default function AdminPage() {
     </Layout>
   );
 }
+
+const mapStateToProps = state => {
+  return { token: state.authReducer.token };
+};
+
+export default connect(mapStateToProps)(AdminPage);

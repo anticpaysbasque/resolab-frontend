@@ -1,9 +1,4 @@
 import React, { useState } from "react";
-import LuxonUtils from "@date-io/luxon";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from "@material-ui/pickers";
 import {
   TextField,
   Button,
@@ -16,10 +11,11 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 import { connect } from "react-redux";
+import { useEffect } from "react";
 
 const apiUrl = process.env.REACT_APP_MEDIA_URL;
 
-function CreateUser({ token }) {
+function CreateUser({ token, schools, classrooms }) {
   const [payload, setPayload] = useState({
     _username: "",
     _password: "",
@@ -29,6 +25,12 @@ function CreateUser({ token }) {
     roles: ["ROLE_STUDENT", "ROLE_USER"],
     birthday: "2010-01-01"
   });
+  const [userSchool, setUserSchool] = useState(0);
+  const [userClassroom, setUserClassroom] = useState(0);
+
+  const [allschools, setAllschools] = useState([
+    { id: 0, name: "wild code school" }
+  ]);
 
   const config = {
     headers: {
@@ -36,6 +38,10 @@ function CreateUser({ token }) {
       Accept: "application/json"
     }
   };
+
+  useEffect(() => {
+    setAllschools(schools);
+  }, [schools]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -94,9 +100,9 @@ function CreateUser({ token }) {
           />
         </Grid>
         <Grid>
-          <InputLabel id="userSex">Sexe</InputLabel>
+          <InputLabel id="userGender">Sexe</InputLabel>
           <Select
-            labelId="userSex"
+            labelId="userGender"
             value={payload.gender}
             onChange={e => setPayload({ ...payload, gender: e.target.value })}
           >
@@ -133,6 +139,41 @@ function CreateUser({ token }) {
             }}
           />
         </Grid>
+        <Grid>
+          <InputLabel id="usersSchool">Etablissement</InputLabel>
+          <Select
+            labelId="usersSchool"
+            value={userSchool}
+            onChange={e => setUserSchool(e.target.value)}
+          >
+            {/* {allschools &&
+                            allschools.map(school => {
+                                return (
+                                    <MenuItem value={school.id}>
+                                        {school.name}
+                                    </MenuItem>
+                                );
+                            })} */}
+          </Select>
+        </Grid>
+        <Grid>
+          <InputLabel id="usersClassroom">Etablissement</InputLabel>
+          <Select
+            labelId="usersClassroom"
+            value={userSchool}
+            onChange={e => setUserClassroom(e.target.value)}
+          >
+            {/* {classrooms &&
+                            classrooms.map(school => {
+                                return (
+                                    <MenuItem value={school.id}>
+                                        {school.name}
+                                    </MenuItem>
+                                );
+                            })} */}
+          </Select>
+        </Grid>
+
         <Grid>
           <Button type="submit">Enregistrer</Button>
         </Grid>

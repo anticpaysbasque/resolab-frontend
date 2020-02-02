@@ -11,7 +11,7 @@ const mediaUrl = process.env.REACT_APP_MEDIA_URL;
 
 function DisplayStories({ classes, handleSnackBar, roles, classroomId }) {
   const { datas, request } = useRecursiveGet("/stories", 10000);
-  const [userRoles, serUserRoles] = useState(roles);
+  const [userRoles, setUserRoles] = useState(roles);
 
   const isRestricted = true;
 
