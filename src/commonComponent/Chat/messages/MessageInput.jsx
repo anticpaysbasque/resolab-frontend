@@ -41,7 +41,6 @@ class MessageInput extends Component {
           }
         )
         .then(res => {
-          console.log("message envoyé");
           this.props.fetchDb();
           this.setState({ message: "" });
         });

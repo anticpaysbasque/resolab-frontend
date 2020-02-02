@@ -10,6 +10,7 @@ import Layout from "../Layout/Layout";
 import CreateUser from "./Users/CreateUser";
 import UserTable from "./Users/UserTable";
 import SchoolTable from "./Schools/SchoolTable";
+import ClassroomTable from "./Classrooms/ClassroomTable";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -75,7 +76,6 @@ function AdminPage({ token }) {
   const history = useHistory();
 
   const fetchAll = () => {
-    console.log("fetch all");
     fetchRessource(1, [], "/schools", setAllSchools);
     fetchRessource(1, [], "/users", setAllUsers);
     fetchRessource(1, [], "/class_rooms", setAllClassrooms);
@@ -132,7 +132,12 @@ function AdminPage({ token }) {
           />
         </TabPanel>
         <TabPanel value={value} index={3}>
-          Item Four
+          <ClassroomTable
+            token={token}
+            refresh={() => fetchAll()}
+            schools={allSchools}
+            classrooms={allClassrooms}
+          />
         </TabPanel>
         <TabPanel value={value} index={4}>
           Item Five

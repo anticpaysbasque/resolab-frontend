@@ -19,7 +19,6 @@ class DisplayContacts extends Component {
   }
 
   componentWillMount() {
-    console.log("Display contacts mounts");
     this.fetchUsers(1, []);
     setTimeout(this.retrieveOnlineUsers(this.props.connectedUsers), 500);
   }

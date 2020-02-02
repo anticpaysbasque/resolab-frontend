@@ -116,21 +116,17 @@ function UserTable({ users, token, refresh, schools, classrooms }) {
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
-                console.log(newData);
                 resolve();
               }, 1000);
             }),
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
-              console.log(newData.classRoom.id, newData);
-
               let payload = { ...newData };
               if (payload.classRoom.id === "0") {
                 payload = {
                   ...payload,
                   classRoom: null
                 };
-                console.log(payload);
               } else {
                 payload = {
                   ...payload,
