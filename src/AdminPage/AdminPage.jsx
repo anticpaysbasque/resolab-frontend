@@ -9,6 +9,7 @@ import TabPanel from "./TabPanel";
 import Layout from "../Layout/Layout";
 import CreateUser from "./Users/CreateUser";
 import UserTable from "./Users/UserTable";
+import SchoolTable from "./Schools/SchoolTable";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -107,10 +108,8 @@ function AdminPage({ token }) {
         >
           <Tab label="Créer un utilisateur" {...a11yProps(0)} />
           <Tab label="Gérer les utilisateurs" {...a11yProps(1)} />
-          <Tab label="Créer un établissement" {...a11yProps(2)} />
-          <Tab label="Gérer les établissements" {...a11yProps(3)} />
-          <Tab label="Créer une classe" {...a11yProps(4)} />
-          <Tab label="Gérer les classes" {...a11yProps(5)} />
+          <Tab label="Gérer les établissements" {...a11yProps(2)} />
+          <Tab label="Gérer les classes" {...a11yProps(3)} />
           <Button onClick={() => handleExit()}>Retour</Button>
         </Tabs>
         <TabPanel value={value} index={0}>
@@ -126,7 +125,11 @@ function AdminPage({ token }) {
           />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Item Three
+          <SchoolTable
+            token={token}
+            refresh={() => fetchAll()}
+            schools={allSchools}
+          />
         </TabPanel>
         <TabPanel value={value} index={3}>
           Item Four
