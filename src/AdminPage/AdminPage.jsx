@@ -5,8 +5,9 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
 
-import TabPanel from "./TabPanel";
+import CustomizedSnackbars from "../commonComponent/SnackBar";
 import Layout from "../Layout/Layout";
+import TabPanel from "./TabPanel";
 import CreateUser from "./Users/CreateUser";
 import UserTable from "./Users/UserTable";
 import SchoolTable from "./Schools/SchoolTable";
@@ -37,6 +38,10 @@ function AdminPage({ token }) {
   const [allUsers, setAllUsers] = useState({});
   const [allSchools, setAllSchools] = useState({});
   const [allClassrooms, setAllClassrooms] = useState({});
+
+  const [snackBarNotification, setSnackBarNotification] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackBarColor, setSnackBarColor] = useState("success");
 
   const config = {
     headers: {
@@ -96,6 +101,12 @@ function AdminPage({ token }) {
     setValue(newValue);
   };
 
+  const handleSnackBar = (message, color) => {
+    setSnackBarNotification(true);
+    setSnackbarMessage(message);
+    color ? setSnackBarColor(color) : setSnackBarColor("success");
+  };
+
   return (
     <Layout>
       <div className={classes.tabWrapper}>
@@ -113,7 +124,11 @@ function AdminPage({ token }) {
           <Button onClick={() => handleExit()}>Retour</Button>
         </Tabs>
         <TabPanel value={value} index={0}>
-          <CreateUser schools={allSchools} classrooms={allClassrooms} />
+          <CreateUser
+            schools={allSchools}
+            classrooms={allClassrooms}
+            handleSnackBar={handleSnackBar}
+          />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <UserTable
@@ -122,6 +137,7 @@ function AdminPage({ token }) {
             refresh={() => fetchAll()}
             schools={allSchools}
             classrooms={allClassrooms}
+            handleSnackBar={handleSnackBar}
           />
         </TabPanel>
         <TabPanel value={value} index={2}>
@@ -129,6 +145,7 @@ function AdminPage({ token }) {
             token={token}
             refresh={() => fetchAll()}
             schools={allSchools}
+            handleSnackBar={handleSnackBar}
           />
         </TabPanel>
         <TabPanel value={value} index={3}>
@@ -137,6 +154,7 @@ function AdminPage({ token }) {
             refresh={() => fetchAll()}
             schools={allSchools}
             classrooms={allClassrooms}
+            handleSnackBar={handleSnackBar}
           />
         </TabPanel>
         <TabPanel value={value} index={4}>
@@ -145,6 +163,14 @@ function AdminPage({ token }) {
         <TabPanel value={value} index={5}>
           Item Six
         </TabPanel>
+        <CustomizedSnackbars
+          open={snackBarNotification}
+          setOpen={setSnackBarNotification}
+          handleSnackBar={handleSnackBar}
+          message={snackbarMessage}
+          color={snackBarColor}
+        />{" "}
+        />
       </div>
     </Layout>
   );

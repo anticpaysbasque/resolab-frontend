@@ -5,12 +5,9 @@ import CustomizedSnackbars from "../../commonComponent/SnackBar";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function SchoolTable({ token, refresh, schools }) {
-  const [snackBarNotification, setSnackBarNotification] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
+function SchoolTable({ token, refresh, schools, handleSnackBar }) {
   const [schoolsList, setSchoolsList] = useState({});
   const [classroomsList, setClassroomsList] = useState({});
-  const [snackBarColor, setSnackBarColor] = useState("success");
 
   const config = {
     headers: {
@@ -19,17 +16,11 @@ function SchoolTable({ token, refresh, schools }) {
     }
   };
 
-  const handleSnackBar = (message, color) => {
-    setSnackBarNotification(true);
-    setSnackbarMessage(message);
-    color ? setSnackBarColor(color) : setSnackBarColor("succes");
-  };
-
   const handleDelete = id => {
     axios
       .delete(`${apiUrl}/schools/${id}`, config)
       .then(res => {
-        handleSnackBar("L'établissement a été supprimé");
+        handleSnackBar("L'établissement a été supprimé", "success");
         refresh();
       })
       .catch(err => handleSnackBar("Il y a eu un problème", "error"));
@@ -49,7 +40,7 @@ function SchoolTable({ token, refresh, schools }) {
     axios
       .post(`${apiUrl}/schools`, payload, config)
       .then(res => {
-        handleSnackBar("L'établissement a été créé");
+        handleSnackBar("L'établissement a été créé", "success");
         refresh();
       })
       .catch(err => handleSnackBar("Il y a eu un problème", "error"));
@@ -85,14 +76,6 @@ function SchoolTable({ token, refresh, schools }) {
               resolve();
             })
         }}
-      />
-      <CustomizedSnackbars
-        open={snackBarNotification}
-        setOpen={setSnackBarNotification}
-        handleSnackBar={handleSnackBar}
-        message={snackbarMessage}
-        color={snackBarColor}
-      />{" "}
       />
     </div>
   );

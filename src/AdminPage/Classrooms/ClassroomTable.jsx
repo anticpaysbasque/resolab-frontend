@@ -5,9 +5,14 @@ import CustomizedSnackbars from "../../commonComponent/SnackBar";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function ClassroomTable({ users, token, refresh, schools, classrooms }) {
-  const [snackBarNotification, setSnackBarNotification] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
+function ClassroomTable({
+  users,
+  token,
+  refresh,
+  schools,
+  classrooms,
+  handleSnackBar
+}) {
   const [schoolsList, setSchoolsList] = useState({});
 
   const config = {
@@ -26,16 +31,11 @@ function ClassroomTable({ users, token, refresh, schools, classrooms }) {
     setSchoolsList(formatedSchools);
   }, [schools]);
 
-  const handleSnackBar = message => {
-    setSnackBarNotification(true);
-    setSnackbarMessage(message);
-  };
-
   const handleDelete = id => {
     axios
       .delete(`${apiUrl}/class_rooms/${id}`, config)
       .then(res => {
-        handleSnackBar("La classe a été supprimée");
+        handleSnackBar("La classe a été supprimée", "success");
         refresh();
       })
       .catch(err => console.log(err));
@@ -45,7 +45,7 @@ function ClassroomTable({ users, token, refresh, schools, classrooms }) {
     axios
       .put(`${apiUrl}/class_rooms/${id}`, payload, config)
       .then(res => {
-        handleSnackBar("La classe a été modifiée");
+        handleSnackBar("La classe a été modifiée", "success");
         refresh();
       })
       .catch(err => console.log(err));
@@ -55,7 +55,7 @@ function ClassroomTable({ users, token, refresh, schools, classrooms }) {
     axios
       .post(`${apiUrl}/class_rooms`, payload, config)
       .then(res => {
-        handleSnackBar("La classe a été créée");
+        handleSnackBar("La classe a été créée", "success");
         refresh();
       })
       .catch(err => console.log(err));
@@ -102,13 +102,6 @@ function ClassroomTable({ users, token, refresh, schools, classrooms }) {
               resolve();
             })
         }}
-      />
-      <CustomizedSnackbars
-        open={snackBarNotification}
-        setOpen={setSnackBarNotification}
-        handleSnackBar={handleSnackBar}
-        message={snackbarMessage}
-      />{" "}
       />
     </div>
   );

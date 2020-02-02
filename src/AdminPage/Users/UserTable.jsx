@@ -5,9 +5,14 @@ import CustomizedSnackbars from "../../commonComponent/SnackBar";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function UserTable({ users, token, refresh, schools, classrooms }) {
-  const [snackBarNotification, setSnackBarNotification] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
+function UserTable({
+  users,
+  token,
+  refresh,
+  schools,
+  classrooms,
+  handleSnackBar
+}) {
   const [schoolsList, setSchoolsList] = useState({});
   const [classroomsList, setClassroomsList] = useState({});
 
@@ -36,16 +41,11 @@ function UserTable({ users, token, refresh, schools, classrooms }) {
     setClassroomsList(formatedClassrooms);
   }, [schools, classrooms]);
 
-  const handleSnackBar = message => {
-    setSnackBarNotification(true);
-    setSnackbarMessage(message);
-  };
-
   const handleDelete = userId => {
     axios
       .delete(`${apiUrl}/users/${userId}`, config)
       .then(res => {
-        handleSnackBar("L'utilisateur a été supprimé");
+        handleSnackBar("L'utilisateur a été supprimé", "success");
         refresh();
       })
       .catch(err => console.log(err));
@@ -55,7 +55,7 @@ function UserTable({ users, token, refresh, schools, classrooms }) {
     axios
       .put(`${apiUrl}/users/${userId}`, payload, config)
       .then(res => {
-        handleSnackBar("L'utilsateur a été modifié");
+        handleSnackBar("L'utilsateur a été modifié", "success");
         refresh();
       })
       .catch(err => console.log(err));
@@ -143,13 +143,6 @@ function UserTable({ users, token, refresh, schools, classrooms }) {
               resolve();
             })
         }}
-      />
-      <CustomizedSnackbars
-        open={snackBarNotification}
-        setOpen={setSnackBarNotification}
-        handleSnackBar={handleSnackBar}
-        message={snackbarMessage}
-      />{" "}
       />
     </div>
   );
