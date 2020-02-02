@@ -30,7 +30,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: "143px"
   },
   tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`
+    borderRight: `1px solid ${theme.palette.divider}`,
+    minWidth: "150px",
+    overflow: "visible"
   }
 }));
 

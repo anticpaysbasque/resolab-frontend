@@ -48,7 +48,7 @@ function UserTable({
         handleSnackBar("L'utilisateur a été supprimé", "success");
         refresh();
       })
-      .catch(err => console.log(err));
+      .catch(err => handleSnackBar("Il y a eu un problème", "error"));
   };
 
   const handleUpdate = (userId, payload) => {
@@ -58,7 +58,7 @@ function UserTable({
         handleSnackBar("L'utilsateur a été modifié", "success");
         refresh();
       })
-      .catch(err => console.log(err));
+      .catch(err => handleSnackBar("Il y a eu un problème", "error"));
   };
 
   return (

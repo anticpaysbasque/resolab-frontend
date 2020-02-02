@@ -38,7 +38,7 @@ function ClassroomTable({
         handleSnackBar("La classe a été supprimée", "success");
         refresh();
       })
-      .catch(err => console.log(err));
+      .catch(err => handleSnackBar("Il y a eu un problème", "error"));
   };
 
   const handleUpdate = (id, payload) => {
@@ -48,7 +48,7 @@ function ClassroomTable({
         handleSnackBar("La classe a été modifiée", "success");
         refresh();
       })
-      .catch(err => console.log(err));
+      .catch(err => handleSnackBar("Il y a eu un problème", "error"));
   };
 
   const handleCreate = payload => {
@@ -58,7 +58,7 @@ function ClassroomTable({
         handleSnackBar("La classe a été créée", "success");
         refresh();
       })
-      .catch(err => console.log(err));
+      .catch(err => handleSnackBar("Il y a eu un problème", "error"));
   };
 
   return (
@@ -91,7 +91,7 @@ function ClassroomTable({
             new Promise((resolve, reject) => {
               const payload = {
                 ...newData,
-                school: `/api/schools/${oldData.school.id}`
+                school: `/api/schools/${newData.school.id}`
               };
               handleUpdate(oldData.id, payload);
               resolve();

@@ -15,7 +15,7 @@ import { useEffect } from "react";
 
 const apiUrl = process.env.REACT_APP_MEDIA_URL;
 
-function CreateUser({ token, schools, classrooms }) {
+function CreateUser({ token, schools, classrooms, handleSnackBar }) {
   const [payload, setPayload] = useState({
     _username: "",
     _password: "",
@@ -47,8 +47,8 @@ function CreateUser({ token, schools, classrooms }) {
     e.preventDefault();
     axios
       .post(`${apiUrl}/register`, payload, config)
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err));
+      .then(res => handleSnackBar("L'utilisateur a été créé", "success"))
+      .catch(err => handleSnackBar("Il y a eu un problème", "error"));
   };
 
   return (
