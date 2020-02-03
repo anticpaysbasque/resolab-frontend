@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import {
@@ -179,8 +179,7 @@ function ModerationComponent({
   return (
     <Card
       className={classes.card}
-      style={{ width: "45vw" }}
-      style={{ textAlign: "center" }}
+      style={{ width: "45vw", textAlign: "center" }}
     >
       <CardHeader
         avatar={

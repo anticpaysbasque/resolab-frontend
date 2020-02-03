@@ -11,8 +11,6 @@ import Fade from "@material-ui/core/Fade";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 
-import gitlogo from "../Assets/github-gradient.png";
-import linkedinlogo from "../Assets/linkedin-gradient.png";
 import DeveloperInfo from "./DeveloperInfo";
 
 import Stef from "../Assets/Stef.jpg";
