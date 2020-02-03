@@ -140,18 +140,8 @@ function ModerationComponent({
         config
       )
       .then(res => {
-        console.log(res);
-        axios
-          .get(`${apiUrl}/alerts/${openAlert.id}`, config)
-          .then(res => {
-            const updatedAlert = res.data;
-            console.log(updatedAlert);
-            setAlert(updatedAlert);
-          })
-          .catch(err => {
-            console.log(err.message);
-            throw err;
-          });
+        const updatedAlert = res.data;
+        setAlert(updatedAlert);
       })
       .catch(err => console.log(err));
     setIsTakenInCharge(true);
