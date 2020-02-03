@@ -19,8 +19,6 @@ function DisplayStories({
   const { datas, request } = useRecursiveGet("/stories", 10000);
   const [userRoles, setUserRoles] = useState(roles);
 
-  // const isRestricted = true;
-
   useEffect(() => {
     request();
   }, []);
