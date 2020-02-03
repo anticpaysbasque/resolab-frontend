@@ -76,6 +76,7 @@ function ClassroomTable({
           }
         ]}
         data={classrooms}
+        options={{ pageSize: "10", pageSizeOptions: [10, 20, 50] }}
         title="List des Classes"
         editable={{
           onRowAdd: newData =>
@@ -101,6 +102,41 @@ function ClassroomTable({
               handleDelete(oldData.id);
               resolve();
             })
+        }}
+        options={{ pageSize: "10", pageSizeOptions: [10, 20, 50] }}
+        localization={{
+          pagination: {
+            labelDisplayedRows: "{from}-{to} sur {count}",
+            labelRowsSelect: "lignes",
+            labelRowsPerPage: "lignes",
+            firstTooltip: "première page",
+            previousTooltip: "page précédente",
+            nextTooltip: "page suivante",
+            lastTooltip: "dernière page"
+          },
+          toolbar: {
+            nRowsSelected: "{0} enregistrement(s) selectionné(s)",
+            searchTooltip: "Rechercher",
+            searchPlaceholder: "rechercher..."
+          },
+          header: {
+            actions: "Actions"
+          },
+          body: {
+            emptyDataSourceMessage: "Aucun enregistrement",
+            filterRow: {
+              filterTooltip: "Filtrer"
+            },
+            editRow: {
+              cancelTooltip: "Annuler",
+              saveTooltip: "Confirmer",
+              deleteText:
+                "Etes-vous sur de vouloir supprimer cet enregistrement ?"
+            },
+            addTooltip: "Ajouter",
+            deleteTooltip: "Supprimer",
+            editTooltip: "Modifier"
+          }
         }}
       />
     </div>

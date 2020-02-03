@@ -159,12 +159,6 @@ function AdminPage({ token }) {
             handleSnackBar={handleSnackBar}
           />
         </TabPanel>
-        <TabPanel value={value} index={4}>
-          Item Five
-        </TabPanel>
-        <TabPanel value={value} index={5}>
-          Item Six
-        </TabPanel>
         <CustomizedSnackbars
           open={snackBarNotification}
           setOpen={setSnackBarNotification}
@@ -172,7 +166,6 @@ function AdminPage({ token }) {
           message={snackbarMessage}
           color={snackBarColor}
         />{" "}
-        />
       </div>
     </Layout>
   );
