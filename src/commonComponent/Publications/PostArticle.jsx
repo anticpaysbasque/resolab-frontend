@@ -107,7 +107,7 @@ function PostArticle({ id, token, handleSnackBar }) {
         setDescription("");
         return handleSnackBar("Ta publication a bien été postée", "success");
       })
-      .catch(err => console.log(err))
+      .catch(err => handleSnackBar("Il y a eu un problème", "error"))
       .finally(() => handleClose());
   };
 
