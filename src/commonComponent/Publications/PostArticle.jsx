@@ -79,8 +79,6 @@ function PostArticle({ id, token, handleSnackBar }) {
   };
 
   const handleSubmit = e => {
-    console.log(image.size);
-    console.log(description, image);
     e.preventDefault();
 
     const formData = new FormData();
@@ -89,7 +87,6 @@ function PostArticle({ id, token, handleSnackBar }) {
     axios
       .post(`${apiUrl}/media_objects`, formData, config)
       .then(res => {
-        console.log("post publication on media object :" + res);
         return axios.post(
           `${apiUrl}/posts`,
           {
@@ -102,7 +99,6 @@ function PostArticle({ id, token, handleSnackBar }) {
         );
       })
       .then(res => {
-        console.log("post a publication on posts" + res);
         setPreviewImage(null);
         setImage(null);
         setDescription("");
