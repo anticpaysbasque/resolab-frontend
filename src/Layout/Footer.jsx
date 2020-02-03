@@ -122,7 +122,7 @@ function StickyFooter({ isAuth, link }) {
                     className="footer"
                     onClick={handleOpenModal}
                   >
-                    Made with <Favorite color="Secondary" fontSize="small" /> by
+                    Made with <Favorite color="secondary" fontSize="small" /> by
                     Wild Code School Biarritz
                   </Typography>
                 </Grid>
@@ -138,7 +138,7 @@ function StickyFooter({ isAuth, link }) {
                     >
                       {" "}
                       Hébergé
-                      <House color="Primary" fontSize="small" style={{}} /> par
+                      <House color="primary" fontSize="small" style={{}} /> par
                       Aditu
                     </a>
                   </Typography>
