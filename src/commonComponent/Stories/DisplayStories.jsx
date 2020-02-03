@@ -11,7 +11,7 @@ const mediaUrl = process.env.REACT_APP_MEDIA_URL;
 
 function DisplayStories({ classes, handleSnackBar, roles, classroomId }) {
   const { datas, request } = useRecursiveGet("/stories", 10000);
-  const [userRoles, serUserRoles] = useState(roles);
+  const [userRoles, setUserRoles] = useState(roles);
 
   const isRestricted = true;
 
@@ -26,7 +26,11 @@ function DisplayStories({ classes, handleSnackBar, roles, classroomId }) {
         <>
           {userRoles[0] === "ROLE_STUDENT" && isRestricted
             ? datas
-                .filter(story => story.user.classRoom.id === classroomId)
+                .filter(story =>
+                  story.user.classRoom
+                    ? story.user.classRoom.id === classroomId
+                    : true
+                )
                 .map(story => {
                   const storyDate = Date.parse(story.date);
                   const nowDate = Date.now();

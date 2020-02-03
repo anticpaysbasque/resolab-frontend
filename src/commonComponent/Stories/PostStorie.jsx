@@ -76,7 +76,7 @@ function PostStorie({ id, classes, handleSnackBar, token }) {
         console.log(res);
         setPreviewImage(null);
         setImage(null);
-        return handleSnackBar("Ta storie a bien été postée");
+        return handleSnackBar("Ta storie a bien été postée", "success");
       })
       .catch(err => console.log(err))
       .finally(() => handleClose());

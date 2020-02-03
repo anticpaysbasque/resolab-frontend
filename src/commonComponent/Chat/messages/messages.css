@@ -2,7 +2,7 @@
   display: grid;
   flex-grow: 1;
   overflow-y: scroll;
-  position: relative;
+  position: absolute;
 }
 .thread-container::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -110,4 +110,8 @@
 .typing-user {
   text-align: right;
   margin: 10px 15px;
+}
+
+.message-input {
+  height: 20%;
 }
