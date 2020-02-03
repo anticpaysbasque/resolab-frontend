@@ -50,6 +50,7 @@ function DisplayStories({
                               username={story.user.username}
                               userIdStory={story.user.id}
                               image={`${mediaUrl}/media/${story.image.filePath}`}
+                              handleSnackBar={handleSnackBar}
                             />
                           ) : (
                             <Storie
