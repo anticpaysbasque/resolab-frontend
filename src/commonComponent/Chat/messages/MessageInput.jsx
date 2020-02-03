@@ -101,7 +101,12 @@ class MessageInput extends Component {
   render() {
     const { message, isEmojiOpen } = this.state;
     return (
-      <div className="message-input" style={{ padding: "0px 15 px" }}>
+      <div
+        className="message-input"
+        style={{
+          padding: "0px 15px"
+        }}
+      >
         <Grid container>
           <Grid item xs={11}>
             <form
