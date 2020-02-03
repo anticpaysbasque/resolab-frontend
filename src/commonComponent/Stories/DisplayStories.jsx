@@ -9,11 +9,17 @@ import img from "../../Assets/logo-resolab.png";
 
 const mediaUrl = process.env.REACT_APP_MEDIA_URL;
 
-function DisplayStories({ classes, handleSnackBar, roles, classroomId }) {
+function DisplayStories({
+  classes,
+  handleSnackBar,
+  roles,
+  classroomId,
+  isRestricted
+}) {
   const { datas, request } = useRecursiveGet("/stories", 10000);
   const [userRoles, setUserRoles] = useState(roles);
 
-  const isRestricted = true;
+  // const isRestricted = true;
 
   useEffect(() => {
     request();
@@ -102,7 +108,8 @@ const mapStateToProps = state => {
     roles: state.userReducer.roles,
     classroomId: state.userReducer.classroom
       ? state.userReducer.classroom.id
-      : null
+      : null,
+    isRestricted: state.userReducer.isRestricted
   };
 };
 
