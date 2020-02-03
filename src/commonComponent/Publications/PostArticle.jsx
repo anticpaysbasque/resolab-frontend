@@ -79,6 +79,7 @@ function PostArticle({ id, token, handleSnackBar }) {
   };
 
   const handleSubmit = e => {
+    console.log(image.size);
     console.log(description, image);
     e.preventDefault();
 
@@ -88,7 +89,7 @@ function PostArticle({ id, token, handleSnackBar }) {
     axios
       .post(`${apiUrl}/media_objects`, formData, config)
       .then(res => {
-        console.log(res);
+        console.log("post publication on media object :" + res);
         return axios.post(
           `${apiUrl}/posts`,
           {
@@ -101,13 +102,22 @@ function PostArticle({ id, token, handleSnackBar }) {
         );
       })
       .then(res => {
-        console.log(res);
+        console.log("post a publication on posts" + res);
         setPreviewImage(null);
         setImage(null);
         setDescription("");
         return handleSnackBar("Ta publication a bien été postée", "success");
       })
-      .catch(err => handleSnackBar("Il y a eu un problème", "error"))
+      .catch(err => {
+        if (image.size > 999999) {
+          handleSnackBar(
+            "Attention, la taille de ton image ne peut pas être supérieure à 1Mo",
+            "error"
+          );
+        } else {
+          handleSnackBar("Il y a eu un problème", "error");
+        }
+      })
       .finally(() => handleClose());
   };
 
@@ -172,6 +182,7 @@ function PostArticle({ id, token, handleSnackBar }) {
                   id="outlined-full-width"
                   label="Ajouter une photo via l'ordinateur"
                   type="file"
+                  helperText="Taille max acceptée : 1Mo"
                   style={{ margin: 18 }}
                   fullWidth
                   margin="normal"
