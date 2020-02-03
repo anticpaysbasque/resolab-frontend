@@ -42,11 +42,11 @@ class DisplayContacts extends Component {
       return { ...usr, isOnline };
     });
     const filtereduUsers =
-      userInfos.isRestricted && userInfos.role[0] === "ROLE_STUDENT"
+      userInfos.isRestricted && userInfos.roles[0] === "ROLE_STUDENT"
         ? updatedUsers.filter(
             user =>
-              user.role[0] !== "ROLE_STUDENT" ||
-              user.classroom.id === userInfos.classroom.id
+              user.roles[0] !== "ROLE_STUDENT" ||
+              user.classRoom.id === userInfos.classroom.id
           )
         : updatedUsers;
 
